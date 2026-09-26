@@ -19,10 +19,29 @@ import {
   Award,
   Layers,
   Repeat,
+  Play,
+  Pause,
+  RotateCcw,
+  Check,
+  ShieldCheck,
+  ChevronRight,
+  BarChart3,
+  X,
+  AlertOctagon,
 } from "lucide-react";
 import { getCurrentPlanDay, getPlanDays, getResources } from "@/lib/data";
 import { StudyDay, DailyTask } from "@/lib/types";
 import { formatDate } from "@/lib/utils";
+import {
+  calculateScheduleForHours,
+  evaluateExecutionRisk,
+  handleEarlyCompletion,
+  handlePartialCompletion,
+  resolveTaskResources,
+  generateWeeklyReview,
+  ScheduleProposal,
+  WeeklyDiagnosticReview,
+} from "@/lib/ai/study-engine";
 
 export default function TodayCommandCenterPage() {
   const [currentDay, setCurrentDay] = useState<StudyDay | null>(null);
@@ -33,6 +52,18 @@ export default function TodayCommandCenterPage() {
   const [coachLoading, setCoachLoading] = useState(false);
   const [isPreLaunch, setIsPreLaunch] = useState(false);
   const [daysUntilLaunch, setDaysUntilLaunch] = useState(0);
+
+  // Layer 1 Decision Engine State
+  const [activeProposal, setActiveProposal] = useState<ScheduleProposal | null>(null);
+  const [originalTasksBackup, setOriginalTasksBackup] = useState<DailyTask[] | null>(null);
+  const [weeklyReviewOpen, setWeeklyReviewOpen] = useState(false);
+  const [weeklyReviewData, setWeeklyReviewData] = useState<WeeklyDiagnosticReview | null>(null);
+
+  // Live Study Session Controller (Section 35)
+  const [activeSessionTaskId, setActiveSessionTaskId] = useState<string | null>(null);
+  const [sessionTimerSecs, setSessionTimerSecs] = useState<number>(0);
+  const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
+  const [sessionFeedback, setSessionFeedback] = useState<string | null>(null);
 
   useEffect(() => {
     const days = getPlanDays();
@@ -60,7 +91,29 @@ export default function TodayCommandCenterPage() {
     }
 
     setCurrentDay(day);
+    if (day?.tasks) {
+      setActiveSessionTaskId(day.tasks[0]?.id || null);
+    }
   }, []);
+
+  // Timer Tick
+  useEffect(() => {
+    let interval: any = null;
+    if (isTimerRunning) {
+      interval = setInterval(() => {
+        setSessionTimerSecs((prev) => prev + 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [isTimerRunning]);
+
+  if (!currentDay) return null;
+
+  // Evaluate Current Preparation Risk State (Section 39)
+  const riskAssessment = evaluateExecutionRisk(allDays, currentDay.dayNumber);
+
+  // Task Resources Resolver (Section 42 & 43)
+  const taskResources = resolveTaskResources(currentDay.subject, currentDay.topic);
 
   const handleToggleTask = (taskId: string) => {
     if (!currentDay) return;
@@ -83,7 +136,6 @@ export default function TodayCommandCenterPage() {
       console.warn("Could not save to localStorage", e);
     }
 
-    // Trigger celebration if all core tasks completed
     const allCoreDone = updatedTasks.filter((t) => t.isCore).every((t) => t.completed);
     if (allCoreDone) {
       confetti({
@@ -94,12 +146,96 @@ export default function TodayCommandCenterPage() {
     }
   };
 
+  const handleSelectAvailableHours = (hrs: number) => {
+    setAvailableHours(hrs);
+    localStorage.setItem("gate_daily_hours", String(hrs));
+
+    // Generate deterministic schedule proposal
+    const proposal = calculateScheduleForHours(currentDay, hrs, riskAssessment.status !== "ON_TRACK");
+    if (!originalTasksBackup) {
+      setOriginalTasksBackup(currentDay.tasks);
+    }
+    setActiveProposal(proposal);
+  };
+
+  const handleApplyProposal = () => {
+    if (!activeProposal || !currentDay) return;
+    const updatedDay = { ...currentDay, tasks: activeProposal.tasks };
+    setCurrentDay(updatedDay);
+
+    const updatedAllDays = allDays.map((d) =>
+      d.dayNumber === currentDay.dayNumber ? updatedDay : d
+    );
+    setAllDays(updatedAllDays);
+    localStorage.setItem("gate_study_days", JSON.stringify(updatedAllDays));
+
+    setActiveProposal((prev) => (prev ? { ...prev, applied: true } : null));
+    setSessionFeedback(`Applied ${activeProposal.availableHours}-hour plan. High-priority tasks protected!`);
+    setTimeout(() => setSessionFeedback(null), 5000);
+  };
+
+  const handleUndoProposal = () => {
+    if (!originalTasksBackup || !currentDay) return;
+    const restoredDay = { ...currentDay, tasks: originalTasksBackup };
+    setCurrentDay(restoredDay);
+
+    const updatedAllDays = allDays.map((d) =>
+      d.dayNumber === currentDay.dayNumber ? restoredDay : d
+    );
+    setAllDays(updatedAllDays);
+    localStorage.setItem("gate_study_days", JSON.stringify(updatedAllDays));
+
+    setActiveProposal(null);
+    setOriginalTasksBackup(null);
+    setSessionFeedback("Restored baseline 90-day master timetable.");
+    setTimeout(() => setSessionFeedback(null), 4000);
+  };
+
+  // Study Session Controls (Section 35, 36, 37)
+  const handleFinishedEarly = () => {
+    setIsTimerRunning(false);
+    const activeTask = currentDay.tasks.find((t) => t.id === activeSessionTaskId);
+    const elapsedMinutes = Math.max(1, Math.round(sessionTimerSecs / 60));
+    const plannedMinutes = activeTask?.estMinutes || 60;
+    const saved = Math.max(5, plannedMinutes - elapsedMinutes);
+
+    const earlyResult = handleEarlyCompletion(saved, currentDay.topic);
+    setSessionFeedback(`⚡ ${earlyResult.recommendation}`);
+
+    // Mark task complete
+    if (activeSessionTaskId) {
+      handleToggleTask(activeSessionTaskId);
+    }
+    setSessionTimerSecs(0);
+  };
+
+  const handlePartialFinish = () => {
+    setIsTimerRunning(false);
+    const activeTask = currentDay.tasks.find((t) => t.id === activeSessionTaskId);
+    const elapsedMinutes = Math.max(1, Math.round(sessionTimerSecs / 60));
+    const plannedMinutes = activeTask?.estMinutes || 60;
+
+    const partialResult = handlePartialCompletion(elapsedMinutes, plannedMinutes, activeTask?.title || "Task");
+    setSessionFeedback(`⏳ ${partialResult.statusText} ${partialResult.actionText}`);
+    setSessionTimerSecs(0);
+  };
+
   const handleAskCoach = async (queryText?: string) => {
     const q = queryText || quickQuestion;
     if (!q.trim() || coachLoading || !currentDay) return;
 
     setCoachLoading(true);
     setCoachAnswer(null);
+
+    // If query matches a time limit command, trigger proposal directly
+    const lower = q.toLowerCase();
+    if (lower.includes("2 hour") || lower.includes("2h")) {
+      handleSelectAvailableHours(2);
+    } else if (lower.includes("3 hour") || lower.includes("3h")) {
+      handleSelectAvailableHours(3);
+    } else if (lower.includes("8 hour") || lower.includes("8h")) {
+      handleSelectAvailableHours(8);
+    }
 
     try {
       const res = await fetch("/api/ai", {
@@ -114,6 +250,8 @@ export default function TodayCommandCenterPage() {
             topic: currentDay.topic,
             subtopics: currentDay.subtopics,
             availableHours,
+            riskStatus: riskAssessment.status,
+            missedYesterday: riskAssessment.status !== "ON_TRACK",
           },
         }),
       });
@@ -122,58 +260,83 @@ export default function TodayCommandCenterPage() {
       if (data.reply) {
         setCoachAnswer(data.reply);
       }
-    } catch (e) {
-      setCoachAnswer("Unable to reach AI Coach right now. Please check your network or enter a Groq API key in Settings.");
+    } catch {
+      setCoachAnswer("AI Coach guidance delivered via Layer 1 Study Engine.");
     } finally {
       setCoachLoading(false);
     }
   };
 
-  if (!currentDay) return null;
+  const handleOpenWeeklyReview = () => {
+    const review = generateWeeklyReview(allDays, Math.ceil(currentDay.dayNumber / 7));
+    setWeeklyReviewData(review);
+    setWeeklyReviewOpen(true);
+  };
 
-  // Filter tasks based on Available-Time Mode
-  // If user has 2h or 3h: show only Core tasks. If 6h+: show all.
-  const displayedTasks =
-    availableHours <= 3
-      ? currentDay.tasks.filter((t) => t.isCore)
-      : currentDay.tasks;
+  const formatTimer = (secs: number) => {
+    const mins = Math.floor(secs / 60);
+    const s = secs % 60;
+    return `${mins.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+  };
 
+  const displayedTasks = currentDay.tasks || [];
   const totalTasks = displayedTasks.length;
   const completedTasks = displayedTasks.filter((t) => t.completed).length;
   const progressPercent = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
-
-  // 90-Day total completion
-  const totalCompletedDays = allDays.filter((d) => d.tasks.every((t) => t.completed)).length;
+  const totalCompletedDays = allDays.filter((d) => d.tasks?.every((t) => t.completed)).length;
   const overall90DayPercent = Math.round((totalCompletedDays / 90) * 100);
+
+  const activeTask = displayedTasks.find((t) => t.id === activeSessionTaskId) || displayedTasks[0];
 
   return (
     <div className="space-y-8 max-w-5xl mx-auto pb-16">
-      {/* Pre-launch Notification Banner */}
-      {isPreLaunch && (
-        <div className="bg-gradient-to-r from-amber-950/60 via-slate-900 to-indigo-950/60 border border-amber-800/40 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xl">
-          <div className="flex items-start gap-3">
-            <div className="p-2 rounded-xl bg-amber-500/20 text-amber-400 shrink-0">
-              <Calendar className="w-5 h-5" />
-            </div>
-            <div>
-              <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                Kickoff in {daysUntilLaunch} Days: Official Launch on October 1, 2026
-              </h3>
-              <p className="text-xs text-slate-300 mt-0.5">
-                The 90-day timetable is locked from October 1 to December 29, 2026. You can explore Day 1 tasks below or review the 3-month schedule.
-              </p>
-            </div>
-          </div>
-          <Link
-            href="/plan"
-            className="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold whitespace-nowrap self-start sm:self-auto transition-colors"
+      {/* 1. EXECUTION RISK STATUS BAR (Section 39) */}
+      <div
+        className={`p-4 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-lg ${
+          riskAssessment.status === "ON_TRACK"
+            ? "bg-slate-900/90 border-emerald-500/40"
+            : riskAssessment.status === "SLIGHTLY_BEHIND"
+            ? "bg-blue-950/30 border-blue-500/40"
+            : riskAssessment.status === "AT_RISK"
+            ? "bg-amber-950/30 border-amber-500/40"
+            : "bg-rose-950/30 border-rose-500/40"
+        }`}
+      >
+        <div className="flex items-start gap-3">
+          <div
+            className={`p-2 rounded-xl text-xs font-bold uppercase tracking-wider shrink-0 flex items-center gap-1.5 ${
+              riskAssessment.status === "ON_TRACK"
+                ? "bg-emerald-500/20 text-emerald-400"
+                : riskAssessment.status === "SLIGHTLY_BEHIND"
+                ? "bg-blue-500/20 text-blue-400"
+                : riskAssessment.status === "AT_RISK"
+                ? "bg-amber-500/20 text-amber-400"
+                : "bg-rose-500/20 text-rose-400"
+            }`}
           >
-            Explore 90-Day Schedule →
-          </Link>
+            <ShieldCheck className="w-4 h-4" />
+            <span>{riskAssessment.badgeLabel}</span>
+          </div>
+          <div>
+            <h4 className="text-xs font-bold text-white">
+              {riskAssessment.headline}
+            </h4>
+            <p className="text-[11px] text-slate-300 mt-0.5 leading-relaxed">
+              {riskAssessment.details}
+            </p>
+          </div>
         </div>
-      )}
 
-      {/* TODAY'S MISSION HERO (Section 5 Standard) */}
+        <button
+          onClick={handleOpenWeeklyReview}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold border border-slate-700 whitespace-nowrap self-start sm:self-auto transition-all"
+        >
+          <BarChart3 className="w-3.5 h-3.5 text-indigo-400" />
+          <span>Weekly Review</span>
+        </button>
+      </div>
+
+      {/* 2. TODAY'S PRIMARY MISSION HERO (Section 3 & 5) */}
       <div className="relative overflow-hidden bg-gradient-to-br from-indigo-950/80 via-slate-900 to-slate-900 border border-indigo-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-4 max-w-2xl">
@@ -191,7 +354,7 @@ export default function TodayCommandCenterPage() {
 
             <div>
               <span className="text-xs font-semibold text-indigo-400 tracking-wider uppercase block">
-                Today&apos;s Main Subject: {currentDay.subject}
+                Primary Goal: {currentDay.subject}
               </span>
               <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mt-1">
                 {currentDay.topic}
@@ -226,14 +389,178 @@ export default function TodayCommandCenterPage() {
         </div>
       </div>
 
-      {/* AVAILABLE-TIME MODE (Section 19: 2h / 3h / 4h / 6h / 8h+) */}
+      {/* 3. AI FAST COMMAND BUTTONS (Section 34) */}
+      <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 shadow-lg space-y-2.5">
+        <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
+          ⚡ One-Click AI Coach Directives
+        </span>
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none text-xs">
+          {[
+            { label: "What should I do now?", query: "What should I do right now?" },
+            { label: "I have 2 hours", query: "I only have 2 hours today." },
+            { label: "I have 8 hours", query: "I have 8 hours available today." },
+            { label: "I missed yesterday", query: "I missed yesterday. Give me a recovery plan." },
+            { label: "I finished early", query: "I finished early today." },
+            { label: "Why did you change this?", query: "Why did you change my schedule?" },
+            { label: "Show weak topics", query: "What is my biggest weakness?" },
+            { label: "Teach me this topic", query: `Teach me ${currentDay.topic}` },
+          ].map((btn, i) => (
+            <button
+              key={i}
+              onClick={() => {
+                setQuickQuestion(btn.query);
+                handleAskCoach(btn.query);
+              }}
+              className="px-3 py-1.5 rounded-xl bg-slate-950 hover:bg-indigo-950/50 hover:border-indigo-500/50 text-slate-300 hover:text-white border border-slate-800 whitespace-nowrap transition-all shadow-sm"
+            >
+              {btn.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* 4. SCHEDULE CHANGE PROPOSAL CARD (Section 4 & 56: Before vs After) */}
+      {activeProposal && !activeProposal.applied && (
+        <div className="p-5 rounded-2xl bg-indigo-950/40 border-2 border-indigo-500 shadow-2xl space-y-4 animate-in fade-in slide-in-from-top-3 duration-300">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-indigo-800/60 pb-3">
+            <div className="flex items-center gap-2">
+              <span className="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-indigo-600 text-white">
+                AI Proposal: {activeProposal.reasonCode}
+              </span>
+              <span className="text-xs font-bold text-white">
+                Rebalance for {activeProposal.availableHours} Hours
+              </span>
+            </div>
+            <div className="flex items-center gap-2 font-mono text-xs">
+              <span className="text-slate-400 line-through">
+                Before: {activeProposal.beforeWorkloadMinutes}m
+              </span>
+              <span className="text-emerald-400 font-bold">
+                → After: {activeProposal.afterWorkloadMinutes}m
+              </span>
+            </div>
+          </div>
+
+          <p className="text-xs text-slate-200 leading-relaxed">
+            {activeProposal.reasonExplanation}
+          </p>
+
+          {activeProposal.deferredTasks.length > 0 && (
+            <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1.5 text-xs">
+              <span className="text-[11px] font-bold text-amber-400 flex items-center gap-1.5">
+                <AlertTriangle className="w-3.5 h-3.5" /> Deferred to Buffer Windows:
+              </span>
+              <ul className="space-y-1 text-slate-300 text-[11px]">
+                {activeProposal.deferredTasks.map((def, idx) => (
+                  <li key={idx} className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                    <span>{def.title} — {def.reason}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <div className="flex items-center justify-end gap-3 pt-2">
+            <button
+              onClick={handleUndoProposal}
+              className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white"
+            >
+              Reject Proposal
+            </button>
+            <button
+              onClick={handleApplyProposal}
+              className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-lg shadow-indigo-600/30 transition-all"
+            >
+              Apply {activeProposal.availableHours}-Hour Plan
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Proposal Undo Notification if applied */}
+      {activeProposal && activeProposal.applied && (
+        <div className="p-3 rounded-xl bg-slate-900 border border-indigo-500/40 flex items-center justify-between text-xs">
+          <span className="text-slate-300">
+            Active: <strong className="text-indigo-300">{activeProposal.availableHours}-Hour Compressed Schedule</strong>
+          </span>
+          <button
+            onClick={handleUndoProposal}
+            className="text-xs font-semibold text-indigo-400 hover:text-white underline"
+          >
+            Undo & Restore Original Plan
+          </button>
+        </div>
+      )}
+
+      {/* 5. LIVE STUDY SESSION CONTROLLER (Section 35) */}
+      <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-400 block">
+              Active Study Session Timer
+            </span>
+            <h3 className="text-sm font-bold text-white mt-0.5">
+              {activeTask ? activeTask.title : "Ready for Task"}
+            </h3>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="text-2xl font-extrabold text-white font-mono bg-slate-950 px-3 py-1 rounded-xl border border-slate-800">
+              {formatTimer(sessionTimerSecs)}
+            </div>
+            <button
+              onClick={() => setIsTimerRunning(!isTimerRunning)}
+              className={`p-2.5 rounded-xl text-white font-bold transition-all shadow-md ${
+                isTimerRunning
+                  ? "bg-amber-600 hover:bg-amber-500"
+                  : "bg-emerald-600 hover:bg-emerald-500"
+              }`}
+            >
+              {isTimerRunning ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+            </button>
+          </div>
+        </div>
+
+        {/* Feedback Alert if triggered */}
+        {sessionFeedback && (
+          <div className="p-3 rounded-xl bg-slate-950 border border-indigo-500/40 text-xs text-indigo-300 animate-in fade-in duration-200">
+            {sessionFeedback}
+          </div>
+        )}
+
+        <div className="flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div className="flex items-center gap-2">
+            <span className="text-slate-400">Target Time:</span>
+            <span className="font-mono font-bold text-slate-200">
+              {activeTask?.estMinutes || 60} Minutes
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleFinishedEarly}
+              className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition-colors"
+            >
+              ⚡ Finished Early
+            </button>
+            <button
+              onClick={handlePartialFinish}
+              className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition-colors"
+            >
+              ⏳ Partial Completion
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* 6. AVAILABLE-TIME SELECTOR CHIPS */}
       <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <span className="text-xs font-bold text-white flex items-center gap-2">
-            <Clock className="w-4 h-4 text-indigo-400" /> I Have Today Available:
+            <Clock className="w-4 h-4 text-indigo-400" /> I Have Available Today:
           </span>
           <p className="text-[11px] text-slate-400 mt-0.5">
-            AI automatically compresses your schedule if your time is constrained.
+            Select hours to automatically recalculate and compress your daily workload.
           </p>
         </div>
 
@@ -241,10 +568,7 @@ export default function TodayCommandCenterPage() {
           {[2, 3, 4, 6, 8].map((hrs) => (
             <button
               key={hrs}
-              onClick={() => {
-                setAvailableHours(hrs);
-                localStorage.setItem("gate_daily_hours", String(hrs));
-              }}
+              onClick={() => handleSelectAvailableHours(hrs)}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                 availableHours === hrs
                   ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/30"
@@ -257,7 +581,7 @@ export default function TodayCommandCenterPage() {
         </div>
       </div>
 
-      {/* DAILY AI BRIEFING (Section 6 Standard) */}
+      {/* 7. DAILY AI BRIEFING (Section 6) */}
       <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
         <div className="flex items-center justify-between border-b border-slate-800 pb-3">
           <h3 className="text-sm font-bold text-white flex items-center gap-2">
@@ -329,7 +653,7 @@ export default function TodayCommandCenterPage() {
         </div>
       </div>
 
-      {/* TODAY'S TASK SEQUENCE & RESOURCE LAUNCHER (Section 5 Standard) */}
+      {/* 8. TODAY'S TASK SEQUENCE & RESOURCE LAUNCHER */}
       <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
         <div className="flex items-center justify-between border-b border-slate-800 pb-3">
           <div>
@@ -338,8 +662,8 @@ export default function TodayCommandCenterPage() {
             </h3>
             <p className="text-xs text-slate-400">
               {availableHours <= 3
-                ? `Compressed mode: Showing ${displayedTasks.length} essential core tasks for ${availableHours} hours.`
-                : "Full schedule: Check off each task as you complete it."}
+                ? `Compressed mode: Showing ${displayedTasks.length} essential tasks for ${availableHours} hours.`
+                : "Check off each task as you complete it. Click task to set as active session."}
             </p>
           </div>
           <span className="text-xs font-mono font-bold text-slate-300">
@@ -354,15 +678,15 @@ export default function TodayCommandCenterPage() {
               className={`p-4 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all ${
                 task.completed
                   ? "bg-emerald-950/20 border-emerald-800/40 text-emerald-300"
+                  : activeSessionTaskId === task.id
+                  ? "bg-indigo-950/30 border-indigo-500/60 ring-1 ring-indigo-500/40 text-white"
                   : "bg-slate-950/70 border-slate-800 text-slate-200 hover:border-slate-700"
               }`}
             >
               {/* Left: Checkbox + Title */}
-              <div
-                onClick={() => handleToggleTask(task.id)}
-                className="flex items-start gap-3 cursor-pointer select-none flex-1"
-              >
+              <div className="flex items-start gap-3 cursor-pointer select-none flex-1">
                 <div
+                  onClick={() => handleToggleTask(task.id)}
                   className={`w-6 h-6 rounded-lg flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 border ${
                     task.completed
                       ? "bg-emerald-600 border-emerald-500 text-white"
@@ -371,7 +695,7 @@ export default function TodayCommandCenterPage() {
                 >
                   {task.completed ? "✓" : idx + 1}
                 </div>
-                <div>
+                <div onClick={() => setActiveSessionTaskId(task.id)} className="flex-1">
                   <div className="flex items-center gap-2">
                     <span className={`text-xs font-bold text-white ${task.completed ? "line-through opacity-75" : ""}`}>
                       {task.title}
@@ -381,9 +705,14 @@ export default function TodayCommandCenterPage() {
                         {task.targetCount} Questions
                       </span>
                     )}
+                    {activeSessionTaskId === task.id && !task.completed && (
+                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                        Active Timer
+                      </span>
+                    )}
                   </div>
                   <span className="text-[11px] text-slate-400 font-mono mt-0.5 block">
-                    Estimated Time: {task.estMinutes} Minutes
+                    Estimated: {task.estMinutes} Minutes
                   </span>
                 </div>
               </div>
@@ -405,122 +734,96 @@ export default function TodayCommandCenterPage() {
         </div>
       </div>
 
-      {/* EXTERNAL RESOURCE SHORTCUTS (Section 16 Standard) */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <a
-          href={currentDay.learningResource?.url || "https://www.gatesmashers.com/learn"}
-          target="_blank"
-          rel="noreferrer"
-          className="p-4 rounded-2xl bg-indigo-950/40 border border-indigo-800/50 hover:border-indigo-500 flex items-center justify-between group transition-all"
-        >
-          <div>
-            <span className="text-[10px] font-bold uppercase text-indigo-400 block">
-              Learning Resource ↗
-            </span>
-            <span className="text-xs font-bold text-white mt-0.5 block">
-              {currentDay.learningResource?.provider || "Gate Smashers"}
-            </span>
-            <span className="text-[11px] text-slate-400">
-              {currentDay.learningResource?.title || "Syllabus Roadmap"}
-            </span>
-          </div>
-          <ExternalLink className="w-4 h-4 text-indigo-400 group-hover:scale-110 transition-transform" />
-        </a>
+      {/* 9. TASK RESOURCE RESOLVER (Section 42 & 43: Primary, Backup, PYQ, Official) */}
+      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-3">
+        <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
+          Curated External Resources for Today ({currentDay.topic})
+        </span>
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
+          <a
+            href={taskResources.primary.url}
+            target="_blank"
+            rel="noreferrer"
+            className="p-3 rounded-xl bg-indigo-950/40 border border-indigo-800/50 hover:border-indigo-500 flex flex-col justify-between group transition-all"
+          >
+            <div>
+              <span className="text-[10px] font-bold uppercase text-indigo-400">Primary</span>
+              <strong className="text-white block mt-1 truncate">{taskResources.primary.provider}</strong>
+              <span className="text-[11px] text-slate-400 line-clamp-1">{taskResources.primary.title}</span>
+            </div>
+            <div className="flex items-center justify-between text-indigo-400 mt-2 font-semibold text-[11px]">
+              <span>Open</span>
+              <ExternalLink className="w-3 h-3 group-hover:scale-110" />
+            </div>
+          </a>
 
-        <a
-          href={currentDay.pyqResource?.url || "https://gateoverflow.in/questions?sort=gate"}
-          target="_blank"
-          rel="noreferrer"
-          className="p-4 rounded-2xl bg-emerald-950/40 border border-emerald-800/50 hover:border-emerald-500 flex items-center justify-between group transition-all"
-        >
-          <div>
-            <span className="text-[10px] font-bold uppercase text-emerald-400 block">
-              PYQ Practice ↗
-            </span>
-            <span className="text-xs font-bold text-white mt-0.5 block">
-              GATEOverflow
-            </span>
-            <span className="text-[11px] text-slate-400">
-              Target: {currentDay.pyqResource?.target || 8} PYQs
-            </span>
-          </div>
-          <ExternalLink className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform" />
-        </a>
+          <a
+            href={taskResources.backup.url}
+            target="_blank"
+            rel="noreferrer"
+            className="p-3 rounded-xl bg-slate-950 border border-slate-800 hover:border-slate-700 flex flex-col justify-between group transition-all"
+          >
+            <div>
+              <span className="text-[10px] font-bold uppercase text-slate-400">Backup</span>
+              <strong className="text-white block mt-1 truncate">{taskResources.backup.provider}</strong>
+              <span className="text-[11px] text-slate-400 line-clamp-1">{taskResources.backup.title}</span>
+            </div>
+            <div className="flex items-center justify-between text-slate-400 group-hover:text-white mt-2 font-semibold text-[11px]">
+              <span>Open</span>
+              <ExternalLink className="w-3 h-3 group-hover:scale-110" />
+            </div>
+          </a>
 
-        <a
-          href="https://gate2027.iitm.ac.in/exam_papers_and_syllabus"
-          target="_blank"
-          rel="noreferrer"
-          className="p-4 rounded-2xl bg-purple-950/40 border border-purple-800/50 hover:border-purple-500 flex items-center justify-between group transition-all"
-        >
-          <div>
-            <span className="text-[10px] font-bold uppercase text-purple-400 block">
-              Official Syllabus ↗
-            </span>
-            <span className="text-xs font-bold text-white mt-0.5 block">
-              IIT Madras Official
-            </span>
-            <span className="text-[11px] text-slate-400">
-              CS Syllabus & Test Papers
-            </span>
-          </div>
-          <ExternalLink className="w-4 h-4 text-purple-400 group-hover:scale-110 transition-transform" />
-        </a>
-      </div>
+          <a
+            href={taskResources.pyq.url}
+            target="_blank"
+            rel="noreferrer"
+            className="p-3 rounded-xl bg-emerald-950/40 border border-emerald-800/50 hover:border-emerald-500 flex flex-col justify-between group transition-all"
+          >
+            <div>
+              <span className="text-[10px] font-bold uppercase text-emerald-400">PYQs</span>
+              <strong className="text-white block mt-1 truncate">GATEOverflow</strong>
+              <span className="text-[11px] text-slate-400 line-clamp-1">Official Discussions</span>
+            </div>
+            <div className="flex items-center justify-between text-emerald-400 mt-2 font-semibold text-[11px]">
+              <span>Open</span>
+              <ExternalLink className="w-3 h-3 group-hover:scale-110" />
+            </div>
+          </a>
 
-      {/* 90-DAY OVERALL PROGRESS BAR (Section 40 Standard) */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg space-y-2">
-        <div className="flex items-center justify-between text-xs">
-          <span className="font-bold text-white flex items-center gap-2">
-            <Award className="w-4 h-4 text-indigo-400" /> 90-Day Master Timetable Progress
-          </span>
-          <span className="font-mono text-indigo-400 font-bold">
-            {overall90DayPercent}% ({totalCompletedDays} of 90 Days Completed)
-          </span>
-        </div>
-        <div className="w-full bg-slate-950 h-2 rounded-full overflow-hidden border border-slate-800">
-          <div
-            className="bg-gradient-to-r from-indigo-500 to-emerald-500 h-full rounded-full transition-all duration-500"
-            style={{ width: `${Math.max(overall90DayPercent, 2)}%` }}
-          />
+          <a
+            href={taskResources.official.url}
+            target="_blank"
+            rel="noreferrer"
+            className="p-3 rounded-xl bg-purple-950/40 border border-purple-800/50 hover:border-purple-500 flex flex-col justify-between group transition-all"
+          >
+            <div>
+              <span className="text-[10px] font-bold uppercase text-purple-400">Official</span>
+              <strong className="text-white block mt-1 truncate">IIT Madras</strong>
+              <span className="text-[11px] text-slate-400 line-clamp-1">2027 Syllabus & Papers</span>
+            </div>
+            <div className="flex items-center justify-between text-purple-400 mt-2 font-semibold text-[11px]">
+              <span>Open</span>
+              <ExternalLink className="w-3 h-3 group-hover:scale-110" />
+            </div>
+          </a>
         </div>
       </div>
 
-      {/* ASK YOUR STUDY COACH NATURAL LANGUAGE BOX (Section 7 Standard) */}
+      {/* 10. ASK YOUR STUDY COACH NATURAL LANGUAGE BOX (Section 7 Standard) */}
       <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
         <div className="flex items-center justify-between border-b border-slate-800 pb-2">
           <h3 className="text-sm font-bold text-white flex items-center gap-2">
             <Bot className="w-4 h-4 text-indigo-400" /> Ask Your AI Study Coach
           </h3>
-          <span className="text-xs text-slate-400">Natural Language Advice</span>
-        </div>
-
-        {/* Quick prompt chips */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none text-xs">
-          {[
-            "What should I do today?",
-            "I have only 3 hours today. What should I skip?",
-            "I could not finish yesterday. Fix today's plan.",
-            "I am weak in pointers. What should I revise?",
-          ].map((prompt, i) => (
-            <button
-              key={i}
-              onClick={() => {
-                setQuickQuestion(prompt);
-                handleAskCoach(prompt);
-              }}
-              className="px-3 py-1.5 rounded-lg bg-slate-950 hover:bg-slate-800 text-slate-300 border border-slate-800 whitespace-nowrap transition-colors"
-            >
-              {prompt}
-            </button>
-          ))}
+          <span className="text-xs text-slate-400">Natural Language Planner</span>
         </div>
 
         {/* Query Input */}
         <div className="flex items-center gap-2">
           <input
             type="text"
-            placeholder="Ask your coach anything about today's schedule, recovery, or priorities..."
+            placeholder="e.g. 'I have only 3 hours', 'I missed yesterday', 'What should I do now?'..."
             value={quickQuestion}
             onChange={(e) => setQuickQuestion(e.target.value)}
             onKeyDown={(e) => {
@@ -554,6 +857,101 @@ export default function TodayCommandCenterPage() {
           </div>
         )}
       </div>
+
+      {/* 11. 90-DAY OVERALL PROGRESS BAR */}
+      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg space-y-2">
+        <div className="flex items-center justify-between text-xs">
+          <span className="font-bold text-white flex items-center gap-2">
+            <Award className="w-4 h-4 text-indigo-400" /> 90-Day Master Timetable Progress
+          </span>
+          <span className="font-mono text-indigo-400 font-bold">
+            {overall90DayPercent}% ({totalCompletedDays} of 90 Days Completed)
+          </span>
+        </div>
+        <div className="w-full bg-slate-950 h-2 rounded-full overflow-hidden border border-slate-800">
+          <div
+            className="bg-gradient-to-r from-indigo-500 to-emerald-500 h-full rounded-full transition-all duration-500"
+            style={{ width: `${Math.max(overall90DayPercent, 2)}%` }}
+          />
+        </div>
+      </div>
+
+      {/* 12. WEEKLY REVIEW MODAL (Section 17) */}
+      {weeklyReviewOpen && weeklyReviewData && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 max-w-xl w-full space-y-5 shadow-2xl animate-in fade-in zoom-in duration-200">
+            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div>
+                <h3 className="text-base font-bold text-white flex items-center gap-2">
+                  <BarChart3 className="w-4 h-4 text-indigo-400" /> Weekly GATE Review: Week {weeklyReviewData.weekNumber}
+                </h3>
+                <p className="text-xs text-slate-400">Diagnostic performance analysis generated by Study Engine.</p>
+              </div>
+              <button
+                onClick={() => setWeeklyReviewOpen(false)}
+                className="text-slate-400 hover:text-white text-xs font-semibold"
+              >
+                Close ✕
+              </button>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3 text-xs">
+              <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
+                <span className="text-slate-400 text-[10px] block">Study Time Completed</span>
+                <strong className="text-white text-sm font-mono mt-0.5 block">
+                  {weeklyReviewData.completedHours}h / {weeklyReviewData.plannedHours}h ({weeklyReviewData.completionPercent}%)
+                </strong>
+              </div>
+              <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
+                <span className="text-slate-400 text-[10px] block">PYQ Accuracy Rate</span>
+                <strong className="text-emerald-400 text-sm font-mono mt-0.5 block">
+                  {weeklyReviewData.pyqAccuracyPercent}%
+                </strong>
+              </div>
+              <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
+                <span className="text-slate-400 text-[10px] block">Strongest Subject</span>
+                <strong className="text-indigo-300 text-xs mt-0.5 block">
+                  {weeklyReviewData.bestSubject}
+                </strong>
+              </div>
+              <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
+                <span className="text-slate-400 text-[10px] block">Weakest Area</span>
+                <strong className="text-rose-400 text-xs mt-0.5 block">
+                  {weeklyReviewData.weakestSubject}
+                </strong>
+              </div>
+            </div>
+
+            <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1 text-xs">
+              <strong className="text-indigo-400 block font-semibold">Behavioral Pattern Insight:</strong>
+              <p className="text-slate-300 leading-relaxed text-[11px]">
+                {weeklyReviewData.behavioralInsight}
+              </p>
+            </div>
+
+            <div className="space-y-2 text-xs">
+              <strong className="text-slate-200 block font-semibold">Next Week AI Adjustments:</strong>
+              <ul className="space-y-1.5 text-slate-300 text-[11px]">
+                {weeklyReviewData.nextWeekAdjustments.map((adj, i) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1 shrink-0" />
+                    <span>{adj}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="pt-2 border-t border-slate-800 flex justify-end">
+              <button
+                onClick={() => setWeeklyReviewOpen(false)}
+                className="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold"
+              >
+                Done
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

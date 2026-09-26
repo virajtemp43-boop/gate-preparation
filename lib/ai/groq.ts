@@ -1,3 +1,24 @@
+/**
+ * Layer 2 — LLM Intelligence Layer (Groq & Heuristic Fallback)
+ * 
+ * Powered by Groq API (llama-3.3-70b-versatile) with fallback to Layer 1 Study Engine.
+ * 
+ * Enforces:
+ * 1. Non-Negotiable Rule: The AI must NOT teach the subject. It manages, schedules, and guides.
+ * 2. Immutable 90-Day Master Schedule (Oct 1 to Dec 29, 2026).
+ * 3. Structured Explainability (Reason Codes & Before/After diffs).
+ */
+
+import {
+  calculateScheduleForHours,
+  evaluateExecutionRisk,
+  handleEarlyCompletion,
+  handlePartialCompletion,
+  resolveTaskResources,
+  ReasonCode,
+} from "./study-engine";
+import { StudyDay } from "@/lib/types";
+
 export interface CoachContext {
   currentDay?: number;
   date?: string;
@@ -9,122 +30,227 @@ export interface CoachContext {
   weakTopics?: string[];
   recentMistakes?: string[];
   taskProgress?: string;
+  riskStatus?: string;
+  allDays?: StudyDay[];
 }
 
 export function buildStudyCoachPrompt(context: CoachContext): string {
-  return `You are the student's dedicated, razor-sharp GATE CS/IT 2027 AI Preparation Manager and Study Coach.
-Your primary role is to guide a B.Tech IT student preparing from scratch in a strict 90-day window (October 1 to December 29, 2026).
+  return `You are GATE Personal AI Coach.
 
-CRITICAL COACHING RULES:
-1. You are a STUDY MANAGER & COACH, NOT an internal video or textbook platform.
-2. Direct the student to external verified resources:
-   - For Concept Learning: Gate Smashers (https://www.gatesmashers.com/learn)
-   - For Topic PYQs & Tests: GATEOverflow (https://gateoverflow.in/questions?sort=gate, https://db.gateoverflow.in/tests)
-   - For Official Syllabus & Pattern: Official GATE 2027 (https://gate2027.iitm.ac.in/)
-3. Never invent fake URLs or claim AI-generated practice questions are official GATE questions.
-4. When asked what to do today, give exact, step-by-step priority instructions with estimated time.
-5. If the student has limited hours (e.g. 2h or 3h), intelligently tell them what to KEEP (Core concept + 5 PYQs + Revision) and what to MOVE (extra practice).
-6. If the student missed yesterday, provide a calm recovery plan without destroying the master 90-day timetable.
-7. Tone: Direct, practical, honest, execution-focused, encouraging without fake fluff.
+Your job is to manage, guide, schedule, remind, analyze, and adapt the user's GATE preparation.
+You are NOT a teaching platform.
+
+NON-NEGOTIABLE PRODUCT RULE:
+Do NOT teach full academic lessons unless the user explicitly requests a tiny clarification needed to complete a task. Even then, stay concise and redirect to the assigned external learning resource.
+
+If the user asks:
+"Teach me DBMS normalization" or "Explain Pointers from scratch"
+Respond with a guidance-oriented redirect such as:
+"For today's plan, open the assigned Gate Smashers resource, study the specified section, then solve the assigned PYQs on GATEOverflow. I can help you decide the order, time, practice target, and revision schedule."
+
+Your main responsibility is to answer:
+"What should the user do now, next, today, this week, and before the exam?"
+
+Always use the deterministic study engine for:
+- dates (Fixed 90-day window: Oct 1 to Dec 29, 2026)
+- task status
+- priorities
+- schedule
+- revision debt
+- notifications
+- external resources
+- recovery
+
+Never invent tool data.
+Never claim the user completed a task unless stored state confirms it.
+Never silently rewrite the master plan.
+Never fabricate a PYQ or label a generated question as an official GATE question.
+Prefer one strong external resource over many weak links.
+
+When the user is behind, protect high-value tasks and create a realistic recovery plan.
+When the user is ahead, use the extra time for revision, PYQs, weak topics, and tests before advancing unnecessarily.
+When the user has limited time, select the highest-value work instead of attempting to fit everything.
+When the user has extra time, do not automatically create excessive workload.
+Every major recommendation should include a concise reason code (e.g. HIGH_PRIORITY, TIME_LIMIT, RECOVERY, WEAK_TOPIC).
+
+Tone: Direct, practical, concise, action-oriented, honest, calm, specific, non-dramatic.
+The user controls the final decision.
+Your output should usually end with a concrete next action or button suggestion.
 
 ACTIVE STUDENT CONTEXT:
 - Today's Date: ${context.date || "2026-10-01"}
 - Day Number: Day ${context.currentDay || 1} / 90
 - Active Subject: ${context.subject || "Programming & Data Structures"}
-- Active Topic: ${context.topic || "C Variables & Operators"}
+- Active Topic: ${context.topic || "C Pointers & Memory"}
 - Subtopics: ${context.subtopics?.join(", ") || "Core basics"}
-- Daily Available Hours Selected: ${context.availableHours || 6} Hours
-- Missed Previous Day: ${context.missedYesterday ? "YES - Needs Recovery Overlay" : "NO - On Track"}
+- Daily Available Hours: ${context.availableHours || 6} Hours
+- Missed Previous Day: ${context.missedYesterday ? "YES (Needs Recovery Overlay)" : "NO (On Track)"}
+- Execution Risk Status: ${context.riskStatus || "ON_TRACK"}
 - Known Weak Topics: ${context.weakTopics?.length ? context.weakTopics.join(", ") : "None yet recorded"}
 - Recent Mistake Areas: ${context.recentMistakes?.length ? context.recentMistakes.join("; ") : "None recorded"}
 `;
 }
 
-export function getHeuristicCoachResponse(
-  query: string,
-  context: CoachContext
-): string {
+/**
+ * High-Precision Heuristic Study Coach Fallback
+ * Used when offline, API key not configured, or for instant sub-millisecond local responses.
+ */
+export function getHeuristicCoachResponse(query: string, context: CoachContext): string {
   const lower = query.toLowerCase();
   const subject = context.subject || "Programming & Data Structures";
-  const topic = context.topic || "C Fundamentals";
+  const topic = context.topic || "C Pointers & Memory";
   const hours = context.availableHours || 6;
+  const dayNum = context.currentDay || 1;
 
-  if (lower.includes("only") && (lower.includes("hour") || lower.includes("time") || lower.includes("2") || lower.includes("3"))) {
-    return `### ⏱️ Compressed Priority Plan (${hours} Hours Selected)
+  // 1. Redirection if user asks the AI to teach academic subject matter
+  if (
+    lower.startsWith("teach me") ||
+    lower.includes("explain the concept of") ||
+    lower.includes("give me a lecture on") ||
+    lower.includes("explain in detail what is")
+  ) {
+    return `### 🛑 Study Coach Guidance: External Resource First
 
-Because you have limited study time today, we will protect your core retention and push non-critical practice to the weekend.
+As your GATE Personal Study Coach, my job is to guide your schedule and execution—**not to replace your primary learning source**.
 
-**Keep Today (Non-Negotiable):**
-1. **Concept Learning (${Math.min(hours * 30, 60)} min):**
-   * Open Gate Smashers Learning Library ↗
-   * Watch only the core explanation for **${topic}**.
-2. **GATE PYQs (45 min):**
-   * Open GATEOverflow ↗
-   * Solve strictly 5 standard PYQs on ${topic}.
-3. **Daily Revision & Error Log (15 min):**
-   * Write down any formula or edge-case you missed.
+**Recommended Action for ${topic}:**
+1. **Open Assigned Resource:**
+   * Launch **Gate Smashers** verified lesson for **${topic}** [Open Gate Smashers ↗](https://www.gatesmashers.com/learn).
+   * Study the core 45-minute video block.
+2. **Immediate Application:**
+   * Open **GATEOverflow** [Open GATEOverflow ↗](https://gateoverflow.in/questions?sort=gate) and solve 5 topic PYQs.
+3. **Log Doubts:**
+   * Write down the specific formula or edge case in your **Error Book**.
 
-**Move to Saturday:**
-* ❌ Skip extra fresh practice questions.
-* ❌ Skip General Aptitude today.
-
-*The 90-day master timetable remains unchanged. Execute these 3 tasks and you are done for today!*`;
+*I will help you decide the time allocation, practice target, and spaced revision schedule!*`;
   }
 
-  if (lower.includes("miss") || lower.includes("yesterday") || lower.includes("behind")) {
-    return `### 🔄 Missed Day Recovery Protocol
+  // 2. "What should I do now?" / "What is today's plan?"
+  if (lower.includes("what should i do") || lower.includes("what is today") || lower.includes("start now")) {
+    return `### 🎯 Today's Action Plan — Day ${dayNum} of 90
 
-**Do not panic, and do not try to study 14 hours today.** Cramming two full days into one destroys retention.
+**Available Time:** ${hours} Hours  
+**Subject:** ${subject}  
+**Primary Goal:** ${topic}
 
-**Today's Recovery Strategy:**
-1. **Primary Focus (70% time):** Continue today's planned topic (**${topic}**). Do not abandon today's schedule!
-2. **Catch-up Block (30% time / 45 min):**
-   * Review only the 1 most critical formula/concept from yesterday's missed topic.
-   * Solve 3 PYQs from yesterday to confirm understanding.
-3. **Moved:**
-   * Defer optional practice sets to Sunday's buffer time.
+**Execute in this exact priority sequence:**
+1. **Spaced Revision Warm-up (15m)**
+   * Review yesterday's formula card and key traps.
+2. **Theory Study (80m)**
+   * Open [Gate Smashers ↗](https://www.gatesmashers.com/learn) and watch the focused module on **${topic}**.
+3. **Concept Notes (25m)**
+   * Write one page of formulas and boundary conditions in your notebook.
+4. **GATEOverflow PYQs (60m)**
+   * Open [GATEOverflow ↗](https://gateoverflow.in/questions?sort=gate) and solve 10–12 real GATE questions.
+5. **AI Practice & Traps (30m)**
+   * Solve 3 fresh challenge questions in the AI Practice Lab.
+6. **Error Book & Log (15m)**
+   * Log any question rated C (guessed) or D (wrong) into your Error Book.
 
-*Your 90-day calendar dates stay fixed. Focus on today's mission!*`;
+**AI Note:** You are currently **ON TRACK**. Protect the 60-minute PYQ block above all else.`;
   }
 
-  if (lower.includes("weak") || lower.includes("revise") || lower.includes("pointer")) {
-    return `### 🩺 Targeted Weakness Repair: ${topic}
+  // 3. Limited time (e.g. 2h or 3h)
+  if (lower.includes("2 hour") || lower.includes("3 hour") || lower.includes("limited time") || lower.includes("only have")) {
+    return `### ⏱️ Time-Compressed Plan (${hours <= 3 ? hours : 2} Hours)
 
-**Why this is happening:**
-Most errors here come from confusing operator precedence or boundary conditions.
+**Reason Code:** \`TIME_LIMIT\`  
+Because your available time is constrained, the study engine automatically protects core concept retention and top PYQs while deferring enrichment.
 
-**Action Plan:**
-1. **Step 1 (20 min):** Open your personal notebook and review the 1-page summary.
-2. **Step 2 (30 min):** Open GATEOverflow and solve 5 questions you previously got wrong.
-3. **Step 3 (10 min):** Log the exact reason you got them wrong into your Error Book.
+**Protected Today (Non-Negotiable):**
+1. **Core Concept Theory (50 min)**
+   * Open [Gate Smashers ↗](https://www.gatesmashers.com/learn) for ${topic}.
+2. **High-Yield PYQs (50 min)**
+   * Open [GATEOverflow ↗](https://gateoverflow.in/questions?sort=gate) and solve 5 essential questions.
+3. **Rapid Formula & Error Check (20 min)**
+   * Note edge cases to avoid making repeat mistakes.
 
-*Remember: A topic is only finished when you can solve a question without looking at notes.*`;
+**Deferred to Buffer Session:**
+* ❌ Defer optional fresh AI practice questions.
+* ❌ Defer General Aptitude block.
+
+*The master 90-day timetable remains completely intact. Complete these 3 blocks and your day is a success.*`;
   }
 
-  // Default: What do I do today?
-  return `### 🎯 Today's Mission & Guidance: Day ${context.currentDay || 1} / 90
+  // 4. Extra time (e.g. 8 hours)
+  if (lower.includes("8 hour") || lower.includes("extra time") || lower.includes("free all day")) {
+    return `### ⚡ High-Capacity Deep Study Plan (8 Hours)
 
-**Subject:** ${subject}
-**Topic:** ${topic}
+**Reason Code:** \`AHEAD_OF_PLAN\`  
+The engine does **not** blindly fast-forward future chapters. Instead, extra capacity is allocated to deep PYQ mastery and weak-topic reinforcement to lock in marks.
 
-**Step 1: Learn the Concept (90 min)**
-* Open the **Gate Smashers Learning Library ↗**.
-* Focus strictly on **${topic}**. Do not jump to tomorrow's chapters!
+**8-Hour Structure:**
+1. **Spaced Revision (30m):** Clear overdue revision cards.
+2. **Master Theory Block (150m):** Deep theory on **${topic}** via [Gate Smashers ↗](https://www.gatesmashers.com/learn).
+3. **Summary & Formula Sheet (45m):** Detailed personal derivation sheet.
+4. **Deep GATE PYQs (100m):** Solve 20 questions on [GATEOverflow ↗](https://gateoverflow.in/questions?sort=gate).
+5. **Trap Detection Practice (45m):** Test edge cases in AI Practice Lab.
+6. **Error Book Deep Log (20m):** Write one-line preventive rules for each mistake.
+7. **Targeted Weak-Topic Repair (45m):** Re-test previous mistake concepts.
+8. **Rest & Buffer (45m):** Prevents cognitive burnout.`;
+  }
 
-**Step 2: Summary Notes (20 min)**
-* Write the key rules and formulas into your personal notebook.
+  // 5. Missed yesterday / behind schedule
+  if (lower.includes("miss") || lower.includes("yesterday") || lower.includes("behind") || lower.includes("could not study")) {
+    return `### 🔄 Missed-Day Recovery Overlay
 
-**Step 3: Solve GATE PYQs (60 min)**
-* Open **GATEOverflow ↗** and attempt today's assigned PYQs.
-* Aim for at least 70% accuracy.
+**Reason Code:** \`RECOVERY\`  
+**Golden Rule:** The master 90-day calendar date (**Oct 1 – Dec 29, 2026**) is never moved forward. We overlay a temporary recovery schedule.
 
-**Step 4: Error Book & Review (15 min)**
-* Log every question you solved slowly or incorrectly into your Error Book.
+**Recovery Strategy:**
+1. **Protect Today's Mission (70% of study time):**
+   * Continue with today's scheduled topic: **${topic}**. Do not abandon today!
+2. **Recovery Injection Block (35 min):**
+   * Re-solve the 3 most essential PYQs from yesterday's missed topic on [GATEOverflow ↗](https://gateoverflow.in/questions?sort=gate).
+3. **Deferred:**
+   * Extra practice sets are moved to Sunday's buffer window.
 
-**Today's Success Condition:**
-You should be able to solve standard previous-year questions on **${topic}** without hesitation.`;
+*Estimated recovery time: 1–2 days. You are still fully on track for GATE 2027!*`;
+  }
+
+  // 6. Finished early
+  if (lower.includes("finished early") || lower.includes("done early") || lower.includes("early")) {
+    const early = handleEarlyCompletion(30, topic);
+    return `### 🏆 Finished Early
+
+${early.recommendation}
+
+**Recommended Next Step:**
+* **Action:** ${early.suggestedAction}
+* **Task:** ${early.nextTaskTitle} (${early.minutes} min)
+* Open your **Spaced Revision Center** or solve 3 additional questions on **GATEOverflow**.`;
+  }
+
+  // 7. "Why did you change this?"
+  if (lower.includes("why did you change") || lower.includes("why change")) {
+    return `### 🔍 Schedule Explanation
+
+**Reason Code:** \`${context.missedYesterday ? "RECOVERY" : "TIME_LIMIT"}\`
+
+**Why the plan was adjusted:**
+* **Trigger:** Available time was set to ${hours}h ${context.missedYesterday ? "and a missed session was recorded" : ""}.
+* **Protected:** Core concept theory on ${topic} and mandatory GATEOverflow PYQs.
+* **Moved:** Low-priority enrichment practice was deferred to weekend buffer time to prevent burnout.
+
+*The master 90-day end date of December 29, 2026 remains unchanged.*`;
+  }
+
+  // 8. Default Coach Response
+  return `### 📋 GATE Study Coach Directive — Day ${dayNum}
+
+**Current Focus:** ${subject} • ${topic}  
+**Available Hours:** ${hours} Hours
+
+1. **Step 1:** Study theory via [Gate Smashers ↗](https://www.gatesmashers.com/learn) (90m).
+2. **Step 2:** Solve assigned topic questions on [GATEOverflow ↗](https://gateoverflow.in/questions?sort=gate) (60m).
+3. **Step 3:** Record mistakes in your **Digital Error Book** (15m).
+
+*Tell me if your hours change or if you need a recovery plan!*`;
 }
 
+/**
+ * Call Groq API with robust timeout, fallback, and validation.
+ */
 export async function callGroqCoach(
   messages: Array<{ role: "system" | "user" | "assistant"; content: string }>,
   apiKey?: string,
@@ -140,7 +266,7 @@ export async function callGroqCoach(
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${resolvedKey}`,
+      Authorization: `Bearer ${resolvedKey.trim()}`,
     },
     body: JSON.stringify({
       model: model || "llama-3.3-70b-versatile",
