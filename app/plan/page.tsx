@@ -355,6 +355,13 @@ export default function PlanPage() {
                     >
                       Details
                     </button>
+
+                    <Link
+                      href={`/?day=${day.dayNumber}`}
+                      className="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-sm transition-all"
+                    >
+                      Open Full View ↗
+                    </Link>
                   </div>
                 </div>
 
@@ -383,7 +390,7 @@ export default function PlanPage() {
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
                     {day.learningResource && (
                       <a
                         href={day.learningResource.url}
@@ -400,9 +407,20 @@ export default function PlanPage() {
                         href={day.pyqResource.url}
                         target="_blank"
                         rel="noreferrer"
-                        className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600 text-emerald-300 hover:text-white border border-emerald-500/30 font-semibold transition-all"
+                        className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-purple-600/20 hover:bg-purple-600 text-purple-300 hover:text-white border border-purple-500/30 font-semibold transition-all"
                       >
                         <span>Open GATEOverflow</span>
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    )}
+                    {day.exactResources?.mcqs && (
+                      <a
+                        href={day.exactResources.mcqs.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-teal-600/20 hover:bg-teal-600 text-teal-300 hover:text-white border border-teal-500/30 font-semibold transition-all"
+                      >
+                        <span>Solve Topic MCQs</span>
                         <ExternalLink className="w-3 h-3" />
                       </a>
                     )}

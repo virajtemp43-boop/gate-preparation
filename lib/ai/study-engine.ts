@@ -95,6 +95,12 @@ export interface TaskResourceSet {
     url: string;
     actionLabel?: string;
   };
+  topicMcq: {
+    title: string;
+    provider: string;
+    url: string;
+    actionLabel: string;
+  };
   exactVideo?: TopicVideoLocator;
   exactPyq?: TopicPyqLocator;
   subtopics?: string[];
@@ -620,6 +626,12 @@ export function resolveTaskResources(
       provider: officialProvider,
       url: officialUrl,
       actionLabel: "Open official GATE paper ↗",
+    },
+    topicMcq: {
+      title: exact?.mcqs?.title || `Exact Topic MCQs: ${topic}`,
+      provider: exact?.mcqs?.provider || "GeeksforGeeks",
+      url: exact?.mcqs?.url || "https://www.geeksforgeeks.org/gate-cs-notes-gq/",
+      actionLabel: "Solve Exact Topic MCQs ↗",
     },
     exactVideo: videoLocator,
     exactPyq: pyqLocator,

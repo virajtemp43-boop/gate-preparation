@@ -22,16 +22,12 @@ import { cn } from "@/lib/utils";
 
 const navigationItems = [
   { name: "Today Command Center", href: "/", icon: CalendarCheck, badge: "Daily" },
-  { name: "90-Day Plan", href: "/plan", icon: Calendar },
+  { name: "90-Day Master Calendar", href: "/plan", icon: Calendar },
   { name: "Subjects & Syllabus", href: "/subjects", icon: Layers },
-  { name: "Resource Launcher", href: "/resources", icon: Bookmark },
-  { name: "PYQ Tracker", href: "/pyqs", icon: HelpCircle },
-  { name: "AI Practice", href: "/practice", icon: Code },
-  { name: "Spaced Revision", href: "/revision", icon: Repeat },
-  { name: "Error Book", href: "/error-book", icon: AlertOctagon },
-  { name: "Mocks & CBT", href: "/mocks", icon: Award },
-  { name: "Analytics", href: "/analytics", icon: BarChart3 },
+  { name: "Resource Navigator", href: "/resources", icon: Bookmark },
   { name: "Ask AI Coach", href: "/ai", icon: Bot, highlight: true },
+  { name: "Error Book", href: "/error-book", icon: AlertOctagon },
+  { name: "Preparation Analytics", href: "/analytics", icon: BarChart3 },
   { name: "Settings", href: "/settings", icon: Settings },
 ];
 

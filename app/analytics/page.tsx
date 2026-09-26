@@ -134,10 +134,10 @@ export default function AnalyticsPage() {
               </div>
 
               <Link
-                href="/learn"
-                className="px-3.5 py-1.5 rounded-xl bg-rose-950/40 hover:bg-rose-900/50 text-rose-300 border border-rose-800/50 text-xs font-semibold whitespace-nowrap self-start sm:self-auto transition-all"
+                href={`/resources?subject=${encodeURIComponent(weak.subject)}`}
+                className="px-3.5 py-1.5 rounded-xl bg-indigo-950/40 hover:bg-indigo-900/50 text-indigo-300 border border-indigo-800/50 text-xs font-semibold whitespace-nowrap self-start sm:self-auto transition-all"
               >
-                Repair Concept →
+                Find Resources ↗
               </Link>
             </div>
           ))}

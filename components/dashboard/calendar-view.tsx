@@ -137,9 +137,19 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
               </div>
 
               {/* Bottom: Topic Title */}
-              <p className="text-[11px] font-medium text-slate-300 line-clamp-2 leading-tight group-hover:text-white transition-colors">
-                {day.topic}
-              </p>
+              <div className="flex items-end justify-between gap-1">
+                <p className="text-[11px] font-medium text-slate-300 line-clamp-2 leading-tight group-hover:text-white transition-colors flex-1">
+                  {day.topic}
+                </p>
+                <a
+                  href={`/?day=${day.dayNumber}`}
+                  onClick={(e) => e.stopPropagation()}
+                  className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded-md bg-indigo-600 hover:bg-indigo-500 text-white shadow-sm text-[10px] shrink-0"
+                  title="Open Full Command Center View"
+                >
+                  ↗
+                </a>
+              </div>
             </div>
           );
         })}

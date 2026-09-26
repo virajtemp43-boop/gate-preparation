@@ -101,13 +101,13 @@ export const Header: React.FC = () => {
             <span>0 Day Streak</span>
           </div>
 
-          {/* Direct AI Tutor CTA */}
+          {/* Direct AI Coach CTA */}
           <Link
             href="/ai"
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white text-xs font-semibold shadow-md shadow-indigo-600/20 transition-all hover:scale-[1.02]"
           >
             <Bot className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Ask AI Tutor</span>
+            <span className="hidden sm:inline">Ask AI Coach</span>
           </Link>
         </div>
       </header>
@@ -201,18 +201,13 @@ export const Header: React.FC = () => {
               <Sparkles className="w-4 h-4 text-indigo-400" /> Navigation Menu
             </div>
             {[
-              { name: "Dashboard", href: "/" },
-              { name: "Today's Plan", href: "/today" },
-              { name: "Learn Center", href: "/learn" },
-              { name: "PYQ Lab", href: "/pyqs" },
-              { name: "Practice Lab", href: "/practice" },
-              { name: "AI Tutor", href: "/ai" },
-              { name: "Subjects", href: "/subjects" },
-              { name: "Revision Center", href: "/revision" },
+              { name: "Today Command Center", href: "/" },
+              { name: "90-Day Master Calendar", href: "/plan" },
+              { name: "Subjects & Syllabus", href: "/subjects" },
+              { name: "Resource Navigator", href: "/resources" },
+              { name: "Ask AI Coach", href: "/ai" },
               { name: "Error Book", href: "/error-book" },
-              { name: "CBT Mocks", href: "/mocks" },
-              { name: "Resource Library", href: "/resources" },
-              { name: "Analytics", href: "/analytics" },
+              { name: "Preparation Analytics", href: "/analytics" },
               { name: "Settings", href: "/settings" },
             ].map((item) => (
               <Link

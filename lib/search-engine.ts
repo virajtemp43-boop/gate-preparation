@@ -1,6 +1,7 @@
 import planDaysData from "@/data/gate/plan-90-days.json";
 import subjectsData from "@/data/gate/subjects.json";
 import { StudyDay } from "./types";
+import { searchPyqArchive, formatPyqToMarkdown, GatePyqQuestion } from "./pyq-archive";
 
 export interface SearchResult {
   type: "day_topic" | "subject" | "resource";
@@ -21,6 +22,8 @@ export interface SearchResult {
   pyqUrl?: string;
   pyqTarget?: number;
   officialUrl?: string;
+  mcqTitle?: string;
+  mcqUrl?: string;
   score: number;
 }
 
@@ -122,7 +125,12 @@ export function isSearchIntent(text: string): boolean {
     lower.includes("where can i find") ||
     lower.includes("syllabus for") ||
     lower.includes("when do i study") ||
-    lower.includes("resource for")
+    lower.includes("resource for") ||
+    lower.includes("pyq") ||
+    lower.includes("question") ||
+    lower.includes("problem") ||
+    lower.includes("10 year") ||
+    lower.includes("solve")
   ) {
     return true;
   }
@@ -231,6 +239,7 @@ export function searchKnowledgeBase(rawQuery: string, limit = 4): SearchResult[]
     if (score > 0) {
       const v = day.exactResources?.videos?.[0];
       const p = day.exactResources?.pyqs?.[0];
+      const m = day.exactResources?.mcqs;
 
       results.push({
         type: "day_topic",
@@ -251,6 +260,8 @@ export function searchKnowledgeBase(rawQuery: string, limit = 4): SearchResult[]
         pyqUrl: p?.url,
         pyqTarget: day.pyqResource?.target || 15,
         officialUrl: day.exactResources?.pyqs?.[1]?.url || "https://gate2027.iitm.ac.in/",
+        mcqTitle: m?.title || `Exact Topic MCQs: ${day.topic}`,
+        mcqUrl: m?.url || "https://www.geeksforgeeks.org/gate-cs-notes-gq/",
         score,
       });
     }
@@ -263,7 +274,9 @@ export function searchKnowledgeBase(rawQuery: string, limit = 4): SearchResult[]
 }
 
 export function formatSearchResultsToMarkdown(results: SearchResult[], rawQuery: string): string {
-  if (results.length === 0) {
+  const matchedPyqs = searchPyqArchive(rawQuery, 2);
+
+  if (results.length === 0 && matchedPyqs.length === 0) {
     return `### 🔍 No Exact Syllabus Match Found for "${rawQuery}"
 
 I searched the **90-Day Master Schedule (Oct 1 – Dec 29, 2026)** and resource locators, but couldn't find an exact topic matching that term.
@@ -274,31 +287,47 @@ I searched the **90-Day Master Schedule (Oct 1 – Dec 29, 2026)** and resource 
 3. Or check the **Subjects & Syllabus** tab in the sidebar.`;
   }
 
-  let md = `### 🔍 Found ${results.length} Syllabus & Resource Match${results.length > 1 ? "es" : ""} for "${rawQuery}":\n\n`;
+  let md = "";
 
-  results.forEach((res, idx) => {
-    md += `#### 📌 ${res.title}\n`;
-    md += `* **Subject:** ${res.subject} (${res.monthName || "90-Day Master Plan"})\n`;
-    md += `* **Date Scheduled:** ${res.date} • **Study Time:** ${res.plannedHours || 6} Hours\n`;
-    if (res.subtopics && res.subtopics.length > 0) {
-      md += `* **Syllabus Scope:** ${res.subtopics.slice(0, 4).join(", ")}\n`;
-    }
-    md += `* **Direct Action Resources:**\n`;
-    if (res.isDirectVideo && res.videoUrl) {
-      md += `  * [Watch exact lecture ▶](${res.videoUrl})\n`;
-    } else if (res.videoUrl) {
-      md += `  * [Open topic roadmap ↗](${res.videoUrl})\n`;
-    }
-    if (res.pyqUrl) {
-      md += `  * [Open exact topic PYQs ↗](${res.pyqUrl}) (${res.pyqTarget || 15} Target Questions)\n`;
-    }
-    if (res.searchFallbackUrl) {
-      md += `  * [Backup / topic roadmap ↗](${res.searchFallbackUrl})\n`;
-    }
-    if (idx < results.length - 1) {
-      md += `\n---\n\n`;
-    }
-  });
+  if (results.length > 0) {
+    md += `### 🔍 Found ${results.length} Syllabus & Resource Match${results.length > 1 ? "es" : ""} for "${rawQuery}":\n\n`;
+
+    results.forEach((res, idx) => {
+      md += `#### 📌 ${res.title}\n`;
+      md += `* **Subject:** ${res.subject} (${res.monthName || "90-Day Master Plan"})\n`;
+      md += `* **Date Scheduled:** ${res.date} • **Study Time:** ${res.plannedHours || 6} Hours\n`;
+      if (res.subtopics && res.subtopics.length > 0) {
+        md += `* **Syllabus Scope:** ${res.subtopics.slice(0, 4).join(", ")}\n`;
+      }
+      md += `* **Direct Action Resources:**\n`;
+      if (res.isDirectVideo && res.videoUrl) {
+        md += `  * [Watch exact lecture ▶](${res.videoUrl})\n`;
+      } else if (res.videoUrl) {
+        md += `  * [Open topic roadmap ↗](${res.videoUrl})\n`;
+      }
+      if (res.pyqUrl) {
+        md += `  * [Open exact topic PYQs ↗](${res.pyqUrl}) (${res.pyqTarget || 15} Target Questions)\n`;
+      }
+      if (res.mcqUrl) {
+        md += `  * [Solve Exact Topic MCQs ↗](${res.mcqUrl})\n`;
+      }
+      if (res.searchFallbackUrl) {
+        md += `  * [Backup / topic roadmap ↗](${res.searchFallbackUrl})\n`;
+      }
+      if (idx < results.length - 1) {
+        md += `\n---\n\n`;
+      }
+    });
+  }
+
+  // Append 10-year official GATE PYQs if matched
+  if (matchedPyqs.length > 0) {
+    if (md) md += `\n\n---\n\n`;
+    md += `### 🎯 Official 10-Year GATE Questions from Archive:\n\n`;
+    matchedPyqs.forEach((q) => {
+      md += formatPyqToMarkdown(q) + `\n\n`;
+    });
+  }
 
   return md;
 }

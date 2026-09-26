@@ -1,33 +1,31 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, Suspense } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import confetti from "canvas-confetti";
 import {
-  Calendar,
+  Calendar as CalendarIcon,
   Clock,
   ExternalLink,
   CheckCircle2,
   AlertTriangle,
   Sparkles,
   Bot,
-  HelpCircle,
-  BookOpen,
-  ArrowRight,
-  Flame,
-  Send,
-  Award,
-  Layers,
-  Repeat,
   Play,
   Pause,
   RotateCcw,
   Check,
   ShieldCheck,
   ChevronRight,
+  ChevronLeft,
   BarChart3,
-  X,
-  AlertOctagon,
+  Award,
+  Layers,
+  Send,
+  Grid,
+  SlidersHorizontal,
+  Flame,
 } from "lucide-react";
 import { getCurrentPlanDay, getPlanDays, getResources } from "@/lib/data";
 import { StudyDay, DailyTask } from "@/lib/types";
@@ -43,7 +41,10 @@ import {
   WeeklyDiagnosticReview,
 } from "@/lib/ai/study-engine";
 
-export default function TodayCommandCenterPage() {
+function TodayCommandCenterContent() {
+  const searchParams = useSearchParams();
+  const dayParam = searchParams.get("day");
+
   const [currentDay, setCurrentDay] = useState<StudyDay | null>(null);
   const [allDays, setAllDays] = useState<StudyDay[]>([]);
   const [availableHours, setAvailableHours] = useState<number>(6);
@@ -52,6 +53,11 @@ export default function TodayCommandCenterPage() {
   const [coachLoading, setCoachLoading] = useState(false);
   const [isPreLaunch, setIsPreLaunch] = useState(false);
   const [daysUntilLaunch, setDaysUntilLaunch] = useState(0);
+
+  // Calendar Navigator State
+  const [activePhaseTab, setActivePhaseTab] = useState<1 | 2 | 3>(1);
+  const [calendarViewMode, setCalendarViewMode] = useState<"slider" | "grid">("slider");
+  const calendarSliderRef = useRef<HTMLDivElement>(null);
 
   // Layer 1 Decision Engine State
   const [activeProposal, setActiveProposal] = useState<ScheduleProposal | null>(null);
@@ -80,10 +86,25 @@ export default function TodayCommandCenterPage() {
       const saved = localStorage.getItem("gate_study_days");
       if (saved) {
         const parsed: StudyDay[] = JSON.parse(saved);
-        const match = parsed.find((d) => d.dayNumber === day.dayNumber);
-        if (match) day = match;
         setAllDays(parsed);
+
+        // If dayParam is present in URL, select that specific day
+        if (dayParam) {
+          const targetDayNum = parseInt(dayParam, 10);
+          const matched = parsed.find((d) => d.dayNumber === targetDayNum);
+          if (matched) {
+            day = matched;
+          }
+        } else {
+          const match = parsed.find((d) => d.dayNumber === day.dayNumber);
+          if (match) day = match;
+        }
+      } else if (dayParam) {
+        const targetDayNum = parseInt(dayParam, 10);
+        const matched = days.find((d) => d.dayNumber === targetDayNum);
+        if (matched) day = matched;
       }
+
       const savedHours = localStorage.getItem("gate_daily_hours");
       if (savedHours) setAvailableHours(Number(savedHours));
     } catch (e) {
@@ -91,10 +112,11 @@ export default function TodayCommandCenterPage() {
     }
 
     setCurrentDay(day);
-    if (day?.tasks) {
+    setActivePhaseTab(day.month as (1 | 2 | 3));
+    if (day?.tasks && day.tasks.length > 0) {
       setActiveSessionTaskId(day.tasks[0]?.id || null);
     }
-  }, []);
+  }, [dayParam]);
 
   // Timer Tick
   useEffect(() => {
@@ -114,6 +136,32 @@ export default function TodayCommandCenterPage() {
 
   // Task Resources Resolver (Section 42 & 43: Exact Topic Resolution)
   const taskResources = resolveTaskResources(currentDay.subject, currentDay.topic, currentDay.dayNumber);
+
+  // Day Selection Handler (Opens that day's complete full view)
+  const handleSelectDay = (day: StudyDay) => {
+    setCurrentDay(day);
+    setActivePhaseTab(day.month as (1 | 2 | 3));
+    setActiveProposal(null);
+    setOriginalTasksBackup(null);
+    if (day.tasks && day.tasks.length > 0) {
+      setActiveSessionTaskId(day.tasks[0].id);
+    }
+    setSessionTimerSecs(0);
+    setIsTimerRunning(false);
+    setCoachAnswer(null);
+
+    // Update URL history without reload
+    window.history.pushState({}, "", `/?day=${day.dayNumber}`);
+  };
+
+  const handleScrollCalendar = (direction: "left" | "right") => {
+    if (!calendarSliderRef.current) return;
+    const scrollAmount = 350;
+    calendarSliderRef.current.scrollBy({
+      left: direction === "left" ? -scrollAmount : scrollAmount,
+      behavior: "smooth",
+    });
+  };
 
   const handleToggleTask = (taskId: string) => {
     if (!currentDay) return;
@@ -170,7 +218,7 @@ export default function TodayCommandCenterPage() {
     localStorage.setItem("gate_study_days", JSON.stringify(updatedAllDays));
 
     setActiveProposal((prev) => (prev ? { ...prev, applied: true } : null));
-    setSessionFeedback(`Applied ${activeProposal.availableHours}-hour plan. High-priority tasks protected!`);
+    setSessionFeedback(`Applied ${activeProposal.availableHours}-hour plan. High-yield tasks protected!`);
     setTimeout(() => setSessionFeedback(null), 5000);
   };
 
@@ -191,7 +239,7 @@ export default function TodayCommandCenterPage() {
     setTimeout(() => setSessionFeedback(null), 4000);
   };
 
-  // Study Session Controls (Section 35, 36, 37)
+  // Study Session Controls
   const handleFinishedEarly = () => {
     setIsTimerRunning(false);
     const activeTask = currentDay.tasks.find((t) => t.id === activeSessionTaskId);
@@ -202,7 +250,6 @@ export default function TodayCommandCenterPage() {
     const earlyResult = handleEarlyCompletion(saved, currentDay.topic);
     setSessionFeedback(`⚡ ${earlyResult.recommendation}`);
 
-    // Mark task complete
     if (activeSessionTaskId) {
       handleToggleTask(activeSessionTaskId);
     }
@@ -227,7 +274,6 @@ export default function TodayCommandCenterPage() {
     setCoachLoading(true);
     setCoachAnswer(null);
 
-    // If query matches a time limit command, trigger proposal directly
     const lower = q.toLowerCase();
     if (lower.includes("2 hour") || lower.includes("2h")) {
       handleSelectAvailableHours(2);
@@ -286,10 +332,218 @@ export default function TodayCommandCenterPage() {
   const totalCompletedDays = allDays.filter((d) => d.tasks?.every((t) => t.completed)).length;
   const overall90DayPercent = Math.round((totalCompletedDays / 90) * 100);
 
-  const activeTask = displayedTasks.find((t) => t.id === activeSessionTaskId) || displayedTasks[0];
+  const phaseDays = allDays.filter((d) => d.month === activePhaseTab);
+
+  const phases = [
+    {
+      id: 1 as const,
+      label: "Month 1",
+      title: "Foundation & Mathematics",
+      dates: "01 Oct – 30 Oct 2026",
+      range: "Days 1–30",
+    },
+    {
+      id: 2 as const,
+      label: "Month 2",
+      title: "Core Systems & Architecture",
+      dates: "31 Oct – 29 Nov 2026",
+      range: "Days 31–60",
+    },
+    {
+      id: 3 as const,
+      label: "Month 3",
+      title: "Networks, TOC & Revision",
+      dates: "30 Nov – 29 Dec 2026",
+      range: "Days 61–90",
+    },
+  ];
 
   return (
-    <div className="space-y-8 max-w-5xl mx-auto pb-16">
+    <div className="space-y-8 max-w-5xl mx-auto pb-20">
+      {/* 0. INTERACTIVE 90-DAY CALENDAR NAVIGATOR (Premium Top Bar) */}
+      <div className="relative overflow-hidden bg-slate-900/95 border border-slate-800/90 rounded-3xl p-5 sm:p-6 shadow-2xl backdrop-blur-md">
+        {/* Subtle Radiant Ambient Glow */}
+        <div className="absolute top-0 right-0 -mt-10 -mr-10 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800/80 pb-4">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="p-1.5 rounded-lg bg-indigo-600/20 text-indigo-400 border border-indigo-500/30">
+                <CalendarIcon className="w-4 h-4" />
+              </span>
+              <h2 className="text-sm sm:text-base font-bold text-white tracking-tight">
+                90-Day Master Timetable Navigator
+              </h2>
+            </div>
+            <p className="text-xs text-slate-400">
+              Click any day to instantly open that day&apos;s full command center and verified resources.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2 self-start md:self-auto">
+            {/* View Mode Toggle */}
+            <div className="flex items-center p-1 bg-slate-950 rounded-xl border border-slate-800 text-xs">
+              <button
+                onClick={() => setCalendarViewMode("slider")}
+                className={`p-1.5 rounded-lg transition-all ${
+                  calendarViewMode === "slider"
+                    ? "bg-indigo-600 text-white shadow-sm"
+                    : "text-slate-400 hover:text-white"
+                }`}
+                title="Slider View"
+              >
+                <SlidersHorizontal className="w-3.5 h-3.5" />
+              </button>
+              <button
+                onClick={() => setCalendarViewMode("grid")}
+                className={`p-1.5 rounded-lg transition-all ${
+                  calendarViewMode === "grid"
+                    ? "bg-indigo-600 text-white shadow-sm"
+                    : "text-slate-400 hover:text-white"
+                }`}
+                title="Grid View"
+              >
+                <Grid className="w-3.5 h-3.5" />
+              </button>
+            </div>
+
+            {/* Slider Navigation Arrows */}
+            {calendarViewMode === "slider" && (
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={() => handleScrollCalendar("left")}
+                  className="p-1.5 rounded-xl bg-slate-950 hover:bg-slate-800 text-slate-300 border border-slate-800 transition-colors"
+                  title="Scroll Left"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => handleScrollCalendar("right")}
+                  className="p-1.5 rounded-xl bg-slate-950 hover:bg-slate-800 text-slate-300 border border-slate-800 transition-colors"
+                  title="Scroll Right"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Phase Selector Tabs */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-4">
+          {phases.map((phase) => (
+            <button
+              key={phase.id}
+              onClick={() => setActivePhaseTab(phase.id)}
+              className={`p-3 rounded-2xl border text-left transition-all relative overflow-hidden ${
+                activePhaseTab === phase.id
+                  ? "bg-indigo-950/40 border-indigo-500/60 shadow-lg ring-1 ring-indigo-500/30"
+                  : "bg-slate-950/60 border-slate-800/80 hover:border-slate-700 text-slate-400"
+              }`}
+            >
+              <div className="flex items-center justify-between">
+                <span
+                  className={`text-[10px] font-bold uppercase tracking-wider ${
+                    activePhaseTab === phase.id ? "text-indigo-400" : "text-slate-400"
+                  }`}
+                >
+                  {phase.range}
+                </span>
+                <span className="text-[10px] font-mono text-slate-400">
+                  {phase.dates.slice(0, 6)}
+                </span>
+              </div>
+              <h4 className="text-xs font-bold text-white mt-1 truncate">
+                {phase.title}
+              </h4>
+            </button>
+          ))}
+        </div>
+
+        {/* Days Display (Slider or Grid) */}
+        <div className="pt-4">
+          {calendarViewMode === "slider" ? (
+            <div
+              ref={calendarSliderRef}
+              className="flex items-center gap-2.5 overflow-x-auto pb-2 scrollbar-none scroll-smooth"
+            >
+              {phaseDays.map((d) => {
+                const isSelected = d.dayNumber === currentDay.dayNumber;
+                const isDone = d.tasks && d.tasks.length > 0 && d.tasks.every((t) => t.completed);
+                const hasStarted = d.tasks && d.tasks.some((t) => t.completed);
+
+                return (
+                  <button
+                    key={d.dayNumber}
+                    onClick={() => handleSelectDay(d)}
+                    className={`shrink-0 w-32 p-3 rounded-2xl border text-left transition-all ${
+                      isSelected
+                        ? "bg-gradient-to-b from-indigo-900/90 to-slate-900 border-indigo-400 shadow-xl shadow-indigo-600/20 ring-2 ring-indigo-500/40"
+                        : isDone
+                        ? "bg-emerald-950/30 border-emerald-800/50 hover:border-emerald-700"
+                        : "bg-slate-950/70 border-slate-800/80 hover:bg-slate-800/60 hover:border-slate-700"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span
+                        className={`text-xs font-mono font-bold ${
+                          isSelected ? "text-indigo-300" : "text-slate-400"
+                        }`}
+                      >
+                        Day {d.dayNumber}
+                      </span>
+                      {isDone ? (
+                        <span className="w-3.5 h-3.5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-[10px]">
+                          ✓
+                        </span>
+                      ) : hasStarted ? (
+                        <span className="w-2 h-2 rounded-full bg-amber-400" />
+                      ) : (
+                        <span className="text-[10px] text-slate-400 font-mono">
+                          {formatDate(d.date).slice(0, 6)}
+                        </span>
+                      )}
+                    </div>
+                    <span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-semibold bg-slate-800/80 text-indigo-300 border border-slate-700/60 truncate max-w-full mb-1">
+                      {d.subject.slice(0, 14)}
+                    </span>
+                    <p className="text-[11px] font-medium text-slate-200 line-clamp-1 leading-snug">
+                      {d.topic}
+                    </p>
+                  </button>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-10 gap-2">
+              {phaseDays.map((d) => {
+                const isSelected = d.dayNumber === currentDay.dayNumber;
+                const isDone = d.tasks && d.tasks.length > 0 && d.tasks.every((t) => t.completed);
+
+                return (
+                  <button
+                    key={d.dayNumber}
+                    onClick={() => handleSelectDay(d)}
+                    className={`p-2.5 rounded-xl border text-center transition-all ${
+                      isSelected
+                        ? "bg-indigo-600 text-white border-indigo-400 shadow-md font-bold"
+                        : isDone
+                        ? "bg-emerald-950/40 border-emerald-800/50 text-emerald-300 hover:border-emerald-600"
+                        : "bg-slate-950/60 border-slate-800 text-slate-300 hover:bg-slate-800 hover:border-slate-700"
+                    }`}
+                  >
+                    <span className="text-[11px] font-mono block">Day {d.dayNumber}</span>
+                    <span className="text-[9px] text-slate-400 truncate block mt-0.5">
+                      {d.subject.slice(0, 8)}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </div>
+
       {/* 1. EXECUTION RISK STATUS BAR (Section 39) */}
       <div
         className={`p-4 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-lg ${
@@ -373,7 +627,7 @@ export default function TodayCommandCenterPage() {
               ))}
             </div>
 
-            {/* Quick Action Launchers */}
+            {/* Quick Action Launchers (Lecture + PYQs + Exact Topic MCQs) */}
             <div className="flex flex-wrap items-center gap-2.5 pt-2">
               <a
                 href={taskResources.primary.url}
@@ -396,6 +650,15 @@ export default function TodayCommandCenterPage() {
               >
                 <ExternalLink className="w-3.5 h-3.5" />
                 <span>Open exact topic PYQs ↗</span>
+              </a>
+              <a
+                href={taskResources.topicMcq.url}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold transition-all shadow-md shadow-teal-600/30"
+              >
+                <CheckCircle2 className="w-3.5 h-3.5" />
+                <span>Solve Exact Topic MCQs ↗</span>
               </a>
             </div>
           </div>
@@ -426,10 +689,10 @@ export default function TodayCommandCenterPage() {
             { label: "I have 2 hours", query: "I only have 2 hours today." },
             { label: "I have 8 hours", query: "I have 8 hours available today." },
             { label: "I missed yesterday", query: "I missed yesterday. Give me a recovery plan." },
+            { label: "Give me a 10-year PYQ", query: `Give me an official GATE question on ${currentDay.topic}` },
             { label: "I finished early", query: "I finished early today." },
             { label: "Why did you change this?", query: "Why did you change my schedule?" },
-            { label: "Show weak topics", query: "What is my biggest weakness?" },
-            { label: "Teach me this topic", query: `Teach me ${currentDay.topic}` },
+            { label: "Where are topic MCQs?", query: `Where can I practice MCQs on ${currentDay.topic}?` },
           ].map((btn, i) => (
             <button
               key={i}
@@ -449,153 +712,144 @@ export default function TodayCommandCenterPage() {
       {activeProposal && !activeProposal.applied && (
         <div className="p-5 rounded-2xl bg-indigo-950/40 border-2 border-indigo-500 shadow-2xl space-y-4 animate-in fade-in slide-in-from-top-3 duration-300">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-indigo-800/60 pb-3">
-            <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-indigo-600 text-white">
-                AI Proposal: {activeProposal.reasonCode}
+            <div>
+              <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-indigo-500 text-white">
+                Reason: {activeProposal.reasonCode}
               </span>
-              <span className="text-xs font-bold text-white">
-                Rebalance for {activeProposal.availableHours} Hours
-              </span>
+              <h3 className="text-sm font-bold text-white mt-1">
+                Adaptive Schedule Proposal ({activeProposal.availableHours} Hours Available)
+              </h3>
             </div>
-            <div className="flex items-center gap-2 font-mono text-xs">
-              <span className="text-slate-400 line-through">
-                Before: {activeProposal.beforeWorkloadMinutes}m
-              </span>
-              <span className="text-emerald-400 font-bold">
-                → After: {activeProposal.afterWorkloadMinutes}m
-              </span>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleApplyProposal}
+                className="px-4 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-md shadow-emerald-600/30 transition-all"
+              >
+                Apply Change ✓
+              </button>
+              <button
+                onClick={handleUndoProposal}
+                className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold border border-slate-700 transition-all"
+              >
+                Cancel
+              </button>
             </div>
           </div>
 
-          <p className="text-xs text-slate-200 leading-relaxed">
+          <p className="text-xs text-slate-300 leading-relaxed">
             {activeProposal.reasonExplanation}
           </p>
 
+          {/* Before vs After Workload Comparison */}
+          <div className="grid grid-cols-2 gap-3 text-xs">
+            <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800">
+              <span className="text-[10px] text-slate-400 font-semibold block">BEFORE (Original)</span>
+              <strong className="text-slate-300 text-sm font-mono mt-0.5 block">
+                {activeProposal.beforeWorkloadMinutes} Minutes
+              </strong>
+            </div>
+            <div className="p-3 rounded-xl bg-indigo-950/80 border border-indigo-500/50">
+              <span className="text-[10px] text-indigo-400 font-semibold block">AFTER (Proposed)</span>
+              <strong className="text-emerald-400 text-sm font-mono mt-0.5 block">
+                {activeProposal.afterWorkloadMinutes} Minutes
+              </strong>
+            </div>
+          </div>
+
+          {/* Deferred Tasks Notice */}
           {activeProposal.deferredTasks.length > 0 && (
-            <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1.5 text-xs">
-              <span className="text-[11px] font-bold text-amber-400 flex items-center gap-1.5">
-                <AlertTriangle className="w-3.5 h-3.5" /> Deferred to Buffer Windows:
+            <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 space-y-1.5 text-xs">
+              <span className="text-amber-400 font-bold text-[11px] block">
+                Deferred / Rescheduled Tasks:
               </span>
-              <ul className="space-y-1 text-slate-300 text-[11px]">
+              <ul className="space-y-1 text-slate-400 text-[11px]">
                 {activeProposal.deferredTasks.map((def, idx) => (
-                  <li key={idx} className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-                    <span>{def.title} — {def.reason}</span>
+                  <li key={idx} className="flex items-center justify-between">
+                    <span>• {def.title} ({def.originalMinutes}m)</span>
+                    <span className="italic text-slate-400">{def.reason}</span>
                   </li>
                 ))}
               </ul>
             </div>
           )}
-
-          <div className="flex items-center justify-end gap-3 pt-2">
-            <button
-              onClick={handleUndoProposal}
-              className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white"
-            >
-              Reject Proposal
-            </button>
-            <button
-              onClick={handleApplyProposal}
-              className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-lg shadow-indigo-600/30 transition-all"
-            >
-              Apply {activeProposal.availableHours}-Hour Plan
-            </button>
-          </div>
         </div>
       )}
 
-      {/* Proposal Undo Notification if applied */}
-      {activeProposal && activeProposal.applied && (
-        <div className="p-3 rounded-xl bg-slate-900 border border-indigo-500/40 flex items-center justify-between text-xs">
-          <span className="text-slate-300">
-            Active: <strong className="text-indigo-300">{activeProposal.availableHours}-Hour Compressed Schedule</strong>
-          </span>
-          <button
-            onClick={handleUndoProposal}
-            className="text-xs font-semibold text-indigo-400 hover:text-white underline"
-          >
-            Undo & Restore Original Plan
-          </button>
-        </div>
-      )}
-
-      {/* 5. LIVE STUDY SESSION CONTROLLER (Section 35) */}
-      <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+      {/* 5. LIVE STUDY SESSION CONTROLLER & TIMER (Section 35) */}
+      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
-          <div>
+          <div className="space-y-0.5">
             <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-400 block">
-              Active Study Session Timer
+              Active Focus Controller
             </span>
-            <h3 className="text-sm font-bold text-white mt-0.5">
-              {activeTask ? activeTask.title : "Ready for Task"}
+            <h3 className="text-sm font-bold text-white flex items-center gap-2">
+              <Clock className="w-4 h-4 text-emerald-400" />
+              {activeSessionTaskId
+                ? displayedTasks.find((t) => t.id === activeSessionTaskId)?.title || "Active Focus Block"
+                : "Select a Task to Begin Session"}
             </h3>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="text-2xl font-extrabold text-white font-mono bg-slate-950 px-3 py-1 rounded-xl border border-slate-800">
+
+          {/* Live Timer Display */}
+          <div className="flex items-center gap-3 self-start sm:self-auto">
+            <span className="text-2xl font-mono font-extrabold text-white tracking-wider bg-slate-950 px-3.5 py-1 rounded-xl border border-slate-800">
               {formatTimer(sessionTimerSecs)}
-            </div>
+            </span>
             <button
               onClick={() => setIsTimerRunning(!isTimerRunning)}
-              className={`p-2.5 rounded-xl text-white font-bold transition-all shadow-md ${
+              className={`p-2.5 rounded-xl font-bold text-white transition-all shadow-md ${
                 isTimerRunning
-                  ? "bg-amber-600 hover:bg-amber-500"
-                  : "bg-emerald-600 hover:bg-emerald-500"
+                  ? "bg-amber-600 hover:bg-amber-500 shadow-amber-600/30"
+                  : "bg-indigo-600 hover:bg-indigo-500 shadow-indigo-600/30"
               }`}
             >
-              {isTimerRunning ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+              {isTimerRunning ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-current" />}
             </button>
           </div>
         </div>
 
-        {/* Feedback Alert if triggered */}
-        {sessionFeedback && (
-          <div className="p-3 rounded-xl bg-slate-950 border border-indigo-500/40 text-xs text-indigo-300 animate-in fade-in duration-200">
-            {sessionFeedback}
-          </div>
-        )}
-
+        {/* Early & Partial Completion Handlers (Section 36 & 37) */}
         <div className="flex flex-wrap items-center justify-between gap-3 text-xs">
-          <div className="flex items-center gap-2">
-            <span className="text-slate-400">Target Time:</span>
-            <span className="font-mono font-bold text-slate-200">
-              {activeTask?.estMinutes || 60} Minutes
-            </span>
-          </div>
-
           <div className="flex items-center gap-2">
             <button
               onClick={handleFinishedEarly}
-              className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition-colors"
+              className="px-3 py-1.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600 text-emerald-300 hover:text-white border border-emerald-500/30 font-semibold transition-all"
             >
-              ⚡ Finished Early
+              ⚡ I finished early
             </button>
             <button
               onClick={handlePartialFinish}
-              className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition-colors"
+              className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 font-semibold transition-all"
             >
-              ⏳ Partial Completion
+              ⏳ Time up / partial finish
             </button>
           </div>
+
+          {sessionFeedback && (
+            <span className="text-xs font-semibold text-emerald-300 bg-emerald-950/40 px-3 py-1 rounded-xl border border-emerald-800/40 animate-in fade-in duration-200">
+              {sessionFeedback}
+            </span>
+          )}
         </div>
       </div>
 
-      {/* 6. AVAILABLE-TIME SELECTOR CHIPS */}
-      <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      {/* 6. AVAILABLE HOURS ADJUSTMENT CONTROLS */}
+      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <span className="text-xs font-bold text-white flex items-center gap-2">
-            <Clock className="w-4 h-4 text-indigo-400" /> I Have Available Today:
-          </span>
+          <h4 className="text-xs font-bold text-white flex items-center gap-2">
+            <SlidersHorizontal className="w-4 h-4 text-indigo-400" /> Adjust Available Study Hours Today
+          </h4>
           <p className="text-[11px] text-slate-400 mt-0.5">
-            Select hours to automatically recalculate and compress your daily workload.
+            Select your hours to dynamically compress or expand tasks without breaking the master 90-day plan.
           </p>
         </div>
 
-        <div className="flex items-center gap-1.5 p-1 bg-slate-950 rounded-xl border border-slate-800">
+        <div className="flex items-center gap-1.5 p-1 bg-slate-950 rounded-xl border border-slate-800 self-start sm:self-auto">
           {[2, 3, 4, 6, 8].map((hrs) => (
             <button
               key={hrs}
               onClick={() => handleSelectAvailableHours(hrs)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold font-mono transition-all ${
                 availableHours === hrs
                   ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/30"
                   : "text-slate-400 hover:text-white hover:bg-slate-800"
@@ -614,7 +868,7 @@ export default function TodayCommandCenterPage() {
             <Sparkles className="w-4 h-4 text-indigo-400" /> Daily AI Study Coach Briefing
           </h3>
           <span className="text-[11px] font-mono text-emerald-400 bg-emerald-950/40 px-2 py-0.5 rounded border border-emerald-800/40">
-            Groq Llama 3.3 Active
+            Groq Reasoning Active
           </span>
         </div>
 
@@ -768,7 +1022,7 @@ export default function TodayCommandCenterPage() {
               <ShieldCheck className="w-4 h-4 text-indigo-400" /> Today&apos;s Exact Curated Resources ({currentDay.topic})
             </h3>
             <p className="text-xs text-slate-400 mt-0.5">
-              Day-level, topic-level verified locators for syllabus lectures and official GATE PYQs.
+              Day-level, topic-level verified locators for syllabus lectures, official GATE PYQs, and topic MCQs.
             </p>
           </div>
           <span className="text-[11px] font-mono text-emerald-400 bg-emerald-950/40 px-2.5 py-1 rounded-lg border border-emerald-800/40 self-start sm:self-auto">
@@ -823,12 +1077,12 @@ export default function TodayCommandCenterPage() {
             </div>
           </div>
 
-          {/* Exact Topic PYQ Card */}
+          {/* Exact Topic PYQ & MCQ Card */}
           <div className="p-5 rounded-xl bg-slate-950/80 border border-purple-500/30 flex flex-col justify-between space-y-3">
             <div>
               <div className="flex items-center justify-between mb-2">
                 <span className="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-purple-600/30 text-purple-300 border border-purple-500/30">
-                  GATEOverflow
+                  GATEOverflow & MCQs
                 </span>
                 <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-slate-300 border border-slate-700">
                   {currentDay.pyqResource?.target || 15} PYQs Target
@@ -838,27 +1092,40 @@ export default function TodayCommandCenterPage() {
                 {taskResources.pyq.title}
               </h4>
               <p className="text-[11px] text-slate-400 mt-1">
-                Curated official GATE questions with full peer & topper solutions, alternative methods, and answer keys.
+                Curated official GATE questions with full peer solutions, along with verified exact topic MCQs directly below.
               </p>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-900">
+            <div className="space-y-2 pt-2 border-t border-slate-900">
+              <div className="flex flex-wrap items-center gap-2">
+                <a
+                  href={taskResources.pyq.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold shadow-md shadow-purple-600/20 transition-all"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span>Open exact topic PYQs ↗</span>
+                </a>
+                <a
+                  href={taskResources.official.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center justify-center gap-1.5 py-2.5 px-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold border border-slate-700 transition-all"
+                >
+                  <span>IIT GATE paper ↗</span>
+                </a>
+              </div>
+
+              {/* Exact Topic MCQs link directly below the GATEOverflow link */}
               <a
-                href={taskResources.pyq.url}
+                href={taskResources.topicMcq.url}
                 target="_blank"
                 rel="noreferrer"
-                className="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold shadow-md shadow-purple-600/20 transition-all"
+                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold shadow-md shadow-teal-600/20 transition-all"
               >
-                <ExternalLink className="w-3.5 h-3.5" />
-                <span>Open exact topic PYQs ↗</span>
-              </a>
-              <a
-                href={taskResources.official.url}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center justify-center gap-1.5 py-2.5 px-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold border border-slate-700 transition-all"
-              >
-                <span>Open official GATE paper ↗</span>
+                <CheckCircle2 className="w-3.5 h-3.5" />
+                <span>{taskResources.topicMcq.actionLabel}</span>
               </a>
             </div>
           </div>
@@ -871,14 +1138,14 @@ export default function TodayCommandCenterPage() {
           <h3 className="text-sm font-bold text-white flex items-center gap-2">
             <Bot className="w-4 h-4 text-indigo-400" /> Ask Your AI Study Coach
           </h3>
-          <span className="text-xs text-slate-400">Natural Language Planner</span>
+          <span className="text-xs text-slate-400">Natural Language Planner & 10-Yr PYQ Archive</span>
         </div>
 
         {/* Query Input */}
         <div className="flex items-center gap-2">
           <input
             type="text"
-            placeholder="e.g. 'I have only 3 hours', 'I missed yesterday', 'What should I do now?'..."
+            placeholder="e.g. 'I have only 3 hours', 'Give me a 10-year PYQ on pointers', 'I missed yesterday'..."
             value={quickQuestion}
             onChange={(e) => setQuickQuestion(e.target.value)}
             onKeyDown={(e) => {
@@ -1008,5 +1275,19 @@ export default function TodayCommandCenterPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function TodayCommandCenterPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center min-h-[50vh] text-xs text-indigo-400">
+          Loading command center...
+        </div>
+      }
+    >
+      <TodayCommandCenterContent />
+    </Suspense>
   );
 }

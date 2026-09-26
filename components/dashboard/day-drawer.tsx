@@ -247,6 +247,19 @@ export const DayDrawer: React.FC<DayDrawerProps> = ({
                   <span>Open official GATE paper ↗</span>
                 </a>
               </div>
+
+              {/* EXACT TOPIC-WISE MCQ PRACTICE LINK (Directly Below GATEOverflow) */}
+              <div className="pt-1.5 border-t border-slate-900">
+                <a
+                  href={exact?.mcqs?.url || "https://www.geeksforgeeks.org/gate-cs-notes-gq/"}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-teal-600/20 hover:bg-teal-600 text-teal-300 hover:text-white border border-teal-500/30 text-xs font-bold transition-all shadow-sm group"
+                >
+                  <Bookmark className="w-3.5 h-3.5 text-teal-400 group-hover:text-white" />
+                  <span>Solve Exact Topic MCQs & Quiz ↗</span>
+                </a>
+              </div>
             </div>
           </div>
 
@@ -340,13 +353,20 @@ export const DayDrawer: React.FC<DayDrawerProps> = ({
           </div>
         </div>
 
-        {/* PRIORITY 5: AI STUDY COACH LAUNCHER FOOTER */}
-        <div className="pt-6 border-t border-slate-800 mt-6">
+        {/* PRIORITY 5: FULL DAY VIEW & AI COACH LAUNCHERS */}
+        <div className="pt-6 border-t border-slate-800 mt-6 space-y-2">
+          <Link
+            href={`/?day=${day.dayNumber}`}
+            onClick={onClose}
+            className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white text-xs font-bold shadow-lg shadow-indigo-600/30 transition-all"
+          >
+            <Play className="w-3.5 h-3.5 fill-current" /> Open Day {day.dayNumber} Full View ↗
+          </Link>
           <Link
             href={`/ai?day=${day.dayNumber}&subject=${encodeURIComponent(day.subject)}&topic=${encodeURIComponent(day.topic)}`}
-            className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-lg shadow-indigo-600/20 transition-all"
+            className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition-all"
           >
-            <Bot className="w-4 h-4" /> Ask AI Study Coach About Day {day.dayNumber} ({day.topic})
+            <Bot className="w-4 h-4 text-indigo-400" /> Ask AI Study Coach About Day {day.dayNumber}
           </Link>
         </div>
       </div>

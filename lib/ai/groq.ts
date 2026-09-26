@@ -1,12 +1,15 @@
 /**
  * Layer 2 — LLM Intelligence Layer (Groq & Heuristic Fallback)
  * 
- * Powered by Groq API (llama-3.3-70b-versatile) with fallback to Layer 1 Study Engine.
+ * Powered by Groq API (openai/gpt-oss-120b, openai/gpt-oss-20b, qwen/qwen3.8-27b)
+ * with robust fallback to Layer 1 Study Engine & 10-Year Official GATE PYQ Archive.
  * 
  * Enforces:
- * 1. Non-Negotiable Rule: The AI must NOT teach the subject. It manages, schedules, and guides.
- * 2. Immutable 90-Day Master Schedule (Oct 1 to Dec 29, 2026).
- * 3. Structured Explainability (Reason Codes & Before/After diffs).
+ * 1. Warm, friendly, supportive, and empathetic mentor personality.
+ * 2. Non-Negotiable Rule: The AI must NOT teach the subject as a tutorial platform. It manages, schedules, and guides.
+ * 3. Exact Topic Resource Locators: Gate Smashers lectures, GATEOverflow PYQs, Topic MCQs, and IIT Official papers.
+ * 4. 10-Year Official GATE PYQ Archive integration with complete step-by-step solutions and trap warnings.
+ * 5. Immutable 90-Day Master Schedule (Oct 1 to Dec 29, 2026).
  */
 
 import {
@@ -23,6 +26,10 @@ import {
   formatSearchResultsToMarkdown,
   isSearchIntent,
 } from "@/lib/search-engine";
+import {
+  searchPyqArchive,
+  formatPyqToMarkdown,
+} from "@/lib/pyq-archive";
 
 export interface CoachContext {
   currentDay?: number;
@@ -45,42 +52,54 @@ export function buildStudyCoachPrompt(context: CoachContext, searchResultsContex
   const topic = context.topic || "C Variables, Data Types & Operators";
   const resources = resolveTaskResources(subject, topic, dayNum);
 
-  return `You are GATE Personal AI Coach & Resource Navigator.
+  return `You are the GATE 2027 Personal AI Study Coach & Resource Navigator.
 
-Your job is to manage, guide, schedule, remind, analyze, adapt, and navigate the user's GATE preparation.
-You are NOT a teaching platform.
+YOUR PERSONALITY & TONE:
+- Be warm, friendly, encouraging, empathetic, and supportive—like a great personal mentor who truly cares about the student's success.
+- Use encouraging language ("Great job!", "You've got this!", "Let's make today count!").
+- Keep stress low and confidence high.
+- Be clear, structured, and decisive.
 
-GREETING & WELCOME RULE:
-If the user says "hi", "hello", "hey", or asks for help getting started:
-Respond warmly and cleanly as their GATE 2027 Study Coach. Give a crisp 1-sentence snapshot of Today's active target (Day ${dayNum}: ${topic} in ${subject}), and present 4 structured action options they can choose:
-1. 🎯 **Today's Action Plan:** ${resources.isDirect ? `[Watch exact lecture ▶](${resources.primary.url})` : `[Open topic roadmap ↗](${resources.primary.url})`} & [Open exact topic PYQs ↗](${resources.pyq.url})
+CORE PRODUCT IDENTITY & PURPOSE:
+- You are a Study Manager, Scheduler, Accountability Partner, and Resource Navigator.
+- You are NOT a course/learning platform or lecture transcription tool.
+- You direct students to verified external resources:
+  - Video Lecture: [Watch exact lecture ▶](${resources.primary.url}) or [Open topic roadmap ↗](${resources.primary.url})
+  - GATE PYQs: [Open exact topic PYQs ↗](${resources.pyq.url})
+  - Exact Topic MCQs: [Solve Exact Topic MCQs ↗](${resources.topicMcq.url})
+  - Official IIT GATE Portal: [Open official GATE paper ↗](${resources.official.url})
+
+GREETING RULE:
+If the student says "hi", "hello", "hey", or asks for help getting started:
+Greet them warmly and enthusiastically! Give a crisp 1-sentence snapshot of Today's active target (Day ${dayNum}: ${topic} in ${subject}), and present 4 friendly choices:
+1. 🎯 **Today's Action Plan:** ${resources.isDirect ? `[Watch exact lecture ▶](${resources.primary.url})` : `[Open topic roadmap ↗](${resources.primary.url})`}, [Open exact topic PYQs ↗](${resources.pyq.url}), and [Solve Exact Topic MCQs ↗](${resources.topicMcq.url})
 2. ⏱️ **Time Compressor:** Tell me if you have only 2h, 3h, or 4h today and I will rebalance your workload.
 3. 🔍 **Find Any Syllabus Topic:** Ask me to find any lecture, roadmap, or PYQ bank across all 90 days (e.g. "find cache memory", "find paging", "where is day 45?").
-4. 🔄 **Missed-Day Catchup:** Tell me if you missed yesterday to slot a recovery block.
-Do NOT dump a massive schedule on a simple greeting!
+4. 📜 **10-Year Official GATE PYQ:** Ask me for practice questions on any topic to fetch real questions with solutions and trap warnings!
 
-SEARCH & RESOURCE FINDER RULE:
-If the user asks to "find", "search", "where is", "look up", or asks about ANY topic, chapter, question, or day across the 90-day syllabus:
-Use the verified search results below. Present a clean, structured result with:
-- 📌 Scheduled Day number & date
-- Subject & Syllabus concepts
-- Exact direct action buttons: [Watch exact lecture ▶](url) or [Open topic roadmap ↗](url), and [Open exact topic PYQs ↗](url).
+10-YEAR OFFICIAL GATE PYQ ARCHIVE RULE:
+If the user asks for practice questions, PYQs, problems, or wants to test their understanding on ANY topic:
+Present an authentic official GATE question from the archive with:
+- 📜 Paper, Year & Marks (e.g. GATE CS 2024 / 2023 / 2022)
+- Question statement & options
+- Correct Answer
+- Complete Step-by-Step Solution
+- ⚠️ Examiner Trap Warning (to avoid negative marking)
+- Link to GATEOverflow discussion
 
 NON-NEGOTIABLE PRODUCT RULE:
-Do NOT teach full academic lessons unless the user explicitly requests a tiny clarification needed to complete a task. Even then, stay concise and redirect to the assigned external learning resource.
+Do NOT write lengthy academic textbooks or replace the primary lecture.
+If the student asks to teach a massive topic from scratch ("Teach me DBMS normalization"), respond with warm guidance:
+"Hey! For ${topic}, the most effective path is to study the assigned Gate Smashers lecture first, then test yourself on GATEOverflow and our Topic MCQs. Here are your direct links for today:
+* ${resources.isDirect ? `[Watch exact lecture ▶](${resources.primary.url})` : `[Open topic roadmap ↗](${resources.primary.url})`}
+* [Open exact topic PYQs ↗](${resources.pyq.url})
+* [Solve Exact Topic MCQs ↗](${resources.topicMcq.url})
+I am right here to help you schedule your hours, explain examiner traps, and review your solutions!"
 
-If the user asks:
-"Teach me DBMS normalization" or "Explain Pointers from scratch"
-Respond with a guidance-oriented redirect such as:
-"For today's plan, open the assigned Gate Smashers resource, study the specified section, then solve the assigned PYQs on GATEOverflow. I can help you decide the order, time, practice target, and revision schedule."
-
-FORMATTING & STRUCTURE RULE:
-- Use clean Markdown with headers (###), bullet points, and bold emphasis.
-- Always use clickable markdown links [text](url) for all resources so the UI renders them as rich interactive buttons:
-  - Video links: [Watch exact lecture ▶](url) or [Open topic roadmap ↗](url)
-  - PYQ links: [Open exact topic PYQs ↗](url)
-  - Official links: [Open official GATE paper ↗](url)
-- Keep responses concise, direct, and actionable. Never output raw unformatted text dumps.
+FORMATTING RULES:
+- Use clean Markdown with headers (###), bullet points, and bold text.
+- Always use clickable markdown links [text](url) so the UI renders them as interactive buttons.
+- Keep responses friendly, crisp, and actionable.
 
 ACTIVE STUDENT CONTEXT:
 - Today's Date: ${context.date || "2026-10-01"}
@@ -91,10 +110,9 @@ ACTIVE STUDENT CONTEXT:
 - Daily Available Hours: ${context.availableHours || 6} Hours
 - Missed Previous Day: ${context.missedYesterday ? "YES (Needs Recovery Overlay)" : "NO (On Track)"}
 - Execution Risk Status: ${context.riskStatus || "ON_TRACK"}
-- Known Weak Topics: ${context.weakTopics?.length ? context.weakTopics.join(", ") : "None yet recorded"}
-- Recent Mistake Areas: ${context.recentMistakes?.length ? context.recentMistakes.join("; ") : "None recorded"}
 - TODAY'S EXACT VERIFIED VIDEO: ${resources.primary.title} (${resources.primary.url}) [Direct: ${resources.isDirect ? "YES" : "NO"}]
 - TODAY'S EXACT VERIFIED PYQS: ${resources.pyq.title} (${resources.pyq.url})
+- TODAY'S EXACT TOPIC MCQS: ${resources.topicMcq.title} (${resources.topicMcq.url})
 - OFFICIAL GATE SYLLABUS/PAPERS: ${resources.official.url}
 ${searchResultsContext ? `\nVERIFIED SYLLABUS & RESOURCE SEARCH RESULTS FOR USER QUERY:\n${searchResultsContext}` : ""}
 `;
@@ -116,55 +134,77 @@ export function getHeuristicCoachResponse(query: string, context: CoachContext):
     ? `[Watch exact lecture ▶](${resources.primary.url})`
     : `[Open topic roadmap ↗](${resources.primary.url})`;
   const pyqAction = `[Open exact topic PYQs ↗](${resources.pyq.url})`;
+  const mcqAction = `[Solve Exact Topic MCQs ↗](${resources.topicMcq.url})`;
 
   // 0. Greeting handler (e.g. "hi", "hello", "hey")
   if (lower === "hi" || lower === "hello" || lower === "hey" || lower === "start" || lower === "help") {
-    return `### 👋 Welcome to Your GATE 2027 AI Study Coach
+    return `### 👋 Hey there! Welcome to Your GATE 2027 AI Coach
 
-I am your personal study manager, scheduler, and resource navigator.
+I'm your personal study manager, scheduler, and resource navigator. Let's make every hour count!
 
 **Today's Active Focus (Day ${dayNum} of 90):**
 * **Subject:** ${subject}
 * **Goal:** ${topic}
-* **Planned Time:** ${hours} Hours
+* **Planned Schedule:** ${hours} Hours
 
-**What would you like me to do right now?**
-1. 🎯 **Give Me Today's Schedule:** ${videoAction} & ${pyqAction}
+**How can I help you right now?**
+1. 🎯 **Today's Action Plan:** ${videoAction} • ${pyqAction} • ${mcqAction}
 2. ⏱️ **Time Compressor:** Tell me if you have only 2h, 3h, or 4h today and I will rebalance your workload.
 3. 🔍 **Find Any Syllabus Topic:** Type *"find cache memory"*, *"find Dijkstra"*, or *"where is day 45?"*.
-4. 🔄 **Missed-Day Catchup:** Type *"I missed yesterday"* to slot an automatic recovery block.`;
+4. 📜 **10-Year GATE PYQ:** Ask me for a question on any topic to test yourself with full solutions!
+5. 🔄 **Missed-Day Catchup:** Type *"I missed yesterday"* to slot an automatic recovery block without disturbing the master plan.`;
   }
 
-  // 1. Search / Finder intent
+  // 1. Question / PYQ intent
+  if (
+    lower.includes("pyq") ||
+    lower.includes("question") ||
+    lower.includes("problem") ||
+    lower.includes("solve") ||
+    lower.includes("10 year")
+  ) {
+    const matchedPyqs = searchPyqArchive(query, 2);
+    if (matchedPyqs.length > 0) {
+      let resp = `### 🎯 Official GATE Practice Questions for You\n\nHere are authentic questions from our 10-year GATE archive matched to your request:\n\n`;
+      matchedPyqs.forEach((q) => {
+        resp += formatPyqToMarkdown(q) + `\n\n`;
+      });
+      resp += `**Direct Next Step:**\n* Open ${pyqAction} to solve more questions on this topic.\n* Test your speed on ${mcqAction}.`;
+      return resp;
+    }
+  }
+
+  // 2. Search / Finder intent
   if (isSearchIntent(query)) {
     const searchResults = searchKnowledgeBase(query);
     return formatSearchResultsToMarkdown(searchResults, query);
   }
 
-  // 1. Redirection if user asks the AI to teach academic subject matter
+  // 3. Redirection if user asks the AI to teach academic subject matter
   if (
     lower.startsWith("teach me") ||
     lower.includes("explain the concept of") ||
     lower.includes("give me a lecture on") ||
     lower.includes("explain in detail what is")
   ) {
-    return `### 🛑 Study Coach Guidance: External Resource First
+    return `### 🛑 External Resource First — Let's Master ${topic}!
 
-As your GATE Personal Study Coach, my job is to guide your schedule and execution—**not to replace your primary learning source**.
+As your GATE Personal Coach, my job is to guide your schedule and execution—**not to replace your primary learning source**.
 
 **Recommended Action for ${topic}:**
-1. **Open Assigned Resource:**
-   * Launch **Gate Smashers** for **${topic}**: ${videoAction}.
-   * Study the core 45-minute video block.
-2. **Immediate Application:**
+1. **Watch the Verified Lecture:**
+   * Launch **Gate Smashers**: ${videoAction}.
+   * Complete the core 45-minute conceptual block.
+2. **Solve Official GATE Questions:**
    * Open **GATEOverflow**: ${pyqAction} and solve 5 topic PYQs.
-3. **Log Doubts:**
+   * Test yourself on **Topic MCQs**: ${mcqAction}.
+3. **Log Doubts & Edge Cases:**
    * Write down the specific formula or edge case in your **Error Book**.
 
-*I will help you decide the time allocation, practice target, and spaced revision schedule!*`;
+*I am right here to help you decide your time allocation, practice targets, and recovery schedule!*`;
   }
 
-  // 2. "What should I do now?" / "What is today's plan?"
+  // 4. "What should I do now?" / "What is today's plan?"
   if (lower.includes("what should i do") || lower.includes("what is today") || lower.includes("start now")) {
     return `### 🎯 Today's Action Plan — Day ${dayNum} of 90
 
@@ -173,28 +213,28 @@ As your GATE Personal Study Coach, my job is to guide your schedule and executio
 **Primary Goal:** ${topic}
 
 **Execute in this exact priority sequence:**
-1. **Spaced Revision Warm-up (15m)**
-   * Review yesterday's formula card and key traps.
+1. **Formula & Edge Case Warm-up (15m)**
+   * Review yesterday's formula card and key traps in your Error Book.
 2. **Theory Study (80m)**
-   * Open ${videoAction} and study **${topic}**.
+   * Open ${videoAction} and master **${topic}**.
 3. **Concept Notes (25m)**
    * Write one page of formulas and boundary conditions in your notebook.
 4. **GATEOverflow PYQs (60m)**
    * Open ${pyqAction} and solve 10–12 real GATE questions.
-5. **AI Practice & Traps (30m)**
-   * Solve 3 fresh challenge questions in the AI Practice Lab.
-6. **Error Book & Log (15m)**
-   * Log any question rated C (guessed) or D (wrong) into your Error Book.
+5. **Exact Topic MCQs Practice (30m)**
+   * Open ${mcqAction} and solve topic quizzes to test speed under time limits.
+6. **Error Book & Reflection (15m)**
+   * Log any question rated guessed or wrong into your Error Book with the preventive rule.
 
-**AI Note:** You are currently **ON TRACK**. Protect the 60-minute PYQ block above all else.`;
+**AI Note:** You are currently **ON TRACK**. Protect the 60-minute PYQ block above all else!`;
   }
 
-  // 3. Limited time (e.g. 2h or 3h)
+  // 5. Limited time (e.g. 2h or 3h)
   if (lower.includes("2 hour") || lower.includes("3 hour") || lower.includes("limited time") || lower.includes("only have")) {
     return `### ⏱️ Time-Compressed Plan (${hours <= 3 ? hours : 2} Hours)
 
 **Reason Code:** \`TIME_LIMIT\`  
-Because your available time is constrained, the study engine automatically protects core concept retention and top PYQs while deferring enrichment.
+Because your available time is constrained, the study engine automatically protects core concept retention and top PYQs while deferring secondary tasks.
 
 **Protected Today (Non-Negotiable):**
 1. **Core Concept Theory (50 min)**
@@ -205,31 +245,31 @@ Because your available time is constrained, the study engine automatically prote
    * Note edge cases to avoid making repeat mistakes.
 
 **Deferred to Buffer Session:**
-* ❌ Defer optional fresh AI practice questions.
-* ❌ Defer General Aptitude block.
+* ❌ Defer secondary MCQ quizzes.
+* ❌ Defer General Aptitude block to weekend buffer.
 
-*The master 90-day timetable remains completely intact. Complete these 3 blocks and your day is a success.*`;
+*The master 90-day timetable remains completely intact. Complete these 3 blocks and your day is a total win!*`;
   }
 
-  // 4. Extra time (e.g. 8 hours)
+  // 6. Extra time (e.g. 8 hours)
   if (lower.includes("8 hour") || lower.includes("extra time") || lower.includes("free all day")) {
     return `### ⚡ High-Capacity Deep Study Plan (8 Hours)
 
 **Reason Code:** \`AHEAD_OF_PLAN\`  
-The engine does **not** blindly fast-forward future chapters. Instead, extra capacity is allocated to deep PYQ mastery and weak-topic reinforcement to lock in marks.
+The engine does **not** blindly fast-forward future chapters. Instead, extra capacity is allocated to deep PYQ mastery, topic MCQs, and weak-topic reinforcement to lock in marks.
 
 **8-Hour Structure:**
-1. **Spaced Revision (30m):** Clear overdue revision cards.
+1. **Concept Warm-up (30m):** Review recent mistake logs in Error Book.
 2. **Master Theory Block (150m):** Deep theory on **${topic}** via ${videoAction}.
 3. **Summary & Formula Sheet (45m):** Detailed personal derivation sheet.
 4. **Deep GATE PYQs (100m):** Solve 20 questions on ${pyqAction}.
-5. **Trap Detection Practice (45m):** Test edge cases in AI Practice Lab.
+5. **Exact Topic MCQs (45m):** Solve speed quizzes via ${mcqAction}.
 6. **Error Book Deep Log (20m):** Write one-line preventive rules for each mistake.
 7. **Targeted Weak-Topic Repair (45m):** Re-test previous mistake concepts.
 8. **Rest & Buffer (45m):** Prevents cognitive burnout.`;
   }
 
-  // 5. Missed yesterday / behind schedule
+  // 7. Missed yesterday / behind schedule
   if (lower.includes("miss") || lower.includes("yesterday") || lower.includes("behind") || lower.includes("could not study")) {
     return `### 🔄 Missed-Day Recovery Overlay
 
@@ -242,25 +282,25 @@ The engine does **not** blindly fast-forward future chapters. Instead, extra cap
 2. **Recovery Injection Block (35 min):**
    * Re-solve the 3 most essential PYQs from yesterday's missed topic on ${pyqAction}.
 3. **Deferred:**
-   * Extra practice sets are moved to Sunday's buffer window.
+   * Secondary MCQ sets are moved to Sunday's buffer window.
 
 *Estimated recovery time: 1–2 days. You are still fully on track for GATE 2027!*`;
   }
 
-  // 6. Finished early
+  // 8. Finished early
   if (lower.includes("finished early") || lower.includes("done early") || lower.includes("early")) {
     const early = handleEarlyCompletion(30, topic);
-    return `### 🏆 Finished Early
+    return `### 🏆 Finished Early — Fantastic Work!
 
 ${early.recommendation}
 
 **Recommended Next Step:**
 * **Action:** ${early.suggestedAction}
 * **Task:** ${early.nextTaskTitle} (${early.minutes} min)
-* Open your **Spaced Revision Center** or solve 3 additional questions on **GATEOverflow**.`;
+* Open ${mcqAction} or solve 3 additional questions on ${pyqAction}.`;
   }
 
-  // 7. "Why did you change this?"
+  // 9. "Why did you change this?"
   if (lower.includes("why did you change") || lower.includes("why change")) {
     return `### 🔍 Schedule Explanation
 
@@ -274,17 +314,18 @@ ${early.recommendation}
 *The master 90-day end date of December 29, 2026 remains unchanged.*`;
   }
 
-  // 8. Default Coach Response
+  // 10. Default Coach Response
   return `### 📋 GATE Study Coach Directive — Day ${dayNum}
 
 **Current Focus:** ${subject} • ${topic}  
 **Available Hours:** ${hours} Hours
 
-1. **Step 1:** Study theory via [Gate Smashers ↗](https://www.gatesmashers.com/learn) (90m).
-2. **Step 2:** Solve assigned topic questions on [GATEOverflow ↗](https://gateoverflow.in/questions?sort=gate) (60m).
-3. **Step 3:** Record mistakes in your **Digital Error Book** (15m).
+1. **Step 1:** Study theory via ${videoAction} (90m).
+2. **Step 2:** Solve assigned topic questions on ${pyqAction} (60m).
+3. **Step 3:** Solve topic MCQs via ${mcqAction} (30m).
+4. **Step 4:** Record mistakes in your **Digital Error Book** (15m).
 
-*Tell me if your hours change or if you need a recovery plan!*`;
+*Tell me if your hours change, if you need a recovery plan, or ask me for an official GATE question to practice!*`;
 }
 
 /**
@@ -302,7 +343,12 @@ export async function callGroqCoach(
   }
 
   const primaryModel = model || process.env.AI_MODEL || "openai/gpt-oss-120b";
-  const candidateModels = [primaryModel, "openai/gpt-oss-120b", "openai/gpt-oss-20b"];
+  const candidateModels = [
+    primaryModel,
+    "openai/gpt-oss-120b",
+    "openai/gpt-oss-20b",
+    "qwen/qwen3.8-27b",
+  ];
 
   let lastError: any = null;
 
@@ -324,7 +370,12 @@ export async function callGroqCoach(
 
       if (response.ok) {
         const data = await response.json();
-        return data.choices?.[0]?.message?.content || "No response received from Groq.";
+        const choice = data.choices?.[0];
+        let content = choice?.message?.content;
+        if (!content && choice?.message?.reasoning) {
+          content = choice.message.reasoning;
+        }
+        return content || "No response received from Groq.";
       }
 
       const errorText = await response.text();

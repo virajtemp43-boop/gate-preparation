@@ -122,7 +122,12 @@
         "Primitive types & qualifiers",
         "Arithmetic, logical & bitwise operators",
         "Operator precedence & associativity"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: C Variables, Data Types & Operators",
+        "url": "https://www.geeksforgeeks.org/c-programming-multiple-choice-questions/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -249,7 +254,12 @@
         "if-else nesting & short-circuit evaluation",
         "switch-case fallthrough rules",
         "while, for, do-while loop termination"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Control Flow: Conditionals & Loops",
+        "url": "https://www.geeksforgeeks.org/data-structure-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -376,7 +386,12 @@
         "Pass by value mechanics",
         "auto, register, static, extern",
         "Scope, lifetime and visibility"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Functions, Scope & Storage Classes",
+        "url": "https://www.geeksforgeeks.org/data-structure-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -503,7 +518,12 @@
         "Row-major vs Column-major order",
         "Address computation formula for A[i][j]",
         "Array as function arguments"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: 1D & 2D Arrays: Memory Layout & Addressing",
+        "url": "https://www.geeksforgeeks.org/c-programming-multiple-choice-questions/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -629,7 +649,12 @@
         "Pointer syntax & dereference (*p)",
         "Pointer arithmetic scaling rules",
         "*(a + i) == a[i] identity and pointers to arrays"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Pointers & Pointer Arithmetic",
+        "url": "https://www.geeksforgeeks.org/c-programming-multiple-choice-questions/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -755,7 +780,12 @@
         "Null character '\\0' termination",
         "String literals vs char array buffers",
         "Standard library string functions (strlen, strcpy, strcmp)"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Strings & Character Arrays",
+        "url": "https://www.geeksforgeeks.org/c-programming-multiple-choice-questions/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -874,7 +904,12 @@
         "Structure padding & memory alignment",
         "Union shared memory representation",
         "Week 1 Comprehensive C Programming Test"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Structures, Unions & Week 1 Review",
+        "url": "https://www.geeksforgeeks.org/data-structure-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -1002,7 +1037,12 @@
         "Base conditions & infinite recursion",
         "Head vs Tail recursion",
         "Activation record call stack tracing"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Recursion & Call Stack Tracing",
+        "url": "https://www.geeksforgeeks.org/data-structure-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -1129,7 +1169,12 @@
         "Node insertion & deletion edge cases",
         "In-place list reversal",
         "Cycle detection (Floyd’s Tortoise and Hare)"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Singly Linked Lists: Operations & Pointer Updates",
+        "url": "https://www.geeksforgeeks.org/c-programming-multiple-choice-questions/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -1256,7 +1301,12 @@
         "Circular list boundary conditions",
         "Doubly linked list deletion pointer updates",
         "Polynomial representation using lists"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Doubly & Circular Linked Lists",
+        "url": "https://www.geeksforgeeks.org/data-structure-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -1383,7 +1433,12 @@
         "Array & Linked Stack implementations",
         "Shunting Yard algorithm (Infix to Postfix)",
         "Evaluation of postfix and prefix expressions"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Stacks: Operations, Infix to Postfix & Evaluation",
+        "url": "https://www.geeksforgeeks.org/data-structure-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -1510,7 +1565,12 @@
         "Valid stack permutation checking",
         "Catalan number formula for stack permutations",
         "Implementing two stacks in one array"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Stack Applications: Permutations & Two-Stack Tricks",
+        "url": "https://www.geeksforgeeks.org/data-structure-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -1637,7 +1697,12 @@
         "Circular queue full and empty conditions",
         "Queue using two stacks amortized analysis",
         "Deques & Priority queue representation"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Queues, Circular Queues & Priority Queues",
+        "url": "https://www.geeksforgeeks.org/data-structure-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -1764,7 +1829,12 @@
         "Lists, Stacks, Queues combined test",
         "Error Book review for linear structures",
         "Week 2 progress checkpoint"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Linear Data Structures Review & Timed Test",
+        "url": "https://www.geeksforgeeks.org/data-structure-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -1891,7 +1961,12 @@
         "Formal mathematical definitions of O, Omega, Theta, o, omega",
         "Properties of asymptotic bounds (transitivity, symmetry)",
         "Comparing growth rates of functions"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Asymptotic Notation: Big-O, Omega, Theta",
+        "url": "https://www.geeksforgeeks.org/algorithms-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -2018,7 +2093,12 @@
         "Master Theorem Case 1, 2, 3",
         "Extended Master Theorem for logarithmic factors",
         "Substitution method & recursion trees for non-Master recurrences"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Recurrence Relations & Master Theorem",
+        "url": "https://www.geeksforgeeks.org/algorithms-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -2145,7 +2225,12 @@
         "Full, Complete, Strict Binary Tree properties",
         "Inorder, Preorder, Postorder traversals",
         "Constructing unique tree from given traversals"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Binary Trees & Tree Traversals",
+        "url": "https://www.geeksforgeeks.org/data-structure-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -2272,7 +2357,12 @@
         "BST property & search/insert/delete",
         "Inorder of BST is always sorted",
         "AVL tree rotations (LL, RR, LR, RL) and balance factor"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Binary Search Trees (BST) & AVL Trees",
+        "url": "https://www.geeksforgeeks.org/data-structure-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -2399,7 +2489,12 @@
         "Min-Heap & Max-Heap properties and array storage",
         "Heapify algorithm: O(n) construction",
         "Heap Sort & priority queue operations"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Binary Heaps & Priority Queues",
+        "url": "https://www.geeksforgeeks.org/data-structure-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -2526,7 +2621,12 @@
         "Merge Sort, Quick Sort analysis",
         "Counting Sort, Radix Sort",
         "Comparison sort lower bound Omega(n log n) proof"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Sorting Algorithms & Lower Bounds",
+        "url": "https://www.geeksforgeeks.org/algorithms-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -2653,7 +2753,12 @@
         "Greedy choice property & optimal substructure",
         "Huffman coding & prefix tree calculation",
         "Activity selection & fractional knapsack"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Greedy Algorithms & Divide and Conquer",
+        "url": "https://www.geeksforgeeks.org/algorithms-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -2780,7 +2885,12 @@
         "Tautology, Contradiction, Contingency",
         "Logical equivalences (De Morgan, Implication rule)",
         "Inference rules (Modus Ponens, Modus Tollens)"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Propositional Logic & Truth Tables",
+        "url": "https://www.geeksforgeeks.org/discrete-mathematics-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -2907,7 +3017,12 @@
         "Universal and existential quantifiers (\\forall, \\exists)",
         "Negation of quantified statements",
         "Translating complex English sentences to predicate logic"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: First-Order Predicate Logic",
+        "url": "https://www.geeksforgeeks.org/discrete-mathematics-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -3034,7 +3149,12 @@
         "Set identities & Power set properties",
         "Reflexive, Symmetric, Transitive, Antisymmetric relations",
         "Equivalence relations & equivalence classes"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Sets, Relations & Equivalence Relations",
+        "url": "https://www.geeksforgeeks.org/discrete-mathematics-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -3161,7 +3281,12 @@
         "Posets & drawing Hasse diagrams",
         "Maximal, minimal, greatest, least elements",
         "Lattices: Join (LUB) and Meet (GLB) properties"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Partial Orders, Hasse Diagrams & Lattices",
+        "url": "https://www.geeksforgeeks.org/discrete-mathematics-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -3288,7 +3413,12 @@
         "Pigeonhole Principle and generalized PHP",
         "Inclusion-Exclusion Principle",
         "Generating functions and binomial coefficients"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Combinatorics: Permutations, Combinations & Pigeonhole",
+        "url": "https://www.geeksforgeeks.org/discrete-mathematics-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -3415,7 +3545,12 @@
         "Sample space, events, independence",
         "Conditional probability formula $P(A|B) = \\frac{P(A \\cap B)}{P(B)}$",
         "Bayes Theorem for posterior probability"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Probability: Conditional Probability & Bayes Theorem",
+        "url": "https://www.geeksforgeeks.org/gate-cs-notes-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -3542,7 +3677,12 @@
         "Discrete random variables: Expectation & Variance",
         "Binomial distribution and Poisson distribution",
         "Uniform distribution & basic Normal distribution"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Random Variables & Distributions",
+        "url": "https://www.geeksforgeeks.org/gate-cs-notes-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -3669,7 +3809,12 @@
         "Matrix determinants and row operations",
         "Rank of a matrix via echelon form",
         "Consistency of $AX = B$ (Unique, Infinite, No solution)"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Linear Algebra: Matrices, Rank & Systems of Equations",
+        "url": "https://www.geeksforgeeks.org/gate-cs-notes-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -3796,7 +3941,12 @@
         "Characteristic equation $\\det(A - \\lambda I) = 0$",
         "Properties of Eigenvalues (Sum = Trace, Product = Determinant)",
         "Cayley-Hamilton Theorem: $A$ satisfies its own characteristic equation"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Linear Algebra: Eigenvalues & Cayley-Hamilton",
+        "url": "https://www.geeksforgeeks.org/gate-cs-notes-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -3924,7 +4074,12 @@
         "C + DSA + Algorithms + Discrete Math + Engg Math",
         "Timed Full Month 1 Test on GATEOverflow",
         "Error Book review & Month 2 readiness check"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Month 1 Comprehensive Review & Diagnostic Test",
+        "url": "https://www.geeksforgeeks.org/c-programming-multiple-choice-questions/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -4052,7 +4207,12 @@
         "Binary, Octal, Hexadecimal conversions",
         "1's and 2's complement arithmetic",
         "IEEE 754 Floating point format (Single & Double precision)"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Number Systems & Floating Point Representation",
+        "url": "https://www.geeksforgeeks.org/digital-electronics-logic-design-tutorials/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -4179,7 +4339,12 @@
         "Canonical SOP and POS forms",
         "K-Maps up to 4 variables with Don't Care conditions",
         "Prime Implicants (PI) and Essential Prime Implicants (EPI)"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Boolean Algebra & K-Maps",
+        "url": "https://www.geeksforgeeks.org/digital-electronics-logic-design-tutorials/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -4307,7 +4472,12 @@
         "Multiplexer tree and implementing Boolean functions",
         "Decoders with active-low enables",
         "Half/Full Adders & Carry Lookahead delay"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Combinational Circuits: Multiplexers & Decoders",
+        "url": "https://www.geeksforgeeks.org/digital-electronics-logic-design-tutorials/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -4434,7 +4604,12 @@
         "SR, JK, D, T Flip-flops",
         "Characteristic & Excitation tables",
         "Race-around condition and Master-Slave JK flip-flop"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Sequential Circuits: Latches & Flip-Flops",
+        "url": "https://www.geeksforgeeks.org/digital-electronics-logic-design-tutorials/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -4561,7 +4736,12 @@
         "Synchronous vs Asynchronous (Ripple) counters",
         "Designing Mod-N counters with arbitrary sequences",
         "Ring counter and Johnson counter states"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Counters & Shift Registers",
+        "url": "https://www.geeksforgeeks.org/digital-electronics-logic-design-tutorials/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -4688,7 +4868,12 @@
         "0, 1, 2, 3 address instruction formats",
         "Immediate, Direct, Indirect, Register, Indexed addressing",
         "PC-relative addressing and offset calculations"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Instruction Formats & Addressing Modes",
+        "url": "https://www.geeksforgeeks.org/computer-organization-and-architecture-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -4815,7 +5000,12 @@
         "Hardwired control vs Microprogrammed control",
         "Horizontal vs Vertical microinstructions",
         "Control store sizing and micro-operation sequencing"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: ALU, Datapath & Control Unit Design",
+        "url": "https://www.geeksforgeeks.org/computer-organization-and-architecture-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -4942,7 +5132,12 @@
         "Memory chip capacity and address decoding",
         "High-order vs Low-order interleaving",
         "Effective memory bandwidth"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Memory Hierarchy & Main Memory Interleaving",
+        "url": "https://www.geeksforgeeks.org/computer-organization-and-architecture-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -5069,7 +5264,12 @@
         "Direct mapping: Tag, Line, Word offset",
         "Fully associative mapping: Tag, Word offset",
         "K-way Set-Associative mapping: Tag, Set, Word offset"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Cache Memory: Direct, Associative & Set-Associative Mapping",
+        "url": "https://www.geeksforgeeks.org/computer-organization-and-architecture-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -5196,7 +5396,12 @@
         "Write-Through vs Write-Back",
         "LRU, FIFO, Optimal replacement policies",
         "Multi-level cache AMAT calculations"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Cache Policies & Average Memory Access Time (AMAT)",
+        "url": "https://www.geeksforgeeks.org/computer-organization-and-architecture-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -5323,7 +5528,12 @@
         "Pipeline throughput, speedup & efficiency",
         "Structural, Data (RAW, WAR, WAW), Control hazards",
         "Operand forwarding and branch penalty stalls"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Instruction Pipelining & Hazard Analysis",
+        "url": "https://www.geeksforgeeks.org/computer-organization-and-architecture-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -5450,7 +5660,12 @@
         "Programmed I/O vs Interrupt-driven I/O",
         "Direct Memory Access (DMA) cycle stealing vs burst mode",
         "DMA transfer time and bus utilization calculations"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: I/O Interface, Interrupts & DMA",
+        "url": "https://www.geeksforgeeks.org/computer-organization-and-architecture-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -5577,7 +5792,12 @@
         "Entity sets, attributes, relationships",
         "Cardinality and participation constraints",
         "Mapping ER diagrams to minimum number of relational tables"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: ER Modeling & Schema Mapping",
+        "url": "https://www.geeksforgeeks.org/dbms-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -5704,7 +5924,12 @@
         "Select, Project, Cartesian Product, Natural Join",
         "Set difference, Division operator",
         "Tuple Relational Calculus (TRC) safe expressions"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Relational Algebra & Relational Calculus",
+        "url": "https://www.geeksforgeeks.org/dbms-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -5831,7 +6056,12 @@
         "GROUP BY, HAVING vs WHERE clauses",
         "INNER, LEFT, RIGHT, FULL OUTER JOINS",
         "Correlated subqueries & NULL handling (3-valued logic)"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: SQL Queries, Aggregates & Subqueries",
+        "url": "https://www.geeksforgeeks.org/dbms-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -5958,7 +6188,12 @@
         "Armstrong axioms (Sound & Complete)",
         "Computing attribute closure $X^+$",
         "Finding all Candidate Keys and Super Keys"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Functional Dependencies & Attribute Closure",
+        "url": "https://www.geeksforgeeks.org/dbms-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -6086,7 +6321,12 @@
         "Lossless join decomposition test ($R_1 \\cap R_2 \\to R_1$ or $R_2$)",
         "Dependency preservation test",
         "Determining highest normal form of a relation"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Normalization: 1NF, 2NF, 3NF, BCNF",
+        "url": "https://www.geeksforgeeks.org/dbms-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -6213,7 +6453,12 @@
         "Conflict serializability and Precedence Graph testing",
         "View serializability & blind writes",
         "Recoverable, Cascadeless, and Strict schedules"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Transactions, ACID Properties & Serializability",
+        "url": "https://www.geeksforgeeks.org/dbms-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -6340,7 +6585,12 @@
         "Two-Phase Locking (2PL), Strict 2PL, Rigorous 2PL",
         "B-Tree and B+ Tree node order, keys, pointers",
         "Maximum and minimum keys in B/B+ trees of order $m$"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Concurrency Control & Indexing (B/B+ Trees)",
+        "url": "https://www.geeksforgeeks.org/dbms-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -6467,7 +6717,12 @@
         "Process state transition diagram & PCB",
         "fork() system call tree calculations",
         "User level threads vs Kernel level threads"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Processes, Threads & System Calls",
+        "url": "https://www.geeksforgeeks.org/operating-systems-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -6594,7 +6849,12 @@
         "FCFS, SJF, Shortest Remaining Time First (SRTF)",
         "Round Robin scheduling with time quantum",
         "Calculating Turnaround Time (TAT) and Waiting Time (WT)"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: CPU Scheduling Algorithms",
+        "url": "https://www.geeksforgeeks.org/operating-systems-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -6721,7 +6981,12 @@
         "Critical Section: Mutual Exclusion, Progress, Bounded Waiting",
         "Peterson's Algorithm proof",
         "Counting and Binary Semaphores (Wait/Signal)"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Process Synchronization & Semaphores",
+        "url": "https://www.geeksforgeeks.org/operating-systems-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -6848,7 +7113,12 @@
         "4 Coffman conditions for deadlock",
         "Resource Allocation Graph (RAG) and cycle detection",
         "Banker's Algorithm for deadlock avoidance (Need = Max - Alloc)"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Deadlocks: Necessary Conditions & Banker's Algorithm",
+        "url": "https://www.geeksforgeeks.org/operating-systems-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -6975,7 +7245,12 @@
         "Logical to physical address translation",
         "Page table size calculations & Multi-level paging",
         "Translation Lookaside Buffer (TLB) and Effective Memory Access Time (EMAT)"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Memory Management, Paging & TLB",
+        "url": "https://www.geeksforgeeks.org/operating-systems-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -7102,7 +7377,12 @@
         "FIFO, Belady's Anomaly, Optimal, LRU page replacement",
         "Thrashing and Working Set Model",
         "Disk Scheduling: FCFS, SSTF, SCAN, C-SCAN"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Virtual Memory, Page Replacement & Disk Scheduling",
+        "url": "https://www.geeksforgeeks.org/operating-systems-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -7229,7 +7509,12 @@
         "OSI 7-layer vs TCP/IP model responsibilities",
         "Framing & Bit/Byte stuffing",
         "Cyclic Redundancy Check (CRC) polynomial division"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Layered Models & Data Link Layer Framing / Error Control",
+        "url": "https://www.geeksforgeeks.org/computer-networks-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -7356,7 +7641,12 @@
         "Stop and Wait efficiency $\\eta = \\frac{1}{1 + 2a}$",
         "Go-Back-N protocol window size $W_s = 2^k - 1, W_r = 1$",
         "Selective Repeat protocol window size $W_s = W_r = 2^{k-1}$"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Flow Control: Sliding Window Protocols",
+        "url": "https://www.geeksforgeeks.org/computer-networks-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -7483,7 +7773,12 @@
         "Pure ALOHA (18.4%) & Slotted ALOHA (36.8%) throughput",
         "CSMA/CD minimum frame length condition: $L \\ge 2 \\cdot T_p \\cdot B$",
         "Binary exponential backoff algorithm"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: MAC Layer: ALOHA, CSMA/CD & Ethernet",
+        "url": "https://www.geeksforgeeks.org/computer-networks-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -7610,7 +7905,12 @@
         "Classful addressing vs CIDR (/n notation)",
         "Subnet mask, Network ID, Broadcast ID calculations",
         "Longest Prefix Match in router forwarding tables"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Network Layer: IPv4, Subnetting, CIDR & Routing",
+        "url": "https://www.geeksforgeeks.org/computer-networks-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -7738,7 +8038,12 @@
         "TCP 3-way handshake & connection teardown",
         "TCP Congestion Control: Slow Start, Congestion Avoidance, Fast Retransmit",
         "Month 2 Core Systems Comprehensive Review"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Transport Layer: TCP, Congestion Control & Month 2 Review",
+        "url": "https://www.geeksforgeeks.org/computer-networks-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -7865,7 +8170,12 @@
         "DFA formal definition $(Q, \\Sigma, \\delta, q_0, F)$",
         "Designing DFAs for modulo, substring, and prefix conditions",
         "Myhill-Nerode theorem and DFA state minimization"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: DFA Design & State Minimization",
+        "url": "https://www.geeksforgeeks.org/theory-of-computation-automata-theory-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -7992,7 +8302,12 @@
         "Subset construction algorithm (NFA to DFA)",
         "Regular expression identities (Arden's Theorem)",
         "Closure properties of regular languages"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: NFA, epsilon-NFA & Regular Expressions",
+        "url": "https://www.geeksforgeeks.org/theory-of-computation-automata-theory-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -8119,7 +8434,12 @@
         "Pumping Lemma for regular languages",
         "Proving languages non-regular using pumping lemma",
         "Counting vs memory limitations of finite automata"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Pumping Lemma & Regular Language Identification",
+        "url": "https://www.geeksforgeeks.org/theory-of-computation-automata-theory-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -8246,7 +8566,12 @@
         "CFG derivations, parse trees, leftmost vs rightmost",
         "Ambiguous grammars & inherently ambiguous languages",
         "Chomsky Normal Form (CNF) parsing length bounds"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Context-Free Grammars (CFG) & Ambiguity",
+        "url": "https://www.geeksforgeeks.org/theory-of-computation-automata-theory-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -8373,7 +8698,12 @@
         "Deterministic PDA (DPDA) vs Non-Deterministic PDA (NPDA)",
         "DCFL vs CFL distinctions",
         "Closure properties of CFLs (Closed under union, concatenation, star; NOT closed under intersection, complement)"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Pushdown Automata (PDA) & CFL Closure Properties",
+        "url": "https://www.geeksforgeeks.org/theory-of-computation-automata-theory-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -8500,7 +8830,12 @@
         "Turing Machine formal definition",
         "Recursive (Decidable) vs Recursively Enumerable (RE / Semi-decidable)",
         "Undecidability proofs, Halting Problem, and Rice's Theorem"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Turing Machines, Decidability & Halting Problem",
+        "url": "https://www.geeksforgeeks.org/theory-of-computation-automata-theory-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -8627,7 +8962,12 @@
         "Tokens, Patterns, Lexemes differentiation",
         "Handling whitespace, comments, and longest match rule",
         "Counting tokens in C program snippets"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Lexical Analysis & Tokenization",
+        "url": "https://www.geeksforgeeks.org/compiler-design-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -8754,7 +9094,12 @@
         "Computing FIRST and FOLLOW sets systematically",
         "LL(1) parsing table construction",
         "Eliminating left recursion and left factoring"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Top-Down Parsing: FIRST & FOLLOW Sets, LL(1)",
+        "url": "https://www.geeksforgeeks.org/compiler-design-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -8881,7 +9226,12 @@
         "Canonical LR(0) items collection",
         "Shift-Reduce and Reduce-Reduce conflicts",
         "Comparison of parser power: LR(0) < SLR(1) < LALR(1) < CLR(1)"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Bottom-Up Parsing: LR(0), SLR(1), LALR(1), CLR(1)",
+        "url": "https://www.geeksforgeeks.org/compiler-design-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -9008,7 +9358,12 @@
         "Synthesized vs Inherited attributes",
         "S-attributed definitions (bottom-up evaluable)",
         "L-attributed definitions (left-to-right top-down evaluable)"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Syntax-Directed Translation (SDT)",
+        "url": "https://www.geeksforgeeks.org/compiler-design-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -9135,7 +9490,12 @@
         "Three-Address Code (TAC), Quadruples, Triples",
         "Basic Blocks and Control Flow Graphs (CFG)",
         "Loop optimizations, dead code elimination, common subexpression elimination"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Intermediate Code & Code Optimization",
+        "url": "https://www.geeksforgeeks.org/compiler-design-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -9262,7 +9622,12 @@
         "L'Hopital's Rule for 0/0 and inf/inf indeterminate forms",
         "Continuity at a point",
         "Mean Value Theorems (Rolle's & Lagrange's MVT)"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Calculus: Limits, Continuity & Differentiability",
+        "url": "https://www.geeksforgeeks.org/gate-cs-notes-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -9389,7 +9754,12 @@
         "First and Second derivative tests for local extrema",
         "Global maxima and minima on closed intervals",
         "Properties of definite integrals"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Calculus: Maxima, Minima & Definite Integrals",
+        "url": "https://www.geeksforgeeks.org/gate-cs-notes-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -9516,7 +9886,12 @@
         "Handshaking Lemma: $\\sum \\text{deg}(v) = 2|E|$",
         "Bipartite graphs & 2-colorability ($K_{m,n}$)",
         "Eulerian and Hamiltonian graphs"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Graph Theory: Fundamentals, Paths & Degrees",
+        "url": "https://www.geeksforgeeks.org/discrete-mathematics-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -9643,7 +10018,12 @@
         "Euler's planar formula: $V - E + F = 2$",
         "Maximum edges in planar graphs: $E \\le 3V - 6$",
         "Spanning trees, Cayley's formula $n^{n-2}$, Chromatic number"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Graph Theory: Planarity, Trees & Chromatic Number",
+        "url": "https://www.geeksforgeeks.org/discrete-mathematics-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -9770,7 +10150,12 @@
         "Spatial reasoning & paper folding",
         "Time & work, pipes & cisterns",
         "Reading comprehension speed-drills"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: General Aptitude: Comprehensive Speed Revision",
+        "url": "https://www.geeksforgeeks.org/gate-cs-notes-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -9897,7 +10282,12 @@
         "Pointers, recursion, stack expression evaluation",
         "BST, AVL, Heap operations blitz",
         "Re-solving all Class B & C mistakes from Month 1"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: High-Yield Revision 1: Programming & Data Structures",
+        "url": "https://www.geeksforgeeks.org/gate-cs-notes-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -10024,7 +10414,12 @@
         "Master theorem, sorting stability, Huffman coding",
         "Logic, relation counting, graph planarity",
         "Re-solving Class B & C mistakes"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: High-Yield Revision 2: Algorithms & Discrete Math",
+        "url": "https://www.geeksforgeeks.org/gate-cs-notes-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -10151,7 +10546,12 @@
         "K-Maps, float IEEE 754, counters",
         "Cache mapping, AMAT, pipeline speedup",
         "Error Book repairs in folders 06 & 07"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: High-Yield Revision 3: Digital Logic & COA",
+        "url": "https://www.geeksforgeeks.org/c-programming-multiple-choice-questions/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -10278,7 +10678,12 @@
         "SQL joins, 3NF/BCNF, conflict serializability",
         "Scheduling Gantt charts, Banker's algorithm, TLB paging",
         "Error Book repairs in folders 08 & 09"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: High-Yield Revision 4: DBMS & Operating Systems",
+        "url": "https://www.geeksforgeeks.org/gate-cs-notes-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -10405,7 +10810,12 @@
         "Sliding window efficiency, subnetting, CIDR",
         "DFA state minimization, pumping lemma, decidability",
         "Error Book repairs in folders 10 & 11"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: High-Yield Revision 5: Computer Networks & TOC",
+        "url": "https://www.geeksforgeeks.org/gate-cs-notes-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -10532,7 +10942,12 @@
         "FIRST & FOLLOW sets, LL(1) / LR conflicts, SDT",
         "Eigenvalues, Bayes Theorem, Calculus limits",
         "Error Book repairs in folders 05 & 12"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: High-Yield Revision 6: Compiler Design & Engg Math",
+        "url": "https://www.geeksforgeeks.org/gate-cs-notes-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -10659,7 +11074,12 @@
         "Repairing concepts where accuracy was < 60%",
         "Re-attempting 3-times repeated mistakes from Error Book",
         "One-on-one AI Coach diagnostics on stubborn doubts"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Targeted Weak-Topic Repair: Core Systems (COA, OS, DBMS)",
+        "url": "https://www.geeksforgeeks.org/c-programming-multiple-choice-questions/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -10786,7 +11206,12 @@
         "Pointer arithmetic edge cases & recursion tracing",
         "Dynamic programming & graph algorithm complexities",
         "Error Book folder review"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Targeted Weak-Topic Repair: Programming, DSA & Algorithms",
+        "url": "https://www.geeksforgeeks.org/c-programming-multiple-choice-questions/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -10913,7 +11338,12 @@
         "TOC state bounds & pumping lemma",
         "Probability distributions and linear system consistency",
         "Final Error Book reconciliation"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Targeted Weak-Topic Repair: Theory & Mathematics",
+        "url": "https://www.geeksforgeeks.org/c-programming-multiple-choice-questions/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -11041,7 +11471,12 @@
         "Full 65 Questions, 100 Marks, 3 Hours CBT Simulation",
         "Filling the 14-metric Mock Analysis Table",
         "Classifying Silly vs Concept mistakes"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Full-Length Mock 1 (3 Hours) + Detailed Diagnostic Analysis",
+        "url": "https://www.geeksforgeeks.org/c-programming-multiple-choice-questions/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -11169,7 +11604,12 @@
         "Full 65 Questions, 100 Marks, 3 Hours CBT Simulation",
         "Testing modified time allocation strategy (GA first vs CS first)",
         "Repairing concepts for questions missed"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Full-Length Mock 2 (3 Hours) + Mistake Repair",
+        "url": "https://www.geeksforgeeks.org/gate-cs-notes-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -11297,7 +11737,12 @@
         "Final 3-Hour CBT Simulation",
         "Quick-fire review of 12-subject formula cheat sheets",
         "Finalizing exam-day question selection protocol"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Full-Length Mock 3 (3 Hours) + Formula Speed-Drill",
+        "url": "https://www.geeksforgeeks.org/gate-cs-notes-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   },
   {
@@ -11424,7 +11869,12 @@
         "Complete 90-Day Plan execution review",
         "Master Error Book full sweep",
         "Generating your official GATE Preparation Report"
-      ]
+      ],
+      "mcqs": {
+        "title": "Exact Topic MCQs: Day 90 Master Assessment & Final Preparation Report",
+        "url": "https://www.geeksforgeeks.org/gate-cs-notes-gq/",
+        "provider": "GeeksforGeeks"
+      }
     }
   }
 ]

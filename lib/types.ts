@@ -71,6 +71,12 @@ export type TopicPyqLocator = {
   provider: "GATEOverflow" | "Official GATE";
 };
 
+export type TopicMcqLocator = {
+  title: string;
+  url: string;
+  provider: "GeeksforGeeks" | "Sanfoundry" | "GATE CS MCQs";
+};
+
 export type DayResourceMap = {
   day: number;
   date: string;
@@ -78,6 +84,7 @@ export type DayResourceMap = {
   topic: string;
   videos: TopicVideoLocator[];
   pyqs: TopicPyqLocator[];
+  mcqs?: TopicMcqLocator;
   subtopics: string[];
 };
 

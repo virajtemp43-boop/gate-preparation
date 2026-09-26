@@ -294,6 +294,22 @@ function renderInline(text: string): React.ReactNode {
         );
       }
 
+      // Topic MCQ button
+      if (lowerText.includes("mcq") || lowerText.includes("mcqs") || lowerText.includes("quiz")) {
+        return (
+          <a
+            key={index}
+            href={linkUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-teal-600 hover:bg-teal-500 text-white font-bold text-[11px] shadow-sm shadow-teal-600/30 my-0.5 mx-1 transition-all hover:scale-105"
+          >
+            <CheckCircle2 className="w-3 h-3" />
+            <span>{linkText}</span>
+          </a>
+        );
+      }
+
       // Roadmap button
       if (lowerText.includes("roadmap") || lowerText.includes("backup")) {
         return (
