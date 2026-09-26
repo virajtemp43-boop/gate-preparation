@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React from "react";
 import katex from "katex";
+import { FormattedAiResponse } from "./formatted-ai-response";
 
 interface MathTextProps {
   content: string;
@@ -14,54 +15,35 @@ export const MathText: React.FC<MathTextProps> = ({
   className = "",
   inline = false,
 }) => {
-  const renderedHtml = useMemo(() => {
-    if (!content) return "";
+  if (!inline) {
+    return <FormattedAiResponse content={content} className={className} />;
+  }
 
-    // Split text by display math ($$...$$) first, then inline math ($...$)
-    const parts = content.split(/(\$\$[\s\S]*?\$\$|\$[^\$\n]+?\$)/g);
-
-    return parts
-      .map((part) => {
-        if (part.startsWith("$$") && part.endsWith("$$")) {
-          const math = part.slice(2, -2).trim();
-          try {
-            return katex.renderToString(math, {
-              displayMode: true,
-              throwOnError: false,
-            });
-          } catch {
-            return `<code>${part}</code>`;
-          }
-        } else if (part.startsWith("$") && part.endsWith("$")) {
+  // Pure inline rendering
+  const parts = content.split(/(\$[^\$\n]+?\$)/g);
+  return (
+    <span className={className}>
+      {parts.map((part, index) => {
+        if (part.startsWith("$") && part.endsWith("$")) {
           const math = part.slice(1, -1).trim();
           try {
-            return katex.renderToString(math, {
+            const html = katex.renderToString(math, {
               displayMode: false,
               throwOnError: false,
             });
+            return (
+              <span
+                key={index}
+                className="inline text-indigo-300 font-mono"
+                dangerouslySetInnerHTML={{ __html: html }}
+              />
+            );
           } catch {
-            return `<code>${part}</code>`;
+            return <code key={index}>{part}</code>;
           }
         }
-        // Normal text - preserve line breaks safely
-        return part.replace(/\n/g, "<br />");
-      })
-      .join("");
-  }, [content]);
-
-  if (inline) {
-    return (
-      <span
-        className={className}
-        dangerouslySetInnerHTML={{ __html: renderedHtml }}
-      />
-    );
-  }
-
-  return (
-    <div
-      className={className}
-      dangerouslySetInnerHTML={{ __html: renderedHtml }}
-    />
+        return <span key={index}>{part}</span>;
+      })}
+    </span>
   );
 };

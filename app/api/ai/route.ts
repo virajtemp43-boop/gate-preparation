@@ -5,6 +5,11 @@ import {
   getHeuristicCoachResponse,
   CoachContext,
 } from "@/lib/ai/groq";
+import {
+  isSearchIntent,
+  searchKnowledgeBase,
+  formatSearchResultsToMarkdown,
+} from "@/lib/search-engine";
 
 export async function POST(req: NextRequest) {
   try {
@@ -21,9 +26,19 @@ export async function POST(req: NextRequest) {
 
     const apiKey = customApiKey || process.env.GROQ_API_KEY;
 
+    // Detect search or lookup intent
+    const isSearch = isSearchIntent(message);
+    let searchContext = "";
+    if (isSearch) {
+      const results = searchKnowledgeBase(message);
+      if (results.length > 0) {
+        searchContext = formatSearchResultsToMarkdown(results, message);
+      }
+    }
+
     if (apiKey && apiKey.trim() !== "") {
       try {
-        const systemPrompt = buildStudyCoachPrompt(context);
+        const systemPrompt = buildStudyCoachPrompt(context, searchContext);
         const messages: Array<{ role: "system" | "user" | "assistant"; content: string }> = [
           { role: "system", content: systemPrompt },
           { role: "user", content: message },
@@ -40,7 +55,10 @@ export async function POST(req: NextRequest) {
         });
       } catch (groqError: any) {
         console.warn("Groq API call failed, falling back to verified coach guidance:", groqError?.message);
-        const fallbackReply = getHeuristicCoachResponse(message, context);
+        const fallbackReply = isSearch && searchContext
+          ? searchContext
+          : getHeuristicCoachResponse(message, context);
+
         return NextResponse.json({
           success: true,
           reply: fallbackReply,
@@ -51,7 +69,10 @@ export async function POST(req: NextRequest) {
     }
 
     // No key: return intelligent verified study coach answer
-    const reply = getHeuristicCoachResponse(message, context);
+    const reply = isSearch && searchContext
+      ? searchContext
+      : getHeuristicCoachResponse(message, context);
+
     return NextResponse.json({
       success: true,
       reply,

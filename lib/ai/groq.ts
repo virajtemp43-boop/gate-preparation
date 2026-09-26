@@ -18,6 +18,11 @@ import {
   ReasonCode,
 } from "./study-engine";
 import { StudyDay } from "@/lib/types";
+import {
+  searchKnowledgeBase,
+  formatSearchResultsToMarkdown,
+  isSearchIntent,
+} from "@/lib/search-engine";
 
 export interface CoachContext {
   currentDay?: number;
@@ -34,16 +39,32 @@ export interface CoachContext {
   allDays?: StudyDay[];
 }
 
-export function buildStudyCoachPrompt(context: CoachContext): string {
+export function buildStudyCoachPrompt(context: CoachContext, searchResultsContext?: string): string {
   const dayNum = context.currentDay || 1;
   const subject = context.subject || "Programming & Data Structures";
-  const topic = context.topic || "C Pointers & Memory";
+  const topic = context.topic || "C Variables, Data Types & Operators";
   const resources = resolveTaskResources(subject, topic, dayNum);
 
-  return `You are GATE Personal AI Coach.
+  return `You are GATE Personal AI Coach & Resource Navigator.
 
-Your job is to manage, guide, schedule, remind, analyze, and adapt the user's GATE preparation.
+Your job is to manage, guide, schedule, remind, analyze, adapt, and navigate the user's GATE preparation.
 You are NOT a teaching platform.
+
+GREETING & WELCOME RULE:
+If the user says "hi", "hello", "hey", or asks for help getting started:
+Respond warmly and cleanly as their GATE 2027 Study Coach. Give a crisp 1-sentence snapshot of Today's active target (Day ${dayNum}: ${topic} in ${subject}), and present 4 structured action options they can choose:
+1. 🎯 **Today's Action Plan:** ${resources.isDirect ? `[Watch exact lecture ▶](${resources.primary.url})` : `[Open topic roadmap ↗](${resources.primary.url})`} & [Open exact topic PYQs ↗](${resources.pyq.url})
+2. ⏱️ **Time Compressor:** Tell me if you have only 2h, 3h, or 4h today and I will rebalance your workload.
+3. 🔍 **Find Any Syllabus Topic:** Ask me to find any lecture, roadmap, or PYQ bank across all 90 days (e.g. "find cache memory", "find paging", "where is day 45?").
+4. 🔄 **Missed-Day Catchup:** Tell me if you missed yesterday to slot a recovery block.
+Do NOT dump a massive schedule on a simple greeting!
+
+SEARCH & RESOURCE FINDER RULE:
+If the user asks to "find", "search", "where is", "look up", or asks about ANY topic, chapter, question, or day across the 90-day syllabus:
+Use the verified search results below. Present a clean, structured result with:
+- 📌 Scheduled Day number & date
+- Subject & Syllabus concepts
+- Exact direct action buttons: [Watch exact lecture ▶](url) or [Open topic roadmap ↗](url), and [Open exact topic PYQs ↗](url).
 
 NON-NEGOTIABLE PRODUCT RULE:
 Do NOT teach full academic lessons unless the user explicitly requests a tiny clarification needed to complete a task. Even then, stay concise and redirect to the assigned external learning resource.
@@ -53,34 +74,13 @@ If the user asks:
 Respond with a guidance-oriented redirect such as:
 "For today's plan, open the assigned Gate Smashers resource, study the specified section, then solve the assigned PYQs on GATEOverflow. I can help you decide the order, time, practice target, and revision schedule."
 
-Your main responsibility is to answer:
-"What should the user do now, next, today, this week, and before the exam?"
-
-Always use the deterministic study engine for:
-- dates (Fixed 90-day window: Oct 1 to Dec 29, 2026)
-- task status
-- priorities
-- schedule
-- revision debt
-- notifications
-- external resources
-- recovery
-
-Never invent tool data.
-Never claim the user completed a task unless stored state confirms it.
-Never silently rewrite the master plan.
-Never fabricate a PYQ or label a generated question as an official GATE question.
-Prefer one strong external resource over many weak links.
-
-When the user is behind, protect high-value tasks and create a realistic recovery plan.
-When the user is ahead, use the extra time for revision, PYQs, weak topics, and tests before advancing unnecessarily.
-When the user has limited time, select the highest-value work instead of attempting to fit everything.
-When the user has extra time, do not automatically create excessive workload.
-Every major recommendation should include a concise reason code (e.g. HIGH_PRIORITY, TIME_LIMIT, RECOVERY, WEAK_TOPIC).
-
-Tone: Direct, practical, concise, action-oriented, honest, calm, specific, non-dramatic.
-The user controls the final decision.
-Your output should usually end with a concrete next action or button suggestion.
+FORMATTING & STRUCTURE RULE:
+- Use clean Markdown with headers (###), bullet points, and bold emphasis.
+- Always use clickable markdown links [text](url) for all resources so the UI renders them as rich interactive buttons:
+  - Video links: [Watch exact lecture ▶](url) or [Open topic roadmap ↗](url)
+  - PYQ links: [Open exact topic PYQs ↗](url)
+  - Official links: [Open official GATE paper ↗](url)
+- Keep responses concise, direct, and actionable. Never output raw unformatted text dumps.
 
 ACTIVE STUDENT CONTEXT:
 - Today's Date: ${context.date || "2026-10-01"}
@@ -93,9 +93,10 @@ ACTIVE STUDENT CONTEXT:
 - Execution Risk Status: ${context.riskStatus || "ON_TRACK"}
 - Known Weak Topics: ${context.weakTopics?.length ? context.weakTopics.join(", ") : "None yet recorded"}
 - Recent Mistake Areas: ${context.recentMistakes?.length ? context.recentMistakes.join("; ") : "None recorded"}
-- EXACT VERIFIED VIDEO RESOURCE: ${resources.primary.title} (${resources.primary.url}) [Direct Lecture: ${resources.isDirect ? "YES" : "NO - Topic Roadmap/Search"}]
-- EXACT VERIFIED PYQ RESOURCE: ${resources.pyq.title} (${resources.pyq.url})
+- TODAY'S EXACT VERIFIED VIDEO: ${resources.primary.title} (${resources.primary.url}) [Direct: ${resources.isDirect ? "YES" : "NO"}]
+- TODAY'S EXACT VERIFIED PYQS: ${resources.pyq.title} (${resources.pyq.url})
 - OFFICIAL GATE SYLLABUS/PAPERS: ${resources.official.url}
+${searchResultsContext ? `\nVERIFIED SYLLABUS & RESOURCE SEARCH RESULTS FOR USER QUERY:\n${searchResultsContext}` : ""}
 `;
 }
 
@@ -104,9 +105,9 @@ ACTIVE STUDENT CONTEXT:
  * Used when offline, API key not configured, or for instant sub-millisecond local responses.
  */
 export function getHeuristicCoachResponse(query: string, context: CoachContext): string {
-  const lower = query.toLowerCase();
+  const lower = query.toLowerCase().trim();
   const subject = context.subject || "Programming & Data Structures";
-  const topic = context.topic || "C Pointers & Memory";
+  const topic = context.topic || "C Variables, Data Types & Operators";
   const hours = context.availableHours || 6;
   const dayNum = context.currentDay || 1;
   const resources = resolveTaskResources(subject, topic, dayNum);
@@ -115,6 +116,30 @@ export function getHeuristicCoachResponse(query: string, context: CoachContext):
     ? `[Watch exact lecture ▶](${resources.primary.url})`
     : `[Open topic roadmap ↗](${resources.primary.url})`;
   const pyqAction = `[Open exact topic PYQs ↗](${resources.pyq.url})`;
+
+  // 0. Greeting handler (e.g. "hi", "hello", "hey")
+  if (lower === "hi" || lower === "hello" || lower === "hey" || lower === "start" || lower === "help") {
+    return `### 👋 Welcome to Your GATE 2027 AI Study Coach
+
+I am your personal study manager, scheduler, and resource navigator.
+
+**Today's Active Focus (Day ${dayNum} of 90):**
+* **Subject:** ${subject}
+* **Goal:** ${topic}
+* **Planned Time:** ${hours} Hours
+
+**What would you like me to do right now?**
+1. 🎯 **Give Me Today's Schedule:** ${videoAction} & ${pyqAction}
+2. ⏱️ **Time Compressor:** Tell me if you have only 2h, 3h, or 4h today and I will rebalance your workload.
+3. 🔍 **Find Any Syllabus Topic:** Type *"find cache memory"*, *"find Dijkstra"*, or *"where is day 45?"*.
+4. 🔄 **Missed-Day Catchup:** Type *"I missed yesterday"* to slot an automatic recovery block.`;
+  }
+
+  // 1. Search / Finder intent
+  if (isSearchIntent(query)) {
+    const searchResults = searchKnowledgeBase(query);
+    return formatSearchResultsToMarkdown(searchResults, query);
+  }
 
   // 1. Redirection if user asks the AI to teach academic subject matter
   if (

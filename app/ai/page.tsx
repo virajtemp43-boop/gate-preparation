@@ -6,32 +6,43 @@ import {
   Bot,
   Send,
   Sparkles,
-  HelpCircle,
+  Search,
+  Clock,
+  RotateCcw,
+  ShieldCheck,
+  AlertTriangle,
   Lightbulb,
-  AlertOctagon,
-  Repeat,
-  Code,
-  Flame,
-  CheckCircle2,
-  Settings,
+  FileQuestion,
+  Play,
   Key,
+  Trash2,
+  Bookmark,
 } from "lucide-react";
-import { AiTutorMode } from "@/lib/types";
-import { getCurrentPlanDay, getSubjects } from "@/lib/data";
-import { MathText } from "@/components/ui/math-text";
+import { getCurrentPlanDay } from "@/lib/data";
+import { FormattedAiResponse } from "@/components/ui/formatted-ai-response";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
-  mode?: AiTutorMode;
 }
 
-function AiTutorContent() {
+type CoachMode =
+  | "plan"
+  | "search"
+  | "2h"
+  | "3h"
+  | "recovery"
+  | "weakness"
+  | "traps"
+  | "custom";
+
+function AiCoachContent() {
   const searchParams = useSearchParams();
   const urlSubject = searchParams.get("subject");
   const urlTopic = searchParams.get("topic");
+  const urlDay = searchParams.get("day");
 
-  const [activeMode, setActiveMode] = useState<AiTutorMode>("explain");
+  const [activeMode, setActiveMode] = useState<CoachMode>("plan");
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -39,8 +50,9 @@ function AiTutorContent() {
   const [showKeyInput, setShowKeyInput] = useState(false);
 
   const planInfo = getCurrentPlanDay();
-  const activeSubject = urlSubject || planInfo.activeDay?.subject || planInfo.activeDay?.subjectName || "Programming & Data Structures";
-  const activeTopic = urlTopic || planInfo.activeDay?.topic || planInfo.activeDay?.topicTitle || "Pointers & Arrays";
+  const dayNumber = urlDay ? parseInt(urlDay, 10) : planInfo.dayNumber;
+  const activeSubject = urlSubject || planInfo.activeDay?.subject || "Programming & Data Structures";
+  const activeTopic = urlTopic || planInfo.activeDay?.topic || "C Variables, Data Types & Operators";
 
   const chatBottomRef = useRef<HTMLDivElement>(null);
 
@@ -53,20 +65,33 @@ function AiTutorContent() {
     setMessages([
       {
         role: "assistant",
-        content: `👋 **Welcome to your GATE CS/IT AI Command Center!**\n\nI am your personalized exam tutor powered by Groq. I am aware of your preparation schedule:\n* **Current Preparation Day:** Day ${planInfo.dayNumber} / 90\n* **Active Subject Focus:** ${activeSubject}\n* **Active Topic:** ${activeTopic}\n\nSelect any operational mode below or ask me any conceptual doubt from scratch. I teach using first principles, intuitive analogies, and KaTeX math formulas!`,
+        content: `### 👋 Welcome to Your GATE 2027 AI Study Coach & Resource Navigator
+
+I am your personal preparation manager, scheduler, and syllabus resource finder.
+
+**Today's Active Focus (Day ${dayNumber} of 90):**
+* **Subject:** ${activeSubject}
+* **Topic:** **${activeTopic}**
+* **Planned Schedule:** 6 Hours (Theory + Notes + PYQs)
+
+**What would you like me to do right now?**
+1. 🎯 **Today's Action Plan:** Click below to view your prioritized execution sequence with direct verified video & PYQ links.
+2. 🔍 **Find Any Topic or PYQ:** Ask me to find *any* topic across all 90 days (e.g. \`find cache memory\`, \`find dijkstra\`, \`where is day 45?\`).
+3. ⏱️ **Time Compressor:** Let me know if you only have 2, 3, or 4 hours today.
+4. 🔄 **Missed-Day Catchup:** Tell me if you missed yesterday to slot an automatic recovery block without disturbing the master plan.`,
       },
     ]);
-  }, [activeSubject, activeTopic, planInfo.dayNumber]);
+  }, [activeSubject, activeTopic, dayNumber]);
 
   useEffect(() => {
     chatBottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [messages, loading]);
 
   const handleSendMessage = async (textToSend?: string) => {
     const text = textToSend || inputMessage;
     if (!text.trim() || loading) return;
 
-    const userMsg: Message = { role: "user", content: text, mode: activeMode };
+    const userMsg: Message = { role: "user", content: text };
     setMessages((prev) => [...prev, userMsg]);
     setInputMessage("");
     setLoading(true);
@@ -77,9 +102,8 @@ function AiTutorContent() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           message: text,
-          mode: activeMode,
           context: {
-            currentDay: planInfo.dayNumber,
+            currentDay: dayNumber,
             subject: activeSubject,
             topic: activeTopic,
           },
@@ -91,7 +115,7 @@ function AiTutorContent() {
       if (data.reply) {
         setMessages((prev) => [
           ...prev,
-          { role: "assistant", content: data.reply, mode: activeMode },
+          { role: "assistant", content: data.reply },
         ]);
       } else {
         setMessages((prev) => [
@@ -102,12 +126,12 @@ function AiTutorContent() {
           },
         ]);
       }
-    } catch (e) {
+    } catch {
       setMessages((prev) => [
         ...prev,
         {
           role: "assistant",
-          content: "Network error communicating with AI server. Please check your connection.",
+          content: "Network error communicating with AI study coach. Please check your connection.",
         },
       ]);
     } finally {
@@ -121,52 +145,119 @@ function AiTutorContent() {
     alert("Groq API Key saved successfully in local browser storage!");
   };
 
-  const modesList: Array<{ id: AiTutorMode; label: string; icon: any; color: string }> = [
-    { id: "explain", label: "Explain from Zero", icon: Lightbulb, color: "indigo" },
-    { id: "simplify", label: "Simplify / Analogy", icon: Sparkles, color: "emerald" },
-    { id: "deep_dive", label: "GATE Deep Dive", icon: Flame, color: "purple" },
-    { id: "hint", label: "Give Next Hint", icon: HelpCircle, color: "amber" },
-    { id: "solve", label: "Step-by-Step Solve", icon: Code, color: "blue" },
-    { id: "quiz_me", label: "Quiz Me", icon: CheckCircle2, color: "cyan" },
-    { id: "interview_me", label: "Interview Me (Socratic)", icon: Bot, color: "violet" },
-    { id: "pyq_explain", label: "PYQ Explainer", icon: HelpCircle, color: "pink" },
-    { id: "mistake_analysis", label: "Analyze My Mistake", icon: AlertOctagon, color: "rose" },
-    { id: "revision_card", label: "Generate Flashcard", icon: Repeat, color: "teal" },
+  const handleClearChat = () => {
+    setMessages([
+      {
+        role: "assistant",
+        content: `### 🔄 Chat Reset
+Ready for your next question or directive. What would you like to plan or search?`,
+      },
+    ]);
+  };
+
+  const coachDirectives: Array<{
+    id: CoachMode;
+    label: string;
+    icon: any;
+    query: string;
+    description: string;
+  }> = [
+    {
+      id: "plan",
+      label: "Today's Action Plan",
+      icon: Sparkles,
+      query: "What should I do right now for today's plan?",
+      description: "Get ordered priority sequence with direct video & PYQ links",
+    },
+    {
+      id: "search",
+      label: "Find Topic / PYQ",
+      icon: Search,
+      query: `find ${activeTopic}`,
+      description: "Search any topic, lecture, or PYQ bank across 90 days",
+    },
+    {
+      id: "2h",
+      label: "I Have 2 Hours",
+      icon: Clock,
+      query: "I only have 2 hours today.",
+      description: "Compress schedule & protect core concepts",
+    },
+    {
+      id: "3h",
+      label: "I Have 3 Hours",
+      icon: Clock,
+      query: "I have 3 hours available today.",
+      description: "Protect high-yield theory and top PYQs",
+    },
+    {
+      id: "recovery",
+      label: "Missed Yesterday",
+      icon: RotateCcw,
+      query: "I missed yesterday. Give me a recovery plan.",
+      description: "Slot catch-up block without disturbing master plan",
+    },
+    {
+      id: "weakness",
+      label: "Weakness Diagnostic",
+      icon: AlertTriangle,
+      query: "What is my biggest weakness and revision debt?",
+      description: "Identify high-risk topics losing marks",
+    },
+    {
+      id: "traps",
+      label: "Common Exam Traps",
+      icon: Lightbulb,
+      query: `What are the most common GATE traps and mistake patterns in ${activeTopic}?`,
+      description: "Avoid sneaky examiner tricks on this topic",
+    },
   ];
 
   return (
-    <div className="space-y-6 max-w-5xl mx-auto h-[calc(100vh-8rem)] flex flex-col">
-      {/* Top Cockpit Bar */}
+    <div className="space-y-4 max-w-5xl mx-auto h-[calc(100vh-7.5rem)] flex flex-col">
+      {/* Top AI Coach Header */}
       <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3 shadow-lg shrink-0">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-white shadow-md shadow-indigo-600/30">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-md shadow-indigo-600/30">
             <Bot className="w-5 h-5" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-sm font-bold text-white">Groq AI Tutor Cockpit</h2>
-              <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
-                Llama 3.3 70B
+              <h1 className="text-sm font-extrabold text-white">
+                GATE AI Coach & Resource Navigator
+              </h1>
+              <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                Groq Active
               </span>
             </div>
-            <span className="text-[11px] text-slate-400">
-              Context: <strong className="text-slate-200">{activeSubject}</strong> → {activeTopic}
-            </span>
+            <p className="text-[11px] text-slate-400 mt-0.5">
+              Active Focus: <strong className="text-indigo-300">Day {dayNumber} of 90</strong> • {activeSubject} →{" "}
+              <span className="text-slate-200 font-semibold">{activeTopic}</span>
+            </p>
           </div>
         </div>
 
-        <button
-          onClick={() => setShowKeyInput(!showKeyInput)}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-300 border border-slate-700 transition-colors"
-        >
-          <Key className="w-3.5 h-3.5 text-amber-400" />
-          <span>{customKey ? "Groq Key Configured" : "Enter Groq Key"}</span>
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleClearChat}
+            className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors"
+            title="Clear Chat History"
+          >
+            <Trash2 className="w-4 h-4" />
+          </button>
+          <button
+            onClick={() => setShowKeyInput(!showKeyInput)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-300 border border-slate-700 transition-colors"
+          >
+            <Key className="w-3.5 h-3.5 text-amber-400" />
+            <span>{customKey ? "Groq Key Configured" : "Enter Groq Key"}</span>
+          </button>
+        </div>
       </div>
 
-      {/* Groq Key Drawer if open */}
+      {/* Groq Key Drawer */}
       {showKeyInput && (
-        <div className="p-4 rounded-xl bg-slate-900 border border-amber-800/50 shadow-xl space-y-2 shrink-0">
+        <div className="p-4 rounded-xl bg-slate-900 border border-amber-800/50 shadow-xl space-y-2 shrink-0 animate-in fade-in duration-200">
           <div className="flex items-center justify-between text-xs text-amber-300 font-semibold">
             <span>Groq API Key (Stored locally in your browser):</span>
             <a
@@ -196,30 +287,28 @@ function AiTutorContent() {
         </div>
       )}
 
-      {/* 10 Operational Mode Selectors */}
+      {/* 1-Click Fast Directive Buttons */}
       <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none shrink-0">
-        {modesList.map((m) => {
-          const Icon = m.icon;
-          const isActive = activeMode === m.id;
-
+        {coachDirectives.map((d) => {
+          const Icon = d.icon;
           return (
             <button
-              key={m.id}
-              onClick={() => setActiveMode(m.id)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap border flex items-center gap-1.5 transition-all ${
-                isActive
-                  ? "bg-indigo-600 text-white border-indigo-500 shadow-md shadow-indigo-600/30"
-                  : "bg-slate-900 text-slate-400 border-slate-800 hover:text-white hover:bg-slate-800"
-              }`}
+              key={d.id}
+              onClick={() => {
+                setActiveMode(d.id);
+                handleSendMessage(d.query);
+              }}
+              className="px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap border bg-slate-900/90 text-slate-300 border-slate-800 hover:text-white hover:border-indigo-500/60 hover:bg-indigo-950/40 flex items-center gap-1.5 transition-all shadow-sm"
+              title={d.description}
             >
-              <Icon className="w-3.5 h-3.5" />
-              <span>{m.label}</span>
+              <Icon className="w-3.5 h-3.5 text-indigo-400" />
+              <span>{d.label}</span>
             </button>
           );
         })}
       </div>
 
-      {/* Chat Messages Stream */}
+      {/* Chat Messages Stream with FormattedAiResponse */}
       <div className="flex-1 bg-slate-900/60 border border-slate-800 rounded-2xl p-4 sm:p-6 overflow-y-auto space-y-4 shadow-inner">
         {messages.map((msg, i) => (
           <div
@@ -227,33 +316,58 @@ function AiTutorContent() {
             className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
           >
             <div
-              className={`max-w-2xl rounded-2xl p-4 text-xs leading-relaxed ${
+              className={`max-w-3xl rounded-2xl p-4 sm:p-5 text-xs leading-relaxed ${
                 msg.role === "user"
-                  ? "bg-indigo-600 text-white font-medium shadow-md shadow-indigo-600/20"
-                  : "bg-slate-900 border border-slate-800 text-slate-200 shadow-md"
+                  ? "bg-indigo-600 text-white font-semibold shadow-md shadow-indigo-600/20"
+                  : "bg-slate-900/95 border border-slate-800 text-slate-200 shadow-xl"
               }`}
             >
-              <MathText content={msg.content} />
+              {msg.role === "user" ? (
+                <p className="whitespace-pre-wrap">{msg.content}</p>
+              ) : (
+                <FormattedAiResponse content={msg.content} />
+              )}
             </div>
           </div>
         ))}
 
         {loading && (
           <div className="flex justify-start">
-            <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 text-slate-400 text-xs flex items-center gap-2 animate-pulse">
+            <div className="p-4 rounded-2xl bg-slate-900/95 border border-slate-800 text-slate-300 text-xs flex items-center gap-2.5 animate-pulse shadow-md">
               <Bot className="w-4 h-4 text-indigo-400" />
-              <span>Groq AI is reasoning over syllabus rules...</span>
+              <span>AI Coach is computing the optimal study decision & verifying syllabus resources...</span>
             </div>
           </div>
         )}
         <div ref={chatBottomRef} />
       </div>
 
+      {/* Suggested Search Queries Quick-Chips */}
+      <div className="flex items-center gap-1.5 overflow-x-auto text-[11px] text-slate-400 shrink-0">
+        <span className="font-semibold text-slate-500 whitespace-nowrap">Try asking:</span>
+        {[
+          "find cache memory",
+          "find binary search trees",
+          "find paging",
+          "where is day 45?",
+          "what are common traps?",
+          "I only have 3 hours",
+        ].map((chip, idx) => (
+          <button
+            key={idx}
+            onClick={() => handleSendMessage(chip)}
+            className="px-2.5 py-1 rounded-lg bg-slate-950 hover:bg-slate-800 hover:text-white border border-slate-800/80 whitespace-nowrap transition-colors"
+          >
+            &quot;{chip}&quot;
+          </button>
+        ))}
+      </div>
+
       {/* Input Form */}
       <div className="bg-slate-900 border border-slate-800 rounded-2xl p-3 flex items-center gap-2 shadow-xl shrink-0">
         <input
           type="text"
-          placeholder={`Ask about ${activeTopic} in mode "${activeMode}"...`}
+          placeholder="Ask AI Coach what to do, rebalance time, or type 'find [topic/concept/day]'..."
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
           onKeyDown={(e) => {
@@ -282,12 +396,11 @@ export default function AiTutorPage() {
     <Suspense
       fallback={
         <div className="flex items-center justify-center min-h-[400px] text-slate-400 text-xs">
-          Loading AI Tutor Cockpit...
+          Loading GATE AI Coach & Knowledge Navigator...
         </div>
       }
     >
-      <AiTutorContent />
+      <AiCoachContent />
     </Suspense>
   );
 }
-
