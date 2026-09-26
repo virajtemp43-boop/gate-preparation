@@ -1,0 +1,92 @@
+[
+  {
+    "id": "fresh-c-arrays",
+    "isPYQ": false,
+    "subjectId": "c-prog",
+    "subjectName": "C Programming",
+    "topic": "Pointers & Arrays",
+    "type": "MCQ",
+    "marks": 1,
+    "difficulty": "medium",
+    "questionText": "What will be printed by the following C program?\n```c\n#include <stdio.h>\nint main() {\n    int a[4] = {1, 2, 3, 4};\n    int *ptr = (int*)(&a + 1);\n    printf(\"%d\", *(ptr - 1));\n    return 0;\n}\n```",
+    "options": ["1", "4", "Garbage value", "Compilation Error"],
+    "correctAnswer": "B",
+    "explanation": "`&a` is a pointer to the entire array of 4 integers (type `int (*)[4]`). Adding 1 to `&a` skips the entire array size (16 bytes). Casting `(int*)` treats that address as an element pointer. Subtracting 1 (`ptr - 1`) steps back by 1 integer, which points directly to the last element `a[3] = 4`. Dereferencing prints 4.",
+    "commonTrap": "Do not confuse `&a + 1` with `a + 1`. `a + 1` moves 1 integer ahead (to `a[1]`), whereas `&a + 1` moves the entire array size ahead!",
+    "conceptTags": ["pointer-arithmetic", "array-pointer", "type-casting"]
+  },
+  {
+    "id": "fresh-algo-quicksort",
+    "isPYQ": false,
+    "subjectId": "algorithms",
+    "topicId": "sorting",
+    "title": "QuickSort Recurrences",
+    "type": "MSQ",
+    "marks": 2,
+    "difficulty": "medium",
+    "questionText": "Which of the following statements about Quicksort is/are TRUE?",
+    "options": [
+      "The worst-case time complexity is $\\Omega(n^2)$ when the pivot is always the extreme element",
+      "Randomized Quicksort has an expected average-case time complexity of $\\Theta(n \\log n)$",
+      "Standard Quicksort is an in-place and stable sorting algorithm",
+      "Quicksort requires $O(\\log n)$ auxiliary stack space on average for recursion"
+    ],
+    "correctAnswer": [0, 1, 3],
+    "explanation": "Statement A is TRUE: choosing the minimum or maximum element repeatedly yields $T(n) = T(n-1) + O(n) = \\Theta(n^2)$. Statement B is TRUE: randomization ensures expected split is balanced, yielding $\\Theta(n \\log n)$. Statement C is FALSE: while standard Quicksort is in-place, it is NOT stable (swapping across the pivot changes relative order of equals). Statement D is TRUE: the call stack depth is $O(\\log n)$ on average.",
+    "commonTrap": "Students often assume in-place implies stable; standard partition algorithms in Quicksort are strictly unstable.",
+    "conceptTags": ["quicksort", "stability", "recurrences"]
+  },
+  {
+    "id": "fresh-coa-amat",
+    "isPYQ": false,
+    "subjectId": "coa",
+    "subjectName": "Computer Organization & Architecture",
+    "topic": "Cache AMAT",
+    "type": "NAT",
+    "marks": 2,
+    "difficulty": "hard",
+    "questionText": "A 2-level cache hierarchy has the following parameters:\n- L1 Cache: Hit Time = 1 ns, Hit Rate = 90%\n- L2 Cache: Hit Time = 8 ns, Hit Rate = 80%\n- Main Memory: Access Time = 60 ns\nAssuming sequential access (L2 is accessed only upon an L1 miss), calculate the Average Memory Access Time (AMAT) in nanoseconds.",
+    "correctAnswer": 3,
+    "tolerance": { "min": 2.9, "max": 3.1 },
+    "explanation": "Formula for 2-level hierarchical AMAT:\n$$\\text{AMAT} = T_{L1} + (1 - H_{L1}) \\times [T_{L2} + (1 - H_{L2}) \\times T_{mem}]$$\nSubstitute given values:\n$$\\text{AMAT} = 1 + (1 - 0.90) \\times [8 + (1 - 0.80) \\times 60]$$\n$$\\text{AMAT} = 1 + 0.10 \\times [8 + 0.20 \\times 60]$$\n$$\\text{AMAT} = 1 + 0.10 \\times [8 + 12] = 1 + 0.10 \\times 20 = 1 + 2 = 3\\text{ ns}$$.",
+    "commonTrap": "Do not multiply $H_{L1} \\times H_{L2}$ when given local hit rates! Here $H_{L2} = 0.80$ is the local hit rate of L2.",
+    "conceptTags": ["amat", "cache-hierarchy", "memory-access"]
+  },
+  {
+    "id": "fresh-dbms-sql",
+    "isPYQ": false,
+    "subjectId": "dbms",
+    "subjectName": "Databases (DBMS)",
+    "topic": "SQL & Relational Algebra",
+    "type": "MCQ",
+    "marks": 1,
+    "difficulty": "medium",
+    "questionText": "Consider table `Employee(id, dept, salary)`. What does the following SQL query return?\n```sql\nSELECT dept FROM Employee GROUP BY dept HAVING COUNT(*) > 1 AND MAX(salary) > 50000;\n```",
+    "options": [
+      "Departments with at least 2 employees where at least one employee earns over 50,000",
+      "Departments where all employees earn over 50,000 and total count exceeds 1",
+      "Departments where average salary is greater than 50,000",
+      "Error because MAX(salary) cannot be used in HAVING clause"
+    ],
+    "correctAnswer": "A",
+    "explanation": "`GROUP BY dept` groups employees per department. `COUNT(*) > 1` ensures the group contains at least 2 employees. `MAX(salary) > 50000` checks if the highest salary in that department exceeds 50,000. Hence, option A is correct.",
+    "commonTrap": "HAVING filters groups after grouping, while WHERE filters individual rows before grouping. Aggregate functions like MAX and COUNT are completely valid inside HAVING.",
+    "conceptTags": ["sql", "group-by", "having"]
+  },
+  {
+    "id": "fresh-os-deadlock",
+    "isPYQ": false,
+    "subjectId": "os",
+    "subjectName": "Operating Systems",
+    "topic": "Deadlocks",
+    "type": "NAT",
+    "marks": 2,
+    "difficulty": "medium",
+    "questionText": "A system has 4 processes ($P_1, P_2, P_3, P_4$), each needing at most 3 units of a single resource type $R$. What is the minimum number of units of resource $R$ that guarantees the system will NEVER deadlock?",
+    "correctAnswer": 9,
+    "tolerance": { "min": 9, "max": 9 },
+    "explanation": "Formula for deadlock avoidance with single resource type and $N$ processes:\n$$R_{min} = \\sum_{i=1}^N (\\text{MaxNeed}_i - 1) + 1$$\nHere $N = 4$, and each process needs at most 3 units.\n$$R_{min} = 4 \\times (3 - 1) + 1 = 4 \\times 2 + 1 = 9$$.\nWith 8 units, each process could hold 2 units, waiting for the 3rd, producing a circular wait (deadlock). With 9 units, at least one process gets 3 units and runs to completion.",
+    "commonTrap": "Do not simply multiply $4 \\times 3 = 12$; we want the MINIMUM resources to guarantee deadlock-freedom.",
+    "conceptTags": ["deadlock-avoidance", "resource-allocation"]
+  }
+]

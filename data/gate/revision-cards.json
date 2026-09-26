@@ -1,0 +1,66 @@
+[
+  {
+    "id": "rev-c-ptr",
+    "subjectId": "c-prog",
+    "subjectName": "C Programming",
+    "topic": "Pointers & Arrays",
+    "concept": "Array Name vs &Array Address arithmetic",
+    "keyFormula": "arr + 1 \\implies \\text{Base} + 1 \\times \\text{sizeof}(arr[0]) \\quad \\text{vs} \\quad \\&arr + 1 \\implies \\text{Base} + 1 \\times \\text{sizeof}(arr)",
+    "trapToAvoid": "`*p++` reads value at `p`, then increments pointer `p`. `(*p)++` reads value at `p`, then increments the value itself in memory!",
+    "miniQuestion": {
+      "prompt": "If `int a[5];`, what is the byte difference between `(char*)(&a + 1) - (char*)a` assuming 4-byte integers?",
+      "answer": "20 bytes (the size of the entire 5-element array)."
+    },
+    "intervalStage": 1,
+    "dueDate": "2026-10-02",
+    "status": "due"
+  },
+  {
+    "id": "rev-algo-master",
+    "subjectId": "algorithms",
+    "subjectName": "Algorithms",
+    "topic": "Asymptotic Analysis",
+    "concept": "Master Theorem 3 Critical Cases",
+    "keyFormula": "T(n) = aT(n/b) + \\Theta(n^k \\log^p n). \\text{ Compare } \\log_b a \\text{ with } k.",
+    "trapToAvoid": "Master theorem cannot solve $T(n) = 2T(n/2) + n/\\log n$ because $p = -1$ requires special handling.",
+    "miniQuestion": {
+      "prompt": "What is the complexity of $T(n) = 2T(n/2) + 1$?",
+      "answer": "\\Theta(n) since a = 2, b = 2, log_b(a) = 1, whereas f(n) = n^0 (k=0). a > b^k -> Theta(n^1)."
+    },
+    "intervalStage": 0,
+    "dueDate": "2026-10-01",
+    "status": "due"
+  },
+  {
+    "id": "rev-coa-cache",
+    "subjectId": "coa",
+    "subjectName": "Computer Organization & Architecture",
+    "topic": "Cache Memory",
+    "concept": "Set-Associative Address Bit Partitioning",
+    "keyFormula": "\\text{Address} = \\text{Tag} + \\log_2(\\text{Sets}) + \\log_2(\\text{BlockSize})",
+    "trapToAvoid": "Don't divide Cache Size by K directly to get line count. First find Total Lines = Cache / Block, then Sets = Total Lines / K.",
+    "miniQuestion": {
+      "prompt": "How many sets are in a 32 KB 4-way set-associative cache with 64-byte blocks?",
+      "answer": "128 sets. Total lines = 32KB / 64B = 512. Sets = 512 / 4 = 128 (7 bits)."
+    },
+    "intervalStage": 2,
+    "dueDate": "2026-10-05",
+    "status": "upcoming"
+  },
+  {
+    "id": "rev-dbms-norm",
+    "subjectId": "dbms",
+    "subjectName": "Databases (DBMS)",
+    "topic": "Normalization",
+    "concept": "Normal Forms Classification Rules",
+    "keyFormula": "\\text{BCNF}: X \\to Y \\implies X \\text{ is Superkey}. \\quad 3\\text{NF}: X \\text{ is Superkey OR } Y \\text{ is Prime}.",
+    "trapToAvoid": "An attribute is prime if it belongs to ANY candidate key, not necessarily the primary key.",
+    "miniQuestion": {
+      "prompt": "Can every relational schema be decomposed into BCNF with dependency preservation?",
+      "answer": "No. Lossless join is always achievable for BCNF, but dependency preservation is not guaranteed. 3NF guarantees both."
+    },
+    "intervalStage": 1,
+    "dueDate": "2026-10-03",
+    "status": "due"
+  }
+]

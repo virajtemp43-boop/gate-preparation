@@ -1,0 +1,231 @@
+[
+  {
+    "id": "c-pointers",
+    "subjectId": "c-prog",
+    "topicId": "pointers",
+    "title": "C Pointers & Pointer Arithmetic",
+    "estimatedMinutes": 35,
+    "difficulty": "beginner",
+    "gateRelevance": "core",
+    "prerequisites": ["Variables", "Memory addresses", "Data types"],
+    "intuition": "Think of memory like a long hotel street where each room has a unique street number (address). A normal variable is the person living inside the room. A pointer is a special piece of paper that holds the room number of another room! When you dereference (*p), you walk to that room number and read or change what is inside.",
+    "coreDefinition": "A pointer in C is a variable that stores the memory address of another variable. The address-of operator `&` retrieves a variable's address, while the dereference operator `*` accesses the value stored at the address pointed to.",
+    "formulas": [
+      "p + i = \\text{Address}(p) + i \\times \\text{sizeof}(*p)",
+      "*(a + i) \\equiv a[i] \\equiv i[a]",
+      "*(*(p + i) + j) \\equiv p[i][j]"
+    ],
+    "workedExamples": [
+      {
+        "problem": "Given `int a[5] = {10, 20, 30, 40, 50}; int *p = a;` What is the output of `printf(\"%d %d\", *(p + 2), *p + 2);`?",
+        "solution": "30 12",
+        "explanation": "`p + 2` moves 2 integers forward from `&a[0]`, pointing to `a[2]`. Therefore, `*(p + 2)` evaluates to 30. For `*p + 2`, the dereference operator `*` has higher precedence than `+`, so `*p` is evaluated first (which is 10), then 2 is added, yielding 12."
+      },
+      {
+        "problem": "If `int arr[3][3]` is stored starting at base address 1000 in row-major order with 4 bytes per integer, what is the address of `arr[1][2]`?",
+        "solution": "1020",
+        "explanation": "Formula: $\\text{Base} + (i \\times N + j) \\times \\text{sizeof}(\\text{element})$. Here $i = 1, j = 2, N = 3$. Offset = $(1 \\times 3 + 2) \\times 4 = 5 \\times 4 = 20$. Address = $1000 + 20 = 1020$."
+      }
+    ],
+    "gateTraps": [
+      "`*p++` vs `(*p)++`: `*p++` evaluates `*p` first and increments pointer `p` after; `(*p)++` increments the value stored at `p`!",
+      "Writing `int *p, q;` declares `p` as a pointer to int, but `q` is just a regular integer, NOT a pointer!",
+      "Array name decays to pointer to its first element in most expressions, but NOT when used with `sizeof` or `&` operator (`sizeof(arr)` gives total array bytes, not pointer size)."
+    ],
+    "quickCheck": {
+      "question": "What is the value of `i[a]` in C if `int a[] = {5, 15, 25}; int i = 2;`?",
+      "options": ["Syntax Error", "25", "5", "Undefined Behavior"],
+      "correctIndex": 1,
+      "explanation": "In C, array subscript notation `a[i]` is defined identically as `*(a + i)`. By commutativity of addition, `*(a + i) == *(i + a) == i[a]`. So `i[a]` is valid C and equals `a[2]`, which is 25."
+    },
+    "revisionSummary": "Pointers hold memory addresses. Adding integer $k$ to pointer $p$ scales by $k \\times \\text{sizeof}(*p)$. Always be careful with operator precedence between `*` and `++`."
+  },
+  {
+    "id": "algo-asymptotic",
+    "subjectId": "algorithms",
+    "topicId": "complexity",
+    "title": "Asymptotic Notations & Master Theorem",
+    "estimatedMinutes": 40,
+    "difficulty": "beginner",
+    "gateRelevance": "core",
+    "prerequisites": ["Functions", "Limits", "Recursion basics"],
+    "intuition": "Imagine comparing two vehicles travelling between two cities. For a 10-meter trip, walking might beat a supersonic jet because of boarding time. Asymptotic analysis ignores small distances and measures efficiency as the distance approaches infinity ($n \\to \\infty$).",
+    "coreDefinition": "Asymptotic notations provide a mathematical framework to describe the limiting behavior of an algorithm's running time or memory usage as the input size $n$ grows arbitrarily large, ignoring machine-specific constants.",
+    "formulas": [
+      "f(n) = O(g(n)) \\iff \\exists c > 0, n_0 \\ge 1 \\text{ such that } f(n) \\le c \\cdot g(n), \\forall n \\ge n_0",
+      "f(n) = \\Omega(g(n)) \\iff \\exists c > 0, n_0 \\ge 1 \\text{ such that } f(n) \\ge c \\cdot g(n), \\forall n \\ge n_0",
+      "f(n) = \\Theta(g(n)) \\iff f(n) = O(g(n)) \\text{ and } f(n) = \\Omega(g(n))",
+      "T(n) = aT(n/b) + \\Theta(n^k \\log^p n) \\implies \\text{Compare } a \\text{ with } b^k"
+    ],
+    "workedExamples": [
+      {
+        "problem": "Solve the recurrence $T(n) = 2T(n/2) + n$.",
+        "solution": "$\\Theta(n \\log n)$",
+        "explanation": "Here $a = 2, b = 2, f(n) = n = n^1 \\log^0 n$, so $k = 1, p = 0$. Since $b^k = 2^1 = 2 = a$ and $p > -1$, Master Theorem Case 2 applies: $T(n) = \\Theta(n^{\\log_b a} \\log^{p+1} n) = \\Theta(n^1 \\log^1 n) = \\Theta(n \\log n)$."
+      },
+      {
+        "problem": "Which function grows asymptotically faster: $f(n) = 2^{\\sqrt{\\log n}}$ or $g(n) = n$?",
+        "solution": "$g(n) = n$ grows strictly faster.",
+        "explanation": "Take logarithm of both: $\\log_2 f(n) = \\sqrt{\\log n}$, whereas $\\log_2 g(n) = \\log n$. Since $\\log n > \\sqrt{\\log n}$ for large $n$, $g(n)$ dominates $f(n)$."
+      }
+    ],
+    "gateTraps": [
+      "Master Theorem applies ONLY when $a \\ge 1$ and $b > 1$, and subproblems are divided (not subtracted). For $T(n) = T(n-1) + n$, use substitution, NOT Master Theorem!",
+      "Big-O is an upper bound, NOT necessarily a tight bound! Saying Merge Sort is $O(n^2)$ is mathematically TRUE, but saying its tight bound is $\\Theta(n^2)$ is FALSE.",
+      "Watch out for polynomial gap in Master Theorem Case 1 & 3: $f(n)$ must be polynomially smaller or larger by a factor of $n^\\epsilon$ ($\\epsilon > 0$)."
+    ],
+    "quickCheck": {
+      "question": "What is the time complexity of $T(n) = 4T(n/2) + n^2$?",
+      "options": ["$\\Theta(n^2)$", "$\\Theta(n^2 \\log n)$", "$\\Theta(n^3)$", "$\\Theta(n)$"],
+      "correctIndex": 1,
+      "explanation": "$a = 4, b = 2$. $\\log_b a = \\log_2 4 = 2$. $f(n) = n^2 = n^k$ where $k=2$. Since $a = b^k$ (4 = 4), Master Theorem Case 2 gives $\\Theta(n^2 \\log n)$."
+    },
+    "revisionSummary": "Master Theorem standard form: $T(n) = aT(n/b) + \\Theta(n^k \\log^p n)$. If $a > b^k \\to \\Theta(n^{\\log_b a})$; If $a = b^k \\to \\Theta(n^k \\log^{p+1} n)$ (for $p > -1$); If $a < b^k \\to \\Theta(n^k \\log^p n)$."
+  },
+  {
+    "id": "coa-cache",
+    "subjectId": "coa",
+    "topicId": "cache",
+    "title": "Cache Memory Mapping Techniques",
+    "estimatedMinutes": 45,
+    "difficulty": "intermediate",
+    "gateRelevance": "core",
+    "prerequisites": ["Binary addresses", "Powers of 2", "Memory hierarchy"],
+    "intuition": "Think of main memory as a huge library with 1,000,000 books and cache as your study desk holding only 10 books. Direct mapping means Book #47 can ONLY be placed in slot #7 on your desk. Set-associative means slot #7 has 2 or 4 shelves, so Book #47 can be placed in any shelf of set #7.",
+    "coreDefinition": "Cache mapping defines how a block of main memory is placed into a cache line. The three primary schemes are Direct Mapping, Fully Associative Mapping, and K-Way Set-Associative Mapping.",
+    "formulas": [
+      "\\text{Number of Cache Lines} = \\frac{\\text{Cache Size}}{\\text{Line Size}}",
+      "\\text{Number of Sets} = \\frac{\\text{Number of Cache Lines}}{K} \\quad (\\text{for } K\\text{-way})",
+      "\\text{Physical Address Bits} = \\text{Tag Bits} + \\text{Set/Line Index Bits} + \\text{Block Offset Bits}",
+      "\\text{AMAT} = H_1 \\cdot T_1 + (1 - H_1)(T_1 + T_2) \\quad \\text{or } H_1 \\cdot T_1 + (1 - H_1) \\cdot T_{miss}"
+    ],
+    "workedExamples": [
+      {
+        "problem": "A computer system has 32-bit byte-addressable memory, a 64 KB cache, and 64-byte cache blocks. In a 4-way set-associative cache, find the number of Tag, Set, and Offset bits.",
+        "solution": "Tag: 18 bits, Set: 8 bits, Offset: 6 bits",
+        "explanation": "Block size = 64 bytes = $2^6$ bytes $\\implies$ Offset = 6 bits. Total Cache Lines = $64\\text{ KB} / 64\\text{ B} = 1024$ lines. Since it is 4-way set-associative, Number of Sets = $1024 / 4 = 256 = 2^8$ sets $\\implies$ Set Index = 8 bits. Tag bits = $32 - (8 + 6) = 32 - 14 = 18$ bits."
+      }
+    ],
+    "gateTraps": [
+      "Always check if memory is byte-addressable or word-addressable! If word-addressable (e.g. 4-byte word), the offset calculates the number of words, NOT bytes!",
+      "Tag directory size is NOT the same as cache data size! Tag directory size = $\\text{Number of lines} \\times (\\text{Tag bits} + \\text{Valid bit} + \\text{Dirty bit})$.",
+      "In direct mapping, Set bits = Line bits because every line is its own set ($K = 1$)."
+    ],
+    "quickCheck": {
+      "question": "In a 2-way set-associative cache with 512 lines and 32-byte blocks on a 32-bit byte-addressed architecture, how many bits are used for the set index?",
+      "options": ["9 bits", "8 bits", "7 bits", "5 bits"],
+      "correctIndex": 1,
+      "explanation": "Number of sets = $\\text{Total lines} / K = 512 / 2 = 256 = 2^8$ sets. Therefore, $\\log_2(256) = 8$ bits are needed for the set index."
+    },
+    "revisionSummary": "Address Breakdown: [Tag | Set Index | Block Offset]. Offset = $\\log_2(\\text{Block Size})$. Set Index = $\\log_2(\\text{Number of Sets})$. Tag = Total Address Bits - (Set Bits + Offset Bits)."
+  },
+  {
+    "id": "dbms-normalization",
+    "subjectId": "dbms",
+    "topicId": "normalization",
+    "title": "Functional Dependencies & Normal Forms",
+    "estimatedMinutes": 45,
+    "difficulty": "intermediate",
+    "gateRelevance": "core",
+    "prerequisites": ["Relational model", "Candidate keys", "Prime attributes"],
+    "intuition": "Normalization is organizing a messy spreadsheet into clean, linked tables to eliminate redundant data. Without normalization, changing a student's phone number might require editing 50 rows, risking anomalies.",
+    "coreDefinition": "Normalization is the process of decomposing relations to minimize data redundancy and prevent insertion, deletion, and update anomalies while preserving dependencies and ensuring lossless joins.",
+    "formulas": [
+      "1\\text{NF}: \\text{All attribute values must be atomic (no multi-valued/composite attributes)}",
+      "2\\text{NF}: 1\\text{NF} + \\text{No partial dependency (no proper subset of Candidate Key } \\to \\text{ non-prime attribute)}",
+      "3\\text{NF}: \\forall X \\to Y, X \\text{ is a Super Key OR } Y \\text{ is a Prime Attribute}",
+      "\\text{BCNF}: \\forall X \\to Y, X \\text{ must be a Super Key}"
+    ],
+    "workedExamples": [
+      {
+        "problem": "Given relation $R(A, B, C, D)$ with FDs: $A \\to B, B \\to C, C \\to D$. What is the highest normal form of $R$?",
+        "solution": "2NF",
+        "explanation": "Compute closure: $A^+ = \\{A, B, C, D\\}$, so $A$ is the only Candidate Key. Prime attribute = $\\{A\\}$, Non-prime = $\\{B, C, D\\}$. $A$ is a single attribute, so no proper subset exists $\\implies$ No partial dependency $\\implies$ in 2NF. For $B \\to C$: $B$ is NOT a super key and $C$ is NOT a prime attribute $\\implies$ violates 3NF. Hence, highest normal form is 2NF."
+      }
+    ],
+    "gateTraps": [
+      "In 3NF, the condition is $X$ is Super Key OR $Y$ is Prime attribute. In BCNF, there is NO prime attribute escape hatch!",
+      "BCNF decomposition guarantees Lossless Join, but is NOT always dependency-preserving! 3NF decomposition can ALWAYS achieve BOTH lossless join and dependency preservation.",
+      "Check ALL candidate keys when determining whether an attribute is prime! An attribute is prime if it belongs to ANY candidate key."
+    ],
+    "quickCheck": {
+      "question": "Which of the following properties is ALWAYS guaranteed when decomposing a relation into 3NF?",
+      "options": ["Both Lossless Join and Dependency Preservation", "Lossless Join only", "Dependency Preservation only", "Neither is guaranteed"],
+      "correctIndex": 0,
+      "explanation": "A standard theorem in database theory states that any relation can always be decomposed into 3NF such that the decomposition is both lossless join and dependency preserving."
+    },
+    "revisionSummary": "Hierarchy: $\\text{BCNF} \\subset 3\\text{NF} \\subset 2\\text{NF} \\subset 1\\text{NF}$. 3NF allows $X \\to A$ if $A$ is prime. BCNF requires $X$ to always be a superkey."
+  },
+  {
+    "id": "os-scheduling",
+    "subjectId": "os",
+    "topicId": "scheduling",
+    "title": "CPU Scheduling Algorithms & Metrics",
+    "estimatedMinutes": 40,
+    "difficulty": "intermediate",
+    "gateRelevance": "core",
+    "prerequisites": ["Process states", "Ready queue", "Context switching"],
+    "intuition": "Imagine a bank with one single teller (CPU) and multiple customers (processes) waiting with slips of different lengths. Scheduling decides which customer gets served next to keep waiting times minimal and fairness high.",
+    "coreDefinition": "CPU scheduling is the process by which the operating system decides which of the ready processes is allocated the CPU for execution, maximizing CPU utilization and throughput while minimizing turnaround, waiting, and response times.",
+    "formulas": [
+      "\\text{Turnaround Time (TAT)} = \\text{Completion Time (CT)} - \\text{Arrival Time (AT)}",
+      "\\text{Waiting Time (WT)} = \\text{TAT} - \\text{Burst Time (BT)}",
+      "\\text{Response Time (RT)} = \\text{First CPU Time} - \\text{Arrival Time}"
+    ],
+    "workedExamples": [
+      {
+        "problem": "Two processes arrive at $t=0$: $P_1$ with Burst Time 4, $P_2$ with Burst Time 3. Under Round Robin with time quantum $q = 1$, find the average turnaround time.",
+        "solution": "6.5",
+        "explanation": "Gantt Chart: $P_1[0-1] \\to P_2[1-2] \\to P_1[2-3] \\to P_2[3-4] \\to P_1[4-5] \\to P_2[5-6] (P_2\\text{ finishes at } 6) \\to P_1[6-7] (P_1\\text{ finishes at } 7)$. $\\text{TAT}(P_1) = 7 - 0 = 7$. $\\text{TAT}(P_2) = 6 - 0 = 6$. $\\text{Avg TAT} = (7 + 6) / 2 = 6.5$."
+      }
+    ],
+    "gateTraps": [
+      "In Round Robin, if a newly arriving process and an expiring time-slice process compete at the exact same millisecond, standard GATE convention places the newly arrived process into the ready queue BEFORE the expired process!",
+      "Shortest Remaining Time First (SRTF) is optimal for minimizing average waiting time, but can cause starvation for longer processes.",
+      "If CPU is idle between processes, make sure to show the idle gap on the Gantt chart and not skew completion times!"
+    ],
+    "quickCheck": {
+      "question": "Which CPU scheduling algorithm can suffer from the Convoy Effect?",
+      "options": ["First-Come, First-Served (FCFS)", "Round Robin", "Shortest Job First (SJF)", "Priority Scheduling"],
+      "correctIndex": 0,
+      "explanation": "In FCFS, when a CPU-bound process with a huge burst time holds the CPU, many short I/O-bound processes pile up waiting behind it like cars behind a slow truck. This is called the Convoy Effect."
+    },
+    "revisionSummary": "Metrics: $\\text{TAT} = \\text{CT} - \\text{AT}$, $\\text{WT} = \\text{TAT} - \\text{BT}$. Shortest Remaining Time First (SRTF) minimizes average WT. Round Robin prevents starvation using time quantum."
+  },
+  {
+    "id": "cn-subnetting",
+    "subjectId": "cn",
+    "topicId": "subnetting",
+    "title": "IPv4 Addressing, Subnetting & CIDR",
+    "estimatedMinutes": 45,
+    "difficulty": "intermediate",
+    "gateRelevance": "core",
+    "prerequisites": ["Binary representation", "Bitwise AND", "IP packet headers"],
+    "intuition": "An IP address is like a postal address: part of it identifies your neighborhood (Network ID), and the remaining part identifies your specific house number (Host ID). Subnetting allows the post office to divide a large neighborhood into smaller private gated communities.",
+    "coreDefinition": "Classless Inter-Domain Routing (CIDR) represents IPv4 addresses in the notation $A.B.C.D/n$, where the prefix length $n$ indicates the number of consecutive 1s in the subnet mask representing the network prefix, leaving $32 - n$ bits for host identification.",
+    "formulas": [
+      "\\text{Total IP Addresses in } /n = 2^{32 - n}",
+      "\\text{Usable Host Addresses} = 2^{32 - n} - 2 \\quad (\\text{subtracting Network & Broadcast IDs})",
+      "\\text{Subnet ID} = \\text{IP Address} \\text{ BITWISE-AND } \\text{Subnet Mask}"
+    ],
+    "workedExamples": [
+      {
+        "problem": "An ISP grants an organization the address block $200.10.20.0/24$. The organization needs 4 equal-sized subnets. Find the subnet mask and usable hosts per subnet.",
+        "solution": "Subnet Mask: 255.255.255.192 (/26), Usable hosts per subnet: 62",
+        "explanation": "To create 4 subnets ($2^2 = 4$), we need 2 extra subnet bits. New prefix = $24 + 2 = /26$. Mask = $11111111.11111111.11111111.11000000_2 = 255.255.255.192$. Host bits remaining = $32 - 26 = 6$ bits. Usable hosts = $2^6 - 2 = 64 - 2 = 62$ hosts."
+      }
+    ],
+    "gateTraps": [
+      "Remember to subtract 2 for usable hosts (all-0s is Network Address, all-1s is Directed Broadcast Address).",
+      "In router Longest Prefix Match, when an incoming IP matches multiple routing table entries, the packet is forwarded through the interface with the LONGEST prefix (highest $n$), NOT the first match!",
+      "Subnet mask must be contiguous 1s followed by contiguous 0s."
+    ],
+    "quickCheck": {
+      "question": "What is the directed broadcast address for the subnet containing IP address $192.168.10.45/28$?",
+      "options": ["192.168.10.47", "192.168.10.63", "192.168.10.255", "192.168.10.32"],
+      "correctIndex": 0,
+      "explanation": "$/28$ means block size in last octet is $2^{32 - 28} = 2^4 = 16$. Subnet ranges: 0-15, 16-31, 32-47. Since 45 is in 32-47, the Network ID is $192.168.10.32$ and the directed broadcast is the last address in the block: $192.168.10.47$."
+    },
+    "revisionSummary": "In $/n$ network: $n$ network bits, $32 - n$ host bits. Block size in relevant octet is $2^{32 - n}$. Usable hosts = $2^{32 - n} - 2$. Longest prefix match selects the most specific route."
+  }
+]
