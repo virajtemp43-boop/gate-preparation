@@ -2,6 +2,8 @@ import planDaysData from "@/data/gate/plan-90-days.json";
 import resourcesData from "@/data/gate/resources.json";
 import subjectsData from "@/data/gate/subjects.json";
 import practiceQuestionsData from "@/data/gate/practice-questions.json";
+import exactResourceMapData from "@/data/gate/exact-resource-map.json";
+import resourceHealthData from "@/data/gate/resource-health.json";
 
 import {
   StudyDay,
@@ -10,6 +12,7 @@ import {
   RevisionCard,
   ErrorBookEntry,
   Question,
+  DayResourceMap,
 } from "./types";
 
 export const FIXED_PLAN_START_DATE = "2026-10-01";
@@ -58,6 +61,14 @@ export function getCurrentPlanDay(currentDate: Date = new Date()): {
 
 export function getResources(): ResourceRegistryItem[] {
   return resourcesData as ResourceRegistryItem[];
+}
+
+export function getDayResourceMap(dayNumber: number): DayResourceMap | undefined {
+  return (exactResourceMapData as Record<string, DayResourceMap>)[String(dayNumber)];
+}
+
+export function getResourceHealth() {
+  return resourceHealthData;
 }
 
 export function getSubjects() {

@@ -26,6 +26,13 @@ export type TaskType =
   | "review"
   | "test";
 
+export type DayStatus =
+  | "completed"
+  | "in_progress"
+  | "pending"
+  | "missed"
+  | "scheduled";
+
 export interface DailyTask {
   id: string;
   title: string;
@@ -47,7 +54,32 @@ export interface DailyBriefing {
   successCondition: string;
 }
 
-export type DayStatus = "completed" | "in_progress" | "pending" | "missed";
+export type TopicVideoLocator = {
+  title: string;
+  directUrl?: string;
+  roadmapUrl: string;
+  playlistUrl?: string;
+  searchFallbackUrl: string;
+  status: "verified_direct" | "topic_locator" | "test_resource";
+  provider: "Gate Smashers" | "Official GATE" | "GATEOverflow";
+};
+
+export type TopicPyqLocator = {
+  title: string;
+  url: string;
+  status: "verified_topic_tag" | "subject_previous_gate" | "test_resource";
+  provider: "GATEOverflow" | "Official GATE";
+};
+
+export type DayResourceMap = {
+  day: number;
+  date: string;
+  subject: string;
+  topic: string;
+  videos: TopicVideoLocator[];
+  pyqs: TopicPyqLocator[];
+  subtopics: string[];
+};
 
 export interface StudyDay {
   dayNumber: number;
@@ -74,6 +106,7 @@ export interface StudyDay {
     url: string;
     target: number;
   };
+  exactResources?: DayResourceMap;
   pyqTarget?: number;
   freshQuestionTarget?: number;
   tasks: DailyTask[];

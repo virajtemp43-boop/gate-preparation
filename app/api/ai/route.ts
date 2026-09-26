@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
           { role: "user", content: message },
         ];
 
-        const model = process.env.AI_MODEL || "llama-3.3-70b-versatile";
+        const model = process.env.AI_MODEL || "openai/gpt-oss-120b";
         const reply = await callGroqCoach(messages, apiKey, model);
 
         return NextResponse.json({

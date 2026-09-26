@@ -1,0 +1,2170 @@
+{
+  "auditedAt": "2026-09-26T11:36:34.562Z",
+  "totalDays": 90,
+  "healthyCount": 90,
+  "directVideosCount": 12,
+  "topicLocatorsCount": 78,
+  "healthStatus": "100% OPERATIONAL",
+  "days": [
+    {
+      "day": 1,
+      "date": "2026-10-01",
+      "subject": "Programming & Data Structures",
+      "topic": "C Variables, Data Types & Operators",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: C Variables, Data Types & Operators",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/data-structures-and-algorithms",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+C+Variables%2C+Data+Types+%26+Operators"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow C Programming Previous GATE Questions",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions/programming-in-c/programming/programming-in-c?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 2,
+      "date": "2026-10-02",
+      "subject": "Programming & Data Structures",
+      "topic": "Control Flow: Conditionals & Loops",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Watch Lecture: Control Flow: Conditionals & Loops",
+        "status": "verified_direct",
+        "directUrl": "https://www.youtube.com/watch?v=E68uezDkQxc",
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/data-structures-and-algorithms",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Control+Flow+Conditionals+Loops"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow C Programming Previous GATE Questions",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions/programming-in-c/programming/programming-in-c?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Direct verified lecture link operational with Gate Smashers roadmap backup."
+    },
+    {
+      "day": 3,
+      "date": "2026-10-03",
+      "subject": "Programming & Data Structures",
+      "topic": "Functions, Scope & Storage Classes",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Watch Lecture: Functions, Scope & Storage Classes",
+        "status": "verified_direct",
+        "directUrl": "https://www.youtube.com/watch?v=jaiKkW2j2Wo",
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/data-structures-and-algorithms",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Storage+Classes+in+C"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow C Programming Previous GATE Questions",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions/programming-in-c/programming/programming-in-c?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Direct verified lecture link operational with Gate Smashers roadmap backup."
+    },
+    {
+      "day": 4,
+      "date": "2026-10-04",
+      "subject": "Programming & Data Structures",
+      "topic": "1D & 2D Arrays: Memory Layout & Addressing",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Watch Lecture: 1D & 2D Arrays: Memory Layout & Addressing",
+        "status": "verified_direct",
+        "directUrl": "https://www.youtube.com/watch?v=6e6yKtr2VGI",
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/data-structures-and-algorithms",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+1D+%26+2D+Arrays%3A+Memory+Layout+%26+Addressing"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Array",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/array"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Direct verified lecture link operational with Gate Smashers roadmap backup."
+    },
+    {
+      "day": 5,
+      "date": "2026-10-05",
+      "subject": "Programming & Data Structures",
+      "topic": "Pointers & Pointer Arithmetic",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Pointers & Pointer Arithmetic",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/data-structures-and-algorithms",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Pointers+%26+Pointer+Arithmetic"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Pointers",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/pointers"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 6,
+      "date": "2026-10-06",
+      "subject": "Programming & Data Structures",
+      "topic": "Strings & Character Arrays",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Strings & Character Arrays",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/data-structures-and-algorithms",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Strings+%26+Character+Arrays"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Array",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/array"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 7,
+      "date": "2026-10-07",
+      "subject": "Programming & Data Structures",
+      "topic": "Structures, Unions & Week 1 Review",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Structures, Unions & Week 1 Review",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/data-structures-and-algorithms",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Structures%2C+Unions+%26+Week+1+Review"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow C Programming Previous GATE Questions",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions/programming-in-c/programming/programming-in-c?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 8,
+      "date": "2026-10-08",
+      "subject": "Programming & Data Structures",
+      "topic": "Recursion & Call Stack Tracing",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Watch Lecture: Recursion & Call Stack Tracing",
+        "status": "verified_direct",
+        "directUrl": "https://www.youtube.com/watch?v=J4ucdS7uvls",
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/data-structures-and-algorithms",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Recursion+%26+Call+Stack+Tracing"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Recursion",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/recursion"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Direct verified lecture link operational with Gate Smashers roadmap backup."
+    },
+    {
+      "day": 9,
+      "date": "2026-10-09",
+      "subject": "Programming & Data Structures",
+      "topic": "Singly Linked Lists: Operations & Pointer Updates",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Singly Linked Lists: Operations & Pointer Updates",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/data-structures-and-algorithms",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Singly+Linked+Lists%3A+Operations+%26+Pointer+Updates"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Linked-List",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/linked-list"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 10,
+      "date": "2026-10-10",
+      "subject": "Programming & Data Structures",
+      "topic": "Doubly & Circular Linked Lists",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Doubly & Circular Linked Lists",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/data-structures-and-algorithms",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Doubly+%26+Circular+Linked+Lists"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Linked-List",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/linked-list"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 11,
+      "date": "2026-10-11",
+      "subject": "Programming & Data Structures",
+      "topic": "Stacks: Operations, Infix to Postfix & Evaluation",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Stacks: Operations, Infix to Postfix & Evaluation",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/data-structures-and-algorithms",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Stacks%3A+Operations%2C+Infix+to+Postfix+%26+Evaluation"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Stack",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/stack"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 12,
+      "date": "2026-10-12",
+      "subject": "Programming & Data Structures",
+      "topic": "Stack Applications: Permutations & Two-Stack Tricks",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Stack Applications: Permutations & Two-Stack Tricks",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/data-structures-and-algorithms",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Stack+Applications%3A+Permutations+%26+Two-Stack+Tricks"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Stack",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/stack"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 13,
+      "date": "2026-10-13",
+      "subject": "Programming & Data Structures",
+      "topic": "Queues, Circular Queues & Priority Queues",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Queues, Circular Queues & Priority Queues",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/data-structures-and-algorithms",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Queues%2C+Circular+Queues+%26+Priority+Queues"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Queue",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/queue"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 14,
+      "date": "2026-10-14",
+      "subject": "Programming & Data Structures",
+      "topic": "Linear Data Structures Review & Timed Test",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Linear Data Structures Review & Timed Test",
+        "status": "test_resource",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/data-structures-and-algorithms",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Linear+Data+Structures+Review+%26+Timed+Test"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Linear DSA Previous GATE Questions",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions/programming-in-c/programming/programming-in-c?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 15,
+      "date": "2026-10-15",
+      "subject": "Algorithms",
+      "topic": "Asymptotic Notation: Big-O, Omega, Theta",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Asymptotic Notation: Big-O, Omega, Theta",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/design-and-analysis-of-algorithms",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Asymptotic+Notation%3A+Big-O%2C+Omega%2C+Theta"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Asymptotic Notations",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/asymptotic-notations"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 16,
+      "date": "2026-10-16",
+      "subject": "Algorithms",
+      "topic": "Recurrence Relations & Master Theorem",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Recurrence Relations & Master Theorem",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/design-and-analysis-of-algorithms",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Recurrence+Relations+%26+Master+Theorem"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Master Theorem",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/master-theorem"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 17,
+      "date": "2026-10-17",
+      "subject": "Programming & Data Structures",
+      "topic": "Binary Trees & Tree Traversals",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Binary Trees & Tree Traversals",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/data-structures-and-algorithms",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Binary+Trees+%26+Tree+Traversals"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Binary Tree",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/binary-tree"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 18,
+      "date": "2026-10-18",
+      "subject": "Programming & Data Structures",
+      "topic": "Binary Search Trees (BST) & AVL Trees",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Binary Search Trees (BST) & AVL Trees",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/data-structures-and-algorithms",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Binary+Search+Trees+%28BST%29+%26+AVL+Trees"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Binary Search Tree",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/binary-search-tree"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 19,
+      "date": "2026-10-19",
+      "subject": "Programming & Data Structures",
+      "topic": "Binary Heaps & Priority Queues",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Binary Heaps & Priority Queues",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/data-structures-and-algorithms",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Binary+Heaps+%26+Priority+Queues"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Binary Heap",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/binary-heap"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 20,
+      "date": "2026-10-20",
+      "subject": "Algorithms",
+      "topic": "Sorting Algorithms & Lower Bounds",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Sorting Algorithms & Lower Bounds",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/design-and-analysis-of-algorithms",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Sorting+Algorithms+%26+Lower+Bounds"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Sorting",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/sorting"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 21,
+      "date": "2026-10-21",
+      "subject": "Algorithms",
+      "topic": "Greedy Algorithms & Divide and Conquer",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Greedy Algorithms & Divide and Conquer",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/design-and-analysis-of-algorithms",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Greedy+Algorithms+%26+Divide+and+Conquer"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Greedy",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/greedy"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 22,
+      "date": "2026-10-22",
+      "subject": "Discrete Mathematics",
+      "topic": "Propositional Logic & Truth Tables",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Propositional Logic & Truth Tables",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Propositional+Logic+%26+Truth+Tables"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Propositional Logic",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/propositional-logic"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 23,
+      "date": "2026-10-23",
+      "subject": "Discrete Mathematics",
+      "topic": "First-Order Predicate Logic",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: First-Order Predicate Logic",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+First-Order+Predicate+Logic"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: First Order Logic",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/first-order-logic"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 24,
+      "date": "2026-10-24",
+      "subject": "Discrete Mathematics",
+      "topic": "Sets, Relations & Equivalence Relations",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Sets, Relations & Equivalence Relations",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Sets%2C+Relations+%26+Equivalence+Relations"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Sets & Relations",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/sets"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 25,
+      "date": "2026-10-25",
+      "subject": "Discrete Mathematics",
+      "topic": "Partial Orders, Hasse Diagrams & Lattices",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Partial Orders, Hasse Diagrams & Lattices",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Partial+Orders%2C+Hasse+Diagrams+%26+Lattices"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: POSET & Lattices",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/poset"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 26,
+      "date": "2026-10-26",
+      "subject": "Discrete Mathematics",
+      "topic": "Combinatorics: Permutations, Combinations & Pigeonhole",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Combinatorics: Permutations, Combinations & Pigeonhole",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Combinatorics%3A+Permutations%2C+Combinations+%26+Pigeonhole"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Pigeonhole Principle",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/pigeonhole-principle"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 27,
+      "date": "2026-10-27",
+      "subject": "Engineering Mathematics",
+      "topic": "Probability: Conditional Probability & Bayes Theorem",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Probability: Conditional Probability & Bayes Theorem",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Probability%3A+Conditional+Probability+%26+Bayes+Theorem"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Bayes Theorem",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/bayes-theorem"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 28,
+      "date": "2026-10-28",
+      "subject": "Engineering Mathematics",
+      "topic": "Random Variables & Distributions",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Random Variables & Distributions",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Random+Variable+Distribution+GATE"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Engineering Math Previous GATE Questions",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions/engineering-mathematics?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 29,
+      "date": "2026-10-29",
+      "subject": "Engineering Mathematics",
+      "topic": "Linear Algebra: Matrices, Rank & Systems of Equations",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Linear Algebra: Matrices, Rank & Systems of Equations",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Linear+Algebra%3A+Matrices%2C+Rank+%26+Systems+of+Equations"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Linear Algebra",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/linear-algebra"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 30,
+      "date": "2026-10-30",
+      "subject": "Engineering Mathematics",
+      "topic": "Linear Algebra: Eigenvalues & Cayley-Hamilton",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Linear Algebra: Eigenvalues & Cayley-Hamilton",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Linear+Algebra%3A+Eigenvalues+%26+Cayley-Hamilton"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Eigenvalues",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/eigenvalues"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 31,
+      "date": "2026-10-31",
+      "subject": "Foundation Review",
+      "topic": "Month 1 Comprehensive Review & Diagnostic Test",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Watch Lecture: Month 1 Comprehensive Review & Diagnostic Test",
+        "status": "test_resource",
+        "directUrl": "https://gateoverflow.in/tests",
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://gateoverflow.in/tests"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Full Tests Portal",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Direct verified lecture link operational with Gate Smashers roadmap backup."
+    },
+    {
+      "day": 32,
+      "date": "2026-11-01",
+      "subject": "Digital Logic",
+      "topic": "Number Systems & Floating Point Representation",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Watch Lecture: Number Systems & Floating Point Representation",
+        "status": "verified_direct",
+        "directUrl": "https://www.youtube.com/watch?v=2joeDD5-v3s",
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Number+Systems"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Digital Logic Previous GATE Questions",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions/digital-logic?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Direct verified lecture link operational with Gate Smashers roadmap backup."
+    },
+    {
+      "day": 33,
+      "date": "2026-11-02",
+      "subject": "Digital Logic",
+      "topic": "Boolean Algebra & K-Maps",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Boolean Algebra & K-Maps",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Boolean+Algebra+%26+K-Maps"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Boolean Algebra",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/boolean-algebra"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 34,
+      "date": "2026-11-03",
+      "subject": "Digital Logic",
+      "topic": "Combinational Circuits: Multiplexers & Decoders",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Watch Lecture: Combinational Circuits: Multiplexers & Decoders",
+        "status": "verified_direct",
+        "directUrl": "https://www.youtube.com/watch?v=p6yPvw88BJk",
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Multiplexer"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Multiplexer",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/multiplexer"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Direct verified lecture link operational with Gate Smashers roadmap backup."
+    },
+    {
+      "day": 35,
+      "date": "2026-11-04",
+      "subject": "Digital Logic",
+      "topic": "Sequential Circuits: Latches & Flip-Flops",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Sequential Circuits: Latches & Flip-Flops",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Sequential+Circuits%3A+Latches+%26+Flip-Flops"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Flip-Flop",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/flip-flop"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 36,
+      "date": "2026-11-05",
+      "subject": "Digital Logic",
+      "topic": "Counters & Shift Registers",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Counters & Shift Registers",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Counters+%26+Shift+Registers"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Counter",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/counter"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 37,
+      "date": "2026-11-06",
+      "subject": "Computer Organization & Architecture",
+      "topic": "Instruction Formats & Addressing Modes",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Instruction Formats & Addressing Modes",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/computer-organization-architecture",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Instruction+Formats+%26+Addressing+Modes"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Instruction Format",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/instruction-format"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 38,
+      "date": "2026-11-07",
+      "subject": "Computer Organization & Architecture",
+      "topic": "ALU, Datapath & Control Unit Design",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: ALU, Datapath & Control Unit Design",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/computer-organization-architecture",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+ALU%2C+Datapath+%26+Control+Unit+Design"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow COA Previous GATE Questions",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/subject/co-and-architecture"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 39,
+      "date": "2026-11-08",
+      "subject": "Computer Organization & Architecture",
+      "topic": "Memory Hierarchy & Main Memory Interleaving",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Memory Hierarchy & Main Memory Interleaving",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/computer-organization-architecture",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Memory+Hierarchy+%26+Main+Memory+Interleaving"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow COA Previous GATE Questions",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/subject/co-and-architecture"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 40,
+      "date": "2026-11-09",
+      "subject": "Computer Organization & Architecture",
+      "topic": "Cache Memory: Direct, Associative & Set-Associative Mapping",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Cache Memory: Direct, Associative & Set-Associative Mapping",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/computer-organization-architecture",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Cache+Memory%3A+Direct%2C+Associative+%26+Set-Associative+Mapping"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Cache",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/cache"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 41,
+      "date": "2026-11-10",
+      "subject": "Computer Organization & Architecture",
+      "topic": "Cache Policies & Average Memory Access Time (AMAT)",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Cache Policies & Average Memory Access Time (AMAT)",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/computer-organization-architecture",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Cache+Policies+%26+Average+Memory+Access+Time+%28AMAT%29"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Cache",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/cache"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 42,
+      "date": "2026-11-11",
+      "subject": "Computer Organization & Architecture",
+      "topic": "Instruction Pipelining & Hazard Analysis",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Instruction Pipelining & Hazard Analysis",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/computer-organization-architecture",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Instruction+Pipelining+%26+Hazard+Analysis"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Pipelining",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/pipelining"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 43,
+      "date": "2026-11-12",
+      "subject": "Computer Organization & Architecture",
+      "topic": "I/O Interface, Interrupts & DMA",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: I/O Interface, Interrupts & DMA",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/computer-organization-architecture",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+I%2FO+Interface%2C+Interrupts+%26+DMA"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Interrupt",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/interrupt"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 44,
+      "date": "2026-11-13",
+      "subject": "Databases / DBMS",
+      "topic": "ER Modeling & Schema Mapping",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: ER Modeling & Schema Mapping",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/dbms-sql",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+ER+Modeling+%26+Schema+Mapping"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: ER Model",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/er-model"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 45,
+      "date": "2026-11-14",
+      "subject": "Databases / DBMS",
+      "topic": "Relational Algebra & Relational Calculus",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Relational Algebra & Relational Calculus",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/dbms-sql",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Relational+Algebra+%26+Relational+Calculus"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow DBMS Previous GATE Questions",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions/databases?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 46,
+      "date": "2026-11-15",
+      "subject": "Databases / DBMS",
+      "topic": "SQL Queries, Aggregates & Subqueries",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: SQL Queries, Aggregates & Subqueries",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/dbms-sql",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+SQL+Queries%2C+Aggregates+%26+Subqueries"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: SQL",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/sql"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 47,
+      "date": "2026-11-16",
+      "subject": "Databases / DBMS",
+      "topic": "Functional Dependencies & Attribute Closure",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Functional Dependencies & Attribute Closure",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/dbms-sql",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Functional+Dependencies+%26+Attribute+Closure"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow DBMS Previous GATE Questions",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions/databases?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 48,
+      "date": "2026-11-17",
+      "subject": "Databases / DBMS",
+      "topic": "Normalization: 1NF, 2NF, 3NF, BCNF",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Watch Lecture: Normalization: 1NF, 2NF, 3NF, BCNF",
+        "status": "verified_direct",
+        "directUrl": "https://www.youtube.com/watch?v=EFdvRm5nse0",
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/dbms-sql",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Normalization"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Database Normalization",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/database-normalization"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Direct verified lecture link operational with Gate Smashers roadmap backup."
+    },
+    {
+      "day": 49,
+      "date": "2026-11-18",
+      "subject": "Databases / DBMS",
+      "topic": "Transactions, ACID Properties & Serializability",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Transactions, ACID Properties & Serializability",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/dbms-sql",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Transactions%2C+ACID+Properties+%26+Serializability"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Serializability",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/serializability"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 50,
+      "date": "2026-11-19",
+      "subject": "Databases / DBMS",
+      "topic": "Concurrency Control & Indexing (B/B+ Trees)",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Concurrency Control & Indexing (B/B+ Trees)",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/dbms-sql",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Concurrency+Control+%26+Indexing+%28B%2FB%2B+Trees%29"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow DBMS Previous GATE Questions",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions/databases?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 51,
+      "date": "2026-11-20",
+      "subject": "Operating Systems",
+      "topic": "Processes, Threads & System Calls",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Processes, Threads & System Calls",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/operating-systems",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Processes%2C+Threads+%26+System+Calls"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow OS Previous GATE Questions",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions/operating-system?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 52,
+      "date": "2026-11-21",
+      "subject": "Operating Systems",
+      "topic": "CPU Scheduling Algorithms",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: CPU Scheduling Algorithms",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/operating-systems",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+CPU+Scheduling+Algorithms"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow OS Previous GATE Questions",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions/operating-system?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 53,
+      "date": "2026-11-22",
+      "subject": "Operating Systems",
+      "topic": "Process Synchronization & Semaphores",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Process Synchronization & Semaphores",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/operating-systems",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Process+Synchronization+%26+Semaphores"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow OS Previous GATE Questions",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions/operating-system?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 54,
+      "date": "2026-11-23",
+      "subject": "Operating Systems",
+      "topic": "Deadlocks: Necessary Conditions & Banker's Algorithm",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Deadlocks: Necessary Conditions & Banker's Algorithm",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/operating-systems",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Deadlocks%3A+Necessary+Conditions+%26+Banker%27s+Algorithm"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Deadlock",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/deadlock"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 55,
+      "date": "2026-11-24",
+      "subject": "Operating Systems",
+      "topic": "Memory Management, Paging & TLB",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Memory Management, Paging & TLB",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/operating-systems",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Memory+Management%2C+Paging+%26+TLB"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Paging",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/paging"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 56,
+      "date": "2026-11-25",
+      "subject": "Operating Systems",
+      "topic": "Virtual Memory, Page Replacement & Disk Scheduling",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Virtual Memory, Page Replacement & Disk Scheduling",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/operating-systems",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Virtual+Memory%2C+Page+Replacement+%26+Disk+Scheduling"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Page Replacement",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/page-replacement"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 57,
+      "date": "2026-11-26",
+      "subject": "Computer Networks",
+      "topic": "Layered Models & Data Link Layer Framing / Error Control",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Layered Models & Data Link Layer Framing / Error Control",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/computer-networks",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Layered+Models+%26+Data+Link+Layer+Framing+%2F+Error+Control"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow CN Previous GATE Questions",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions/computer-networks?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 58,
+      "date": "2026-11-27",
+      "subject": "Computer Networks",
+      "topic": "Flow Control: Sliding Window Protocols",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Flow Control: Sliding Window Protocols",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/computer-networks",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Flow+Control%3A+Sliding+Window+Protocols"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Sliding Window",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/sliding-window"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 59,
+      "date": "2026-11-28",
+      "subject": "Computer Networks",
+      "topic": "MAC Layer: ALOHA, CSMA/CD & Ethernet",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: MAC Layer: ALOHA, CSMA/CD & Ethernet",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/computer-networks",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+MAC+Layer%3A+ALOHA%2C+CSMA%2FCD+%26+Ethernet"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: CSMA/CD",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/csma-cd"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 60,
+      "date": "2026-11-29",
+      "subject": "Computer Networks",
+      "topic": "Network Layer: IPv4, Subnetting, CIDR & Routing",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Network Layer: IPv4, Subnetting, CIDR & Routing",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/computer-networks",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Network+Layer%3A+IPv4%2C+Subnetting%2C+CIDR+%26+Routing"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: IPv4",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/ipv4"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 61,
+      "date": "2026-11-30",
+      "subject": "Computer Networks",
+      "topic": "Transport Layer: TCP, Congestion Control & Month 2 Review",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Watch Lecture: Transport Layer: TCP, Congestion Control & Month 2 Review",
+        "status": "test_resource",
+        "directUrl": "https://gateoverflow.in/tests",
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/computer-networks",
+        "searchFallbackUrl": "https://gateoverflow.in/tests"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: TCP",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/tcp"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Direct verified lecture link operational with Gate Smashers roadmap backup."
+    },
+    {
+      "day": 62,
+      "date": "2026-12-01",
+      "subject": "Theory of Computation",
+      "topic": "DFA Design & State Minimization",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: DFA Design & State Minimization",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/theory-of-computation",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+DFA+Design+%26+State+Minimization"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: DFA",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/dfa"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 63,
+      "date": "2026-12-02",
+      "subject": "Theory of Computation",
+      "topic": "NFA, epsilon-NFA & Regular Expressions",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: NFA, epsilon-NFA & Regular Expressions",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/theory-of-computation",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+NFA%2C+epsilon-NFA+%26+Regular+Expressions"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: NFA",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/nfa"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 64,
+      "date": "2026-12-03",
+      "subject": "Theory of Computation",
+      "topic": "Pumping Lemma & Regular Language Identification",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Pumping Lemma & Regular Language Identification",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/theory-of-computation",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Pumping+Lemma+%26+Regular+Language+Identification"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Pumping Lemma",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/pumping-lemma"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 65,
+      "date": "2026-12-04",
+      "subject": "Theory of Computation",
+      "topic": "Context-Free Grammars (CFG) & Ambiguity",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Context-Free Grammars (CFG) & Ambiguity",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/theory-of-computation",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Context-Free+Grammars+%28CFG%29+%26+Ambiguity"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Context Free Grammar",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/context-free-grammar"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 66,
+      "date": "2026-12-05",
+      "subject": "Theory of Computation",
+      "topic": "Pushdown Automata (PDA) & CFL Closure Properties",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Pushdown Automata (PDA) & CFL Closure Properties",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/theory-of-computation",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Pushdown+Automata+%28PDA%29+%26+CFL+Closure+Properties"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Pushdown Automata",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/pushdown-automata"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 67,
+      "date": "2026-12-06",
+      "subject": "Theory of Computation",
+      "topic": "Turing Machines, Decidability & Halting Problem",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Turing Machines, Decidability & Halting Problem",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/theory-of-computation",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Turing+Machines%2C+Decidability+%26+Halting+Problem"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Turing Machine",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/turing-machine"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 68,
+      "date": "2026-12-07",
+      "subject": "Compiler Design",
+      "topic": "Lexical Analysis & Tokenization",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Lexical Analysis & Tokenization",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/compiler-design",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Lexical+Analysis+%26+Tokenization"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Compiler Design Previous GATE Questions",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions/compiler-design?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 69,
+      "date": "2026-12-08",
+      "subject": "Compiler Design",
+      "topic": "Top-Down Parsing: FIRST & FOLLOW Sets, LL(1)",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Top-Down Parsing: FIRST & FOLLOW Sets, LL(1)",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/compiler-design",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Top-Down+Parsing%3A+FIRST+%26+FOLLOW+Sets%2C+LL%281%29"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: LL(1)",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/ll1"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 70,
+      "date": "2026-12-09",
+      "subject": "Compiler Design",
+      "topic": "Bottom-Up Parsing: LR(0), SLR(1), LALR(1), CLR(1)",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Bottom-Up Parsing: LR(0), SLR(1), LALR(1), CLR(1)",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/compiler-design",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Bottom-Up+Parsing%3A+LR%280%29%2C+SLR%281%29%2C+LALR%281%29%2C+CLR%281%29"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: LR(0)",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/lr0"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 71,
+      "date": "2026-12-10",
+      "subject": "Compiler Design",
+      "topic": "Syntax-Directed Translation (SDT)",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Syntax-Directed Translation (SDT)",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/compiler-design",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Syntax-Directed+Translation+%28SDT%29"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Compiler Design Previous GATE Questions",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions/compiler-design?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 72,
+      "date": "2026-12-11",
+      "subject": "Compiler Design",
+      "topic": "Intermediate Code & Code Optimization",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Intermediate Code & Code Optimization",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/roadmaps/compiler-design",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Intermediate+Code+%26+Code+Optimization"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Compiler Design Previous GATE Questions",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions/compiler-design?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 73,
+      "date": "2026-12-12",
+      "subject": "Engineering Mathematics",
+      "topic": "Calculus: Limits, Continuity & Differentiability",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Calculus: Limits, Continuity & Differentiability",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Calculus%3A+Limits%2C+Continuity+%26+Differentiability"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Engineering Math Previous GATE Questions",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions/engineering-mathematics?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 74,
+      "date": "2026-12-13",
+      "subject": "Engineering Mathematics",
+      "topic": "Calculus: Maxima, Minima & Definite Integrals",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Calculus: Maxima, Minima & Definite Integrals",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Calculus%3A+Maxima%2C+Minima+%26+Definite+Integrals"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Engineering Math Previous GATE Questions",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions/engineering-mathematics?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 75,
+      "date": "2026-12-14",
+      "subject": "Discrete Mathematics",
+      "topic": "Graph Theory: Fundamentals, Paths & Degrees",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Graph Theory: Fundamentals, Paths & Degrees",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Graph+Theory%3A+Fundamentals%2C+Paths+%26+Degrees"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Graph Theory",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/graph-theory"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 76,
+      "date": "2026-12-15",
+      "subject": "Discrete Mathematics",
+      "topic": "Graph Theory: Planarity, Trees & Chromatic Number",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Graph Theory: Planarity, Trees & Chromatic Number",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Graph+Theory%3A+Planarity%2C+Trees+%26+Chromatic+Number"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Graph Theory",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/graph-theory"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 77,
+      "date": "2026-12-16",
+      "subject": "General Aptitude",
+      "topic": "General Aptitude: Comprehensive Speed Revision",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: General Aptitude: Comprehensive Speed Revision",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+General+Aptitude%3A+Comprehensive+Speed+Revision"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow General Aptitude Previous GATE Questions",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions/general-aptitude?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 78,
+      "date": "2026-12-17",
+      "subject": "Full Revision",
+      "topic": "High-Yield Revision 1: Programming & Data Structures",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: High-Yield Revision 1: Programming & Data Structures",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+High-Yield+Revision+1%3A+Programming+%26+Data+Structures"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow GATE Questions",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 79,
+      "date": "2026-12-18",
+      "subject": "Full Revision",
+      "topic": "High-Yield Revision 2: Algorithms & Discrete Math",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: High-Yield Revision 2: Algorithms & Discrete Math",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+High-Yield+Revision+2%3A+Algorithms+%26+Discrete+Math"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow GATE Questions",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 80,
+      "date": "2026-12-19",
+      "subject": "Full Revision",
+      "topic": "High-Yield Revision 3: Digital Logic & COA",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: High-Yield Revision 3: Digital Logic & COA",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+High-Yield+Revision+3%3A+Digital+Logic+%26+COA"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Tag: Digital & Architecture Review",
+        "status": "verified_topic_tag",
+        "url": "https://gateoverflow.in/tag/propositional-logic"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 81,
+      "date": "2026-12-20",
+      "subject": "Full Revision",
+      "topic": "High-Yield Revision 4: DBMS & Operating Systems",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: High-Yield Revision 4: DBMS & Operating Systems",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+High-Yield+Revision+4%3A+DBMS+%26+Operating+Systems"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Core Systems Review",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 82,
+      "date": "2026-12-21",
+      "subject": "Full Revision",
+      "topic": "High-Yield Revision 5: Computer Networks & TOC",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: High-Yield Revision 5: Computer Networks & TOC",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+High-Yield+Revision+5%3A+Computer+Networks+%26+TOC"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Networks & TOC Review",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 83,
+      "date": "2026-12-22",
+      "subject": "Full Revision",
+      "topic": "High-Yield Revision 6: Compiler Design & Engg Math",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: High-Yield Revision 6: Compiler Design & Engg Math",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+High-Yield+Revision+6%3A+Compiler+Design+%26+Engg+Math"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Compiler & Math Review",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 84,
+      "date": "2026-12-23",
+      "subject": "Weak-Topic Repair",
+      "topic": "Targeted Weak-Topic Repair: Core Systems (COA, OS, DBMS)",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Targeted Weak-Topic Repair: Core Systems (COA, OS, DBMS)",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Targeted+Weak-Topic+Repair%3A+Core+Systems+%28COA%2C+OS%2C+DBMS%29"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Systems Weak-Topic PYQs",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 85,
+      "date": "2026-12-24",
+      "subject": "Weak-Topic Repair",
+      "topic": "Targeted Weak-Topic Repair: Programming, DSA & Algorithms",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Targeted Weak-Topic Repair: Programming, DSA & Algorithms",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Targeted+Weak-Topic+Repair%3A+Programming%2C+DSA+%26+Algorithms"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow DSA Weak-Topic PYQs",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 86,
+      "date": "2026-12-25",
+      "subject": "Weak-Topic Repair",
+      "topic": "Targeted Weak-Topic Repair: Theory & Mathematics",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Targeted Weak-Topic Repair: Theory & Mathematics",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Targeted+Weak-Topic+Repair%3A+Theory+%26+Mathematics"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Math & Theory Weak-Topic PYQs",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    },
+    {
+      "day": 87,
+      "date": "2026-12-26",
+      "subject": "Mock & Exam Simulation",
+      "topic": "Full-Length Mock 1 (3 Hours) + Detailed Diagnostic Analysis",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Watch Lecture: Full-Length Mock 1 (3 Hours) + Detailed Diagnostic Analysis",
+        "status": "test_resource",
+        "directUrl": "https://gateoverflow.in/tests",
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://gateoverflow.in/tests"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Full Mock 1",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Direct verified lecture link operational with Gate Smashers roadmap backup."
+    },
+    {
+      "day": 88,
+      "date": "2026-12-27",
+      "subject": "Mock & Exam Simulation",
+      "topic": "Full-Length Mock 2 (3 Hours) + Mistake Repair",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Watch Lecture: Full-Length Mock 2 (3 Hours) + Mistake Repair",
+        "status": "test_resource",
+        "directUrl": "https://gateoverflow.in/tests",
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://gateoverflow.in/tests"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Full Mock 2",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Direct verified lecture link operational with Gate Smashers roadmap backup."
+    },
+    {
+      "day": 89,
+      "date": "2026-12-28",
+      "subject": "Mock & Exam Simulation",
+      "topic": "Full-Length Mock 3 (3 Hours) + Formula Speed-Drill",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Watch Lecture: Full-Length Mock 3 (3 Hours) + Formula Speed-Drill",
+        "status": "test_resource",
+        "directUrl": "https://gateoverflow.in/tests",
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://gateoverflow.in/tests"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Full Mock 3",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Direct verified lecture link operational with Gate Smashers roadmap backup."
+    },
+    {
+      "day": 90,
+      "date": "2026-12-29",
+      "subject": "90-Day Master Milestone",
+      "topic": "Day 90 Master Assessment & Final Preparation Report",
+      "verifiedAt": "2026-09-26",
+      "video": {
+        "provider": "Gate Smashers",
+        "title": "Gate Smashers: Day 90 Master Assessment & Final Preparation Report",
+        "status": "topic_locator",
+        "directUrl": null,
+        "roadmapUrl": "https://www.gatesmashers.com/learn",
+        "searchFallbackUrl": "https://www.youtube.com/results?search_query=Gate+Smashers+Day+90+Master+Assessment+%26+Final+Preparation+Report"
+      },
+      "pyq": {
+        "provider": "GATEOverflow",
+        "title": "GATEOverflow Final GATE Milestone",
+        "status": "subject_previous_gate",
+        "url": "https://gateoverflow.in/questions?sort=gate"
+      },
+      "httpStatus": 200,
+      "status": "healthy",
+      "reason": "Exact topic search locator + topic roadmap verified operational."
+    }
+  ]
+}

@@ -35,6 +35,11 @@ export interface CoachContext {
 }
 
 export function buildStudyCoachPrompt(context: CoachContext): string {
+  const dayNum = context.currentDay || 1;
+  const subject = context.subject || "Programming & Data Structures";
+  const topic = context.topic || "C Pointers & Memory";
+  const resources = resolveTaskResources(subject, topic, dayNum);
+
   return `You are GATE Personal AI Coach.
 
 Your job is to manage, guide, schedule, remind, analyze, and adapt the user's GATE preparation.
@@ -79,15 +84,18 @@ Your output should usually end with a concrete next action or button suggestion.
 
 ACTIVE STUDENT CONTEXT:
 - Today's Date: ${context.date || "2026-10-01"}
-- Day Number: Day ${context.currentDay || 1} / 90
-- Active Subject: ${context.subject || "Programming & Data Structures"}
-- Active Topic: ${context.topic || "C Pointers & Memory"}
-- Subtopics: ${context.subtopics?.join(", ") || "Core basics"}
+- Day Number: Day ${dayNum} / 90
+- Active Subject: ${subject}
+- Active Topic: ${topic}
+- Subtopics: ${context.subtopics?.join(", ") || resources.subtopics?.join(", ") || "Core basics"}
 - Daily Available Hours: ${context.availableHours || 6} Hours
 - Missed Previous Day: ${context.missedYesterday ? "YES (Needs Recovery Overlay)" : "NO (On Track)"}
 - Execution Risk Status: ${context.riskStatus || "ON_TRACK"}
 - Known Weak Topics: ${context.weakTopics?.length ? context.weakTopics.join(", ") : "None yet recorded"}
 - Recent Mistake Areas: ${context.recentMistakes?.length ? context.recentMistakes.join("; ") : "None recorded"}
+- EXACT VERIFIED VIDEO RESOURCE: ${resources.primary.title} (${resources.primary.url}) [Direct Lecture: ${resources.isDirect ? "YES" : "NO - Topic Roadmap/Search"}]
+- EXACT VERIFIED PYQ RESOURCE: ${resources.pyq.title} (${resources.pyq.url})
+- OFFICIAL GATE SYLLABUS/PAPERS: ${resources.official.url}
 `;
 }
 
@@ -101,6 +109,12 @@ export function getHeuristicCoachResponse(query: string, context: CoachContext):
   const topic = context.topic || "C Pointers & Memory";
   const hours = context.availableHours || 6;
   const dayNum = context.currentDay || 1;
+  const resources = resolveTaskResources(subject, topic, dayNum);
+
+  const videoAction = resources.isDirect
+    ? `[Watch exact lecture ▶](${resources.primary.url})`
+    : `[Open topic roadmap ↗](${resources.primary.url})`;
+  const pyqAction = `[Open exact topic PYQs ↗](${resources.pyq.url})`;
 
   // 1. Redirection if user asks the AI to teach academic subject matter
   if (
@@ -115,10 +129,10 @@ As your GATE Personal Study Coach, my job is to guide your schedule and executio
 
 **Recommended Action for ${topic}:**
 1. **Open Assigned Resource:**
-   * Launch **Gate Smashers** verified lesson for **${topic}** [Open Gate Smashers ↗](https://www.gatesmashers.com/learn).
+   * Launch **Gate Smashers** for **${topic}**: ${videoAction}.
    * Study the core 45-minute video block.
 2. **Immediate Application:**
-   * Open **GATEOverflow** [Open GATEOverflow ↗](https://gateoverflow.in/questions?sort=gate) and solve 5 topic PYQs.
+   * Open **GATEOverflow**: ${pyqAction} and solve 5 topic PYQs.
 3. **Log Doubts:**
    * Write down the specific formula or edge case in your **Error Book**.
 
@@ -137,11 +151,11 @@ As your GATE Personal Study Coach, my job is to guide your schedule and executio
 1. **Spaced Revision Warm-up (15m)**
    * Review yesterday's formula card and key traps.
 2. **Theory Study (80m)**
-   * Open [Gate Smashers ↗](https://www.gatesmashers.com/learn) and watch the focused module on **${topic}**.
+   * Open ${videoAction} and study **${topic}**.
 3. **Concept Notes (25m)**
    * Write one page of formulas and boundary conditions in your notebook.
 4. **GATEOverflow PYQs (60m)**
-   * Open [GATEOverflow ↗](https://gateoverflow.in/questions?sort=gate) and solve 10–12 real GATE questions.
+   * Open ${pyqAction} and solve 10–12 real GATE questions.
 5. **AI Practice & Traps (30m)**
    * Solve 3 fresh challenge questions in the AI Practice Lab.
 6. **Error Book & Log (15m)**
@@ -159,9 +173,9 @@ Because your available time is constrained, the study engine automatically prote
 
 **Protected Today (Non-Negotiable):**
 1. **Core Concept Theory (50 min)**
-   * Open [Gate Smashers ↗](https://www.gatesmashers.com/learn) for ${topic}.
+   * Open ${videoAction} for ${topic}.
 2. **High-Yield PYQs (50 min)**
-   * Open [GATEOverflow ↗](https://gateoverflow.in/questions?sort=gate) and solve 5 essential questions.
+   * Open ${pyqAction} and solve 5 essential questions.
 3. **Rapid Formula & Error Check (20 min)**
    * Note edge cases to avoid making repeat mistakes.
 
@@ -181,9 +195,9 @@ The engine does **not** blindly fast-forward future chapters. Instead, extra cap
 
 **8-Hour Structure:**
 1. **Spaced Revision (30m):** Clear overdue revision cards.
-2. **Master Theory Block (150m):** Deep theory on **${topic}** via [Gate Smashers ↗](https://www.gatesmashers.com/learn).
+2. **Master Theory Block (150m):** Deep theory on **${topic}** via ${videoAction}.
 3. **Summary & Formula Sheet (45m):** Detailed personal derivation sheet.
-4. **Deep GATE PYQs (100m):** Solve 20 questions on [GATEOverflow ↗](https://gateoverflow.in/questions?sort=gate).
+4. **Deep GATE PYQs (100m):** Solve 20 questions on ${pyqAction}.
 5. **Trap Detection Practice (45m):** Test edge cases in AI Practice Lab.
 6. **Error Book Deep Log (20m):** Write one-line preventive rules for each mistake.
 7. **Targeted Weak-Topic Repair (45m):** Re-test previous mistake concepts.
@@ -201,7 +215,7 @@ The engine does **not** blindly fast-forward future chapters. Instead, extra cap
 1. **Protect Today's Mission (70% of study time):**
    * Continue with today's scheduled topic: **${topic}**. Do not abandon today!
 2. **Recovery Injection Block (35 min):**
-   * Re-solve the 3 most essential PYQs from yesterday's missed topic on [GATEOverflow ↗](https://gateoverflow.in/questions?sort=gate).
+   * Re-solve the 3 most essential PYQs from yesterday's missed topic on ${pyqAction}.
 3. **Deferred:**
    * Extra practice sets are moved to Sunday's buffer window.
 
@@ -254,7 +268,7 @@ ${early.recommendation}
 export async function callGroqCoach(
   messages: Array<{ role: "system" | "user" | "assistant"; content: string }>,
   apiKey?: string,
-  model: string = "llama-3.3-70b-versatile"
+  model?: string
 ): Promise<string> {
   const resolvedKey = apiKey || process.env.GROQ_API_KEY;
 
@@ -262,25 +276,42 @@ export async function callGroqCoach(
     throw new Error("GROQ_API_KEY is not configured.");
   }
 
-  const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${resolvedKey.trim()}`,
-    },
-    body: JSON.stringify({
-      model: model || "llama-3.3-70b-versatile",
-      messages,
-      temperature: 0.3,
-      max_tokens: 1500,
-    }),
-  });
+  const primaryModel = model || process.env.AI_MODEL || "openai/gpt-oss-120b";
+  const candidateModels = [primaryModel, "openai/gpt-oss-120b", "openai/gpt-oss-20b"];
 
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`Groq API error (${response.status}): ${errorText}`);
+  let lastError: any = null;
+
+  for (const currentModel of Array.from(new Set(candidateModels))) {
+    try {
+      const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${resolvedKey.trim()}`,
+        },
+        body: JSON.stringify({
+          model: currentModel,
+          messages,
+          temperature: 0.3,
+          max_tokens: 1500,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        return data.choices?.[0]?.message?.content || "No response received from Groq.";
+      }
+
+      const errorText = await response.text();
+      lastError = new Error(`Groq API error with model ${currentModel} (${response.status}): ${errorText}`);
+      // If error is 404 model not found, loop to next candidate
+      if (response.status !== 404) {
+        throw lastError;
+      }
+    } catch (err) {
+      lastError = err;
+    }
   }
 
-  const data = await response.json();
-  return data.choices?.[0]?.message?.content || "No response received from Groq.";
+  throw lastError || new Error("Failed to get response from Groq API.");
 }

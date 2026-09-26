@@ -11,8 +11,15 @@
  * - Audit logging with Before / After diffs for [Apply] / [Undo]
  */
 
-import { StudyDay, DailyTask, ResourceRegistryItem } from "@/lib/types";
-import { getPlanDays, getCurrentPlanDay, getResources } from "@/lib/data";
+import {
+  StudyDay,
+  DailyTask,
+  ResourceRegistryItem,
+  TopicVideoLocator,
+  TopicPyqLocator,
+  DayResourceMap,
+} from "@/lib/types";
+import { getPlanDays, getCurrentPlanDay, getResources, getDayResourceMap } from "@/lib/data";
 
 export type ExecutionRisk = "ON_TRACK" | "SLIGHTLY_BEHIND" | "AT_RISK" | "RECOVERY_MODE";
 
@@ -58,10 +65,40 @@ export interface ScheduleProposal {
 }
 
 export interface TaskResourceSet {
-  primary: { title: string; provider: string; url: string };
-  backup: { title: string; provider: string; url: string };
-  pyq: { title: string; provider: string; url: string };
-  official: { title: string; provider: string; url: string };
+  primary: {
+    title: string;
+    provider: string;
+    url: string;
+    directUrl?: string;
+    roadmapUrl?: string;
+    status?: string;
+    isDirect?: boolean;
+    actionLabel?: string;
+  };
+  backup: {
+    title: string;
+    provider: string;
+    url: string;
+    searchFallbackUrl?: string;
+    actionLabel?: string;
+  };
+  pyq: {
+    title: string;
+    provider: string;
+    url: string;
+    status?: string;
+    actionLabel?: string;
+  };
+  official: {
+    title: string;
+    provider: string;
+    url: string;
+    actionLabel?: string;
+  };
+  exactVideo?: TopicVideoLocator;
+  exactPyq?: TopicPyqLocator;
+  subtopics?: string[];
+  isDirect?: boolean;
 }
 
 export interface WeeklyDiagnosticReview {
@@ -480,51 +517,114 @@ export function handlePartialCompletion(
  */
 export function resolveTaskResources(
   subject: string,
-  topic: string
+  topic: string,
+  dayNumber?: number
 ): TaskResourceSet {
+  const exact = dayNumber ? getDayResourceMap(dayNumber) : undefined;
+  const videoLocator = exact?.videos?.[0];
+  const pyqLocator = exact?.pyqs?.[0];
   const all = getResources();
 
-  // Find primary
-  const primaryMatch = all.find(
-    (r) =>
-      r.is_active &&
-      (r.topic.toLowerCase().includes(topic.toLowerCase()) ||
-        r.subject.toLowerCase().includes(subject.toLowerCase())) &&
-      r.provider === "Gate Smashers"
-  );
+  // Primary video/lecture:
+  let primaryTitle = `Gate Smashers: ${topic} Roadmap`;
+  let primaryUrl = "https://www.gatesmashers.com/roadmaps/data-structures-and-algorithms";
+  let primaryProvider = "Gate Smashers";
+  let isDirect = false;
 
-  // Find backup
-  const backupMatch = all.find(
-    (r) =>
-      r.is_active &&
-      r.url !== primaryMatch?.url &&
-      (r.topic.toLowerCase().includes(topic.toLowerCase()) ||
-        r.subject.toLowerCase().includes(subject.toLowerCase()))
-  );
+  if (videoLocator) {
+    primaryTitle = videoLocator.title;
+    primaryUrl = videoLocator.directUrl || videoLocator.roadmapUrl;
+    primaryProvider = videoLocator.provider;
+    isDirect = Boolean(videoLocator.directUrl);
+  } else {
+    const primaryMatch = all.find(
+      (r) =>
+        r.is_active &&
+        (r.topic.toLowerCase().includes(topic.toLowerCase()) ||
+          r.subject.toLowerCase().includes(subject.toLowerCase())) &&
+        r.provider === "Gate Smashers"
+    );
+    if (primaryMatch) {
+      primaryTitle = primaryMatch.title;
+      primaryUrl = primaryMatch.url;
+    }
+  }
+
+  // Backup / Search:
+  let backupTitle = `Search: ${topic} Lectures`;
+  let backupUrl =
+    videoLocator?.searchFallbackUrl ||
+    `https://www.youtube.com/results?search_query=Gate+Smashers+${encodeURIComponent(topic)}`;
+  let backupProvider = "Gate Smashers / YouTube";
+
+  if (!videoLocator) {
+    const backupMatch = all.find(
+      (r) =>
+        r.is_active &&
+        r.url !== primaryUrl &&
+        (r.topic.toLowerCase().includes(topic.toLowerCase()) ||
+          r.subject.toLowerCase().includes(subject.toLowerCase()))
+    );
+    if (backupMatch) {
+      backupTitle = backupMatch.title;
+      backupUrl = backupMatch.url;
+      backupProvider = backupMatch.provider;
+    }
+  }
+
+  // PYQs:
+  let pyqTitle = `GATEOverflow: ${topic} Previous GATE Questions`;
+  let pyqUrl = `https://gateoverflow.in/questions?sort=gate&tag=${encodeURIComponent(
+    topic.toLowerCase().replace(/[^a-z0-9]/g, "-")
+  )}`;
+  let pyqProvider = "GATEOverflow";
+
+  if (pyqLocator) {
+    pyqTitle = pyqLocator.title;
+    pyqUrl = pyqLocator.url;
+    pyqProvider = pyqLocator.provider;
+  }
+
+  // Official:
+  const officialTitle = "Official GATE 2027 Syllabus & Papers (IIT Madras)";
+  const officialUrl = exact?.pyqs?.[1]?.url || "https://gate2027.iitm.ac.in/";
+  const officialProvider = "Official GATE";
 
   return {
     primary: {
-      title: primaryMatch?.title || `Gate Smashers: ${topic} Roadmap`,
-      provider: "Gate Smashers",
-      url: primaryMatch?.url || "https://www.gatesmashers.com/learn",
+      title: primaryTitle,
+      provider: primaryProvider,
+      url: primaryUrl,
+      directUrl: videoLocator?.directUrl,
+      roadmapUrl: videoLocator?.roadmapUrl,
+      status: videoLocator?.status,
+      isDirect,
+      actionLabel: isDirect ? "Watch exact lecture ▶" : "Open topic roadmap ↗",
     },
     backup: {
-      title: backupMatch?.title || "NPTEL / Authoritative University Reference",
-      provider: backupMatch?.provider || "NPTEL",
-      url: backupMatch?.url || "https://nptel.ac.in/",
+      title: backupTitle,
+      provider: backupProvider,
+      url: backupUrl,
+      searchFallbackUrl: videoLocator?.searchFallbackUrl,
+      actionLabel: "Backup / topic roadmap ↗",
     },
     pyq: {
-      title: `GATEOverflow: ${topic} Discussion Bank`,
-      provider: "GATEOverflow",
-      url: `https://gateoverflow.in/questions?sort=gate&tag=${encodeURIComponent(
-        topic.toLowerCase().replace(/[^a-z0-9]/g, "-")
-      )}`,
+      title: pyqTitle,
+      provider: pyqProvider,
+      url: pyqUrl,
+      status: pyqLocator?.status,
+      actionLabel: "Open exact topic PYQs ↗",
     },
     official: {
-      title: "Official GATE 2027 Syllabus & Papers (IIT Madras)",
-      provider: "Official GATE",
-      url: "https://gate2027.iitm.ac.in/",
+      title: officialTitle,
+      provider: officialProvider,
+      url: officialUrl,
+      actionLabel: "Open official GATE paper ↗",
     },
+    exactVideo: videoLocator,
+    exactPyq: pyqLocator,
+    subtopics: exact?.subtopics,
+    isDirect,
   };
 }
 
