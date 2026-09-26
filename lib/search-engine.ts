@@ -60,6 +60,42 @@ const STOP_WORDS = new Set([
   "need",
 ]);
 
+const CONCEPT_ALIASES: Record<string, string[]> = {
+  dijkstra: ["greedy", "graph", "shortest path"],
+  kruskal: ["greedy", "spanning tree", "mst"],
+  prim: ["greedy", "spanning tree", "mst"],
+  bellman: ["greedy", "graph", "dynamic programming"],
+  floyd: ["greedy", "graph", "dynamic programming"],
+  sql: ["relational algebra", "dbms", "database"],
+  deadlock: ["banker", "concurrency", "operating systems"],
+  turing: ["undecidability", "theory of computation", "toc"],
+  pipelining: ["hazards", "coa", "computer organization", "throughput"],
+  "b tree": ["indexing", "b+", "file organization"],
+  "b+ tree": ["indexing", "b tree", "file organization"],
+  tlb: ["paging", "virtual memory", "operating systems"],
+  lru: ["page replacement", "operating systems", "cache"],
+  tcp: ["transport layer", "flow control", "congestion", "computer networks"],
+  udp: ["transport layer", "computer networks"],
+  ip: ["network layer", "subnetting", "cidr", "computer networks"],
+  arp: ["network layer", "data link", "computer networks"],
+  crc: ["error detection", "data link layer", "computer networks"],
+  ll1: ["parsing", "compiler design", "first and follow"],
+  lr: ["parsing", "compiler design", "bottom up"],
+  slr: ["parsing", "compiler design"],
+  lalr: ["parsing", "compiler design"],
+  bcnf: ["normalization", "functional dependencies", "dbms"],
+  "3nf": ["normalization", "functional dependencies", "dbms"],
+  "2nf": ["normalization", "functional dependencies", "dbms"],
+  avl: ["balanced", "tree", "binary search tree"],
+  heap: ["priority queue", "heapify", "heapsort"],
+  hashing: ["hash table", "collision", "linear probing", "chaining"],
+  concurrency: ["transactions", "serializability", "acid", "two phase locking"],
+  semaphore: ["synchronization", "critical section", "mutex"],
+  eigen: ["linear algebra", "matrices", "engineering mathematics"],
+  calculus: ["limits", "derivatives", "maxima", "minima", "integrals"],
+  probability: ["bayes", "random variable", "distribution", "poisson", "normal"],
+};
+
 export function cleanSearchQuery(rawQuery: string): string {
   return rawQuery
     .toLowerCase()
@@ -140,6 +176,19 @@ export function searchKnowledgeBase(rawQuery: string, limit = 4): SearchResult[]
   const queryTerms = (cleaned || lowerRaw).split(/\s+/).filter((t) => t.length > 1);
   if (queryTerms.length === 0) return [];
 
+  // Expand with concept aliases
+  const aliasTerms: string[] = [];
+  for (const term of queryTerms) {
+    if (CONCEPT_ALIASES[term]) {
+      aliasTerms.push(...CONCEPT_ALIASES[term]);
+    }
+  }
+  for (const [key, aliases] of Object.entries(CONCEPT_ALIASES)) {
+    if (lowerRaw.includes(key)) {
+      aliasTerms.push(...aliases);
+    }
+  }
+
   const results: SearchResult[] = [];
 
   for (const day of days) {
@@ -163,6 +212,19 @@ export function searchKnowledgeBase(rawQuery: string, limit = 4): SearchResult[]
       }
       if (subjectLower.includes(term)) {
         score += 10;
+      }
+    }
+
+    // Match alias terms
+    for (const alias of aliasTerms) {
+      if (topicLower.includes(alias)) {
+        score += 25;
+      }
+      if (subtopicsText.includes(alias)) {
+        score += 12;
+      }
+      if (subjectLower.includes(alias)) {
+        score += 8;
       }
     }
 
