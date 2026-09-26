@@ -1,104 +1,111 @@
-# GATE 2027 CS/IT — 90-Day AI Study Platform
+# GATE 2027 CS/IT — 90-Day AI Study Manager & Personal Coach
 
-A complete, production-grade personal GATE preparation command center built for B.Tech IT students starting from scratch. Powered by a deterministic 90-day timetable (October 1 to December 29, 2026), built-in beginner-friendly lessons with KaTeX math rendering, real PYQ practice with A/B/C/D confidence tagging, fresh GATE-style challenges, spaced repetition, a 13-category Error Book, authentic CBT mock exam simulation, and a context-aware AI Tutor powered by **Groq API** (`llama-3.3-70b-versatile`).
+> **"Tell me exactly what I should do today, guide me through the day, remind me what is pending, and launch verified external study resources."**
 
----
-
-## 🚀 Key Features & Modules
-
-1. **Dashboard (`/`)**:
-   - 3-Month interactive calendar tabs (Month 1: Foundation, Month 2: Core Systems, Month 3: Networks & Consolidation).
-   - Pre-Launch countdown before October 1, 2026 with Day 1 preview.
-   - Today's mission hero card with direct action buttons.
-   - Slide-over study drawer with subtopics and 8-step daily checklist.
-
-2. **Today Cockpit (`/today`)**:
-   - The daily execution loop (`Learn` $\to$ `Basic Practice` $\to$ `PYQ` $\to$ `Fresh Questions` $\to$ `AI Help` $\to$ `Error Book` $\to$ `Revision` $\to$ `Complete Day`).
-   - Time-block tracker based on the recommended 6-hour daily schedule.
-   - Built-in Pomodoro focus timer (25/50/90 minutes).
-   - Confetti milestone celebration upon completing all daily tasks.
-
-3. **Learn Center (`/learn` and `/learn/[id]`)**:
-   - Original lessons covering C Programming, Data Structures, Algorithms, COA, DBMS, OS, Computer Networks, and more.
-   - Standard 14-section pedagogical structure: Prerequisites $\to$ Intuition $\to$ Formal Definition $\to$ Formulas $\to$ Worked Examples $\to$ GATE Traps $\to$ Quick Check.
-   - Mathematical typesetting powered by KaTeX.
-
-4. **PYQ Lab (`/pyqs`)**:
-   - Filterable real GATE questions (2000–2024) across MCQ, MSQ, and NAT formats.
-   - Confidence tagging (A: Confident, B: Slow/Uncertain, C: Wrong/Stuck, D: New Concept).
-   - Verified solution reveal with direct links to GATEOverflow discussions.
-
-5. **Practice Lab (`/practice`)**:
-   - Newly authored, unseen GATE-style practice questions testing common traps.
-   - Live AI question generation button calling Groq API.
-   - Virtual keypad for NAT numerical calculations.
-
-6. **AI Tutor Cockpit (`/ai`)**:
-   - Powered by **Groq API** (`llama-3.3-70b-versatile`).
-   - Context-Aware Engine injecting current preparation day, active subject, active topic, and recent mistakes.
-   - 10 Operational Modes: `Explain from Zero`, `Simplify / Analogy`, `GATE Deep Dive`, `Give Next Hint`, `Step-by-Step Solve`, `Quiz Me`, `Interview Me (Socratic)`, `PYQ Explainer`, `Analyze My Mistake`, and `Generate Flashcard`.
-   - Built-in intelligent heuristic fallback ensuring zero downtime even without an API key.
-
-7. **Error Book (`/error-book`)**:
-   - Structured across the 13 official subject folders (`01_C_PROGRAMMING` to `13_GENERAL_APTITUDE`).
-   - Tracks why the student made the mistake (`concept_gap`, `calculation`, `reading`, `formula`, `guessing`, etc.).
-   - *"Teach me this mistake again"* AI recovery workflow.
-
-8. **Revision Center (`/revision`)**:
-   - Spaced repetition queue following the Day 0 $\to$ +1 $\to$ +3 $\to$ +7 $\to$ +14 $\to$ +30 scientific cycle.
-   - Quick-flip formula and trap revision flashcards.
-
-9. **CBT Mock Simulator (`/mocks`)**:
-   - Authentic 3-hour GATE CBT interface with countdown timer.
-   - Virtual Scientific Calculator modal.
-   - Question Palette with status color coding (Answered, Not Answered, Marked for Review).
-   - Accurate negative marking ($-1/3$ for 1-mark MCQ, $-2/3$ for 2-mark MCQ, 0 for MSQ/NAT).
-   - 14-metric post-exam diagnostic evaluation table.
-
-10. **Resource Library (`/resources`)**:
-    - Verified links to the official GATE 2027 IIT Madras portal, Gate Smashers topic roadmaps, GATEOverflow, and NPTEL.
-
-11. **Analytics Dashboard (`/analytics`)**:
-    - Rule-based weakness detector flagging topics with accuracy $< 60\%$ or $2+$ repeated errors.
-    - Syllabus completion progress and study streaks.
-
-12. **Settings & Data Backups (`/settings`)**:
-    - Groq API key configuration and model selection.
-    - Daily study hours profile customization (4h, 6h, 8h).
-    - Download Error Book as CSV and Download Complete Preparation Report as Markdown.
+A production-grade **AI-powered GATE preparation manager and personal study coach**, specifically engineered for GATE CS/IT aspirants following the **3-Month Master Timetable (October 1 to December 29, 2026)**.
 
 ---
 
-## 🛠️ Tech Stack
+## 🏛️ Core Design Philosophy: Study Manager, Not Course Platform
 
-- **Framework**: Next.js 14.2 (App Router)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS with custom slate academic theme
-- **Math Engine**: KaTeX (`katex`)
-- **Icons**: Lucide React (`lucide-react`)
-- **AI Engine**: Groq Cloud API (`groq-sdk` & OpenAI-compatible endpoint)
+In strict accordance with the Master Architecture:
+- **No duplicated or pirated courses:** Theory and video roadmaps launch directly out to **Gate Smashers** or official IIT Madras portals.
+- **No copied question bank:** Previous Year Questions link directly to authentic community discussions on **GATEOverflow**.
+- **The Golden Rule:** *One Subject = One Consistent Learning Source.*
+- **AI Personal Coach:** Powered by **Groq API** (`llama-3.3-70b-versatile`) for daily briefings, time compression, missed-day recovery plans, trap warnings, and doubt resolution.
+- **Zero Friction Vercel Deployment:** Built with Next.js 14.2 App Router, TypeScript, and Tailwind CSS.
 
 ---
 
-## ⚡ Quick Start
+## 🚀 Key Modules & Capabilities
 
-### 1. Install Dependencies
+### 1. Today Command Center (`/`)
+- Answers the core question: **"What do I do today?"**
+- **Available-Time Mode (2h / 3h / 4h / 6h / 8h+):** Dynamically adjusts daily targets. On a 2h busy day, core concepts and top PYQs are prioritized while deferring deep exploration.
+- **Daily AI Briefing:**
+  * Mission statement
+  * Why it matters in GATE weightage
+  * Prerequisites to check
+  * Exactly what to study vs what NOT to study
+  * Definition of success for the day
+- **7-Step Task Sequence:**
+  1. Quick Formula & Revision Warm-up (15m)
+  2. Theory Study via Gate Smashers verified roadmap (120m)
+  3. Concept Notes & Formula Sheet (30m)
+  4. GATEOverflow PYQs Practice (60m)
+  5. AI Practice Questions & Traps (30m)
+  6. Digital Error Book Log (15m)
+  7. General Aptitude / Engineering Math (30m)
+- **External Resource Launchers:** Direct `[ Open Gate Smashers ↗ ]` and `[ Open GATEOverflow ↗ ]` action buttons on every task.
+
+### 2. 90-Day Master Plan (`/plan`)
+- **Visual 3-Month Calendar:** October (Foundation), November (Core Systems), December (Networks & Revision).
+- **Chronological Timeline:** Day 1 through Day 90 with subtopics, hours, and status tracking.
+- **Subject Breakdown:** Grouped view by 12 GATE subjects showing days allocated and completion percentage.
+- **Missed-Day Overlay & Recovery:** Mark any day as missed to trigger an AI recovery plan without shifting the immovable exam date.
+
+### 3. Previous Year Questions (PYQ) Tracker (`/pyqs`)
+- Direct 1-click launchers for high-yield GATEOverflow topic discussions.
+- Practice Session Logger:
+  * Subject & topic
+  * Questions attempted & correct
+  * Auto-calculated accuracy %
+  * Time spent
+  * Confidence rating: **A** (Confident), **B** (Minor doubt), **C** (Guessed), **D** (Wrong/stuck)
+- **Auto-prompt:** Rating C or D immediately prompts 1-click addition to your digital Error Book!
+
+### 4. Digital Error Book (`/error-book`)
+- **13 Subject Folders:** From `01_C_PROGRAMMING` to `13_GENERAL_APTITUDE`.
+- Categorizes mistakes: `concept_gap`, `reading_error`, `formula_error`, `calculation_error`, `time_pressure`.
+- Mandatory reflection: *"Why I got it wrong"*, *"The concept I missed"*, and *"One-line rule to never make this mistake again"*.
+- AI Tutor button: *"Teach Me This Mistake Again"* pre-populates the coach with the missed concept.
+
+### 5. Central Resource Registry (`/resources`)
+- Verified, categorized repository of external learning resources.
+- Search and filter by provider (Gate Smashers, GATEOverflow, Official IITM), resource type, and subject.
+
+### 6. AI Practice Lab (`/practice`)
+- Unseen, freshly generated challenges designed to test boundary conditions and examiner traps.
+- Clearly watermarked: **"AI-Generated Practice — Not an official GATE question"**.
+
+### 7. Spaced Repetition Engine (`/revision`)
+- Automated flashcard review intervals: Day 0 $\to$ +1d $\to$ +3d $\to$ +7d $\to$ +14d $\to$ +30d.
+
+### 8. CBT Mock Exam Simulator (`/mocks`)
+- 3-Hour full mock examination replicating TCS iON interface.
+- Virtual Scientific Calculator modal.
+- Question Palette with official status color coding.
+- Authentic GATE marking scheme with negative marks.
+
+### 9. Ask AI Coach (`/ai`)
+- Conversational study partner powered by **Groq API** (`llama-3.3-70b-versatile`).
+- Context-aware engine injecting active day, current topic, and confidence metrics.
+
+---
+
+## 🛠️ Setup & Running Locally
+
+### Prerequisites
+- Node.js 18.17+ or 20+
+- npm or pnpm
+
+### 1. Clone & Install
 ```bash
+git clone <your-repo-url>
+cd website
 npm install
 ```
 
-### 2. Configure Environment Variables
+### 2. Configure Environment (Optional for Groq AI)
 Copy `.env.example` to `.env.local`:
 ```bash
 cp .env.example .env.local
 ```
-Add your Groq API key to `.env.local` (or enter it in the website settings):
+Add your Groq API key:
 ```env
-AI_PROVIDER=groq
 GROQ_API_KEY=gsk_your_groq_api_key_here
-AI_MODEL=llama-3.3-70b-versatile
-AI_BASE_URL=https://api.groq.com/openai/v1
 ```
+*(Note: If you do not provide a key in `.env.local`, you can still enter your personal Groq key directly in the `/settings` or `/ai` page in the browser, or use the built-in heuristic fallback.)*
 
 ### 3. Run Development Server
 ```bash
@@ -109,5 +116,16 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ### 4. Build for Production
 ```bash
 npm run build
-npm start
+npm run start
 ```
+
+---
+
+## ☁️ Zero-Friction Deployment on Vercel
+
+1. Push this repository to **GitHub**, **GitLab**, or **Bitbucket**.
+2. Go to [vercel.com](https://vercel.com) and click **"Add New Project"**.
+3. Import your repository. Next.js will be automatically detected with zero custom configuration.
+4. (Optional) In **Environment Variables**, add:
+   - `GROQ_API_KEY`: `gsk_...`
+5. Click **Deploy**. The site will build cleanly and deploy to a live `.vercel.app` URL within 60 seconds!
