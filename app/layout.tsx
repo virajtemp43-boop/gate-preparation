@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Sidebar } from "@/components/navigation/sidebar";
-import { Header } from "@/components/navigation/header";
+import { CircleNav } from "@/components/navigation/circle-nav";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "GATE 2027 CS/IT — 90-Day AI Study Cockpit",
+  title: "GATE 2027 CS/IT — 90-Day AI Study Manager",
   description:
-    "Personal exam preparation operating system for GATE 2027 CS/IT. Structured 90-day master timetable, interactive beginner lessons, PYQ lab, CBT mocks, and Groq-powered AI tutor.",
+    "Daily Study Coordination Cockpit, Resource Resolution Layer, and AI Personal Coach for GATE CS/IT 2027 aspirants.",
 };
 
 export default function RootLayout({
@@ -18,18 +17,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body className={`${inter.className} min-h-screen bg-slate-950 text-slate-100 flex overflow-hidden`}>
-        {/* Desktop Sidebar */}
-        <Sidebar />
+    <html lang="en">
+      <body className={`${inter.className} bg-slate-50 text-slate-900 antialiased min-h-screen selection:bg-indigo-500 selection:text-white`}>
+        <div className="min-h-screen flex flex-col relative">
+          {/* Dynamic Top Navigation with Circle Animation on Cursor Hover */}
+          <CircleNav />
 
-        {/* Main Content Area */}
-        <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
-          <Header />
-          <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
-            <div className="max-w-7xl mx-auto space-y-8">
-              {children}
-            </div>
+          {/* Main Full-Width Cockpit Workspace */}
+          <main className="flex-1 px-3 sm:px-6 lg:px-8 py-4 sm:py-6 max-w-7xl mx-auto w-full">
+            {children}
           </main>
         </div>
       </body>

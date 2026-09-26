@@ -16,6 +16,7 @@ import {
   Bot,
   Flame,
   Award,
+  Play,
 } from "lucide-react";
 import { getPlanDays, getSubjects, getCurrentPlanDay } from "@/lib/data";
 import { StudyDay, DayStatus } from "@/lib/types";
@@ -28,7 +29,7 @@ type ViewMode = "calendar" | "timeline" | "subject";
 export default function PlanPage() {
   const subjects = getSubjects();
   const [days, setDays] = useState<StudyDay[]>([]);
-  const [viewMode, setViewMode] = useState<ViewMode>("timeline");
+  const [viewMode, setViewMode] = useState<ViewMode>("calendar");
   const [selectedMonth, setSelectedMonth] = useState<string>("all");
   const [selectedSubject, setSelectedSubject] = useState<string>("all");
   const [selectedStatus, setSelectedStatus] = useState<string>("all");
@@ -113,32 +114,32 @@ export default function PlanPage() {
   ).length;
 
   return (
-    <div className="space-y-8 max-w-6xl mx-auto pb-16">
+    <div className="space-y-8 max-w-6xl mx-auto pb-16 animate-fade-in-up">
       {/* Header Banner */}
-      <div className="bg-gradient-to-r from-slate-900 via-indigo-950/50 to-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl">
+      <div className="bg-gradient-to-r from-indigo-50/80 via-white to-slate-50 border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-xs">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="max-w-2xl space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-600/30 text-indigo-300 border border-indigo-500/40">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">
               <CalendarIcon className="w-3.5 h-3.5" /> 90-Day Master Timetable
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
               GATE 2027 Execution Blueprint
             </h1>
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <p className="text-xs text-slate-600 leading-relaxed">
               Every day from October 1 to December 29, 2026 is mathematically scheduled with subtopics, hours, and external study resources. Total fixed window: 90 days.
             </p>
           </div>
 
           {/* Quick Progress Badge */}
-          <div className="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 shrink-0 flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 flex items-center justify-center font-bold text-lg font-mono">
+          <div className="bg-white border border-slate-200 rounded-2xl p-4 shrink-0 flex items-center gap-4 shadow-xs">
+            <div className="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-700 border border-indigo-200 flex items-center justify-center font-bold text-lg font-mono">
               {Math.round((completedCount / (days.length || 90)) * 100)}%
             </div>
             <div>
-              <span className="text-xs font-bold text-white block">
+              <span className="text-xs font-bold text-slate-900 block">
                 {completedCount} of {days.length || 90} Days Completed
               </span>
-              <span className="text-[11px] text-slate-400 block mt-0.5">
+              <span className="text-[11px] text-slate-500 block mt-0.5">
                 Current: Day {planInfo.dayNumber}
               </span>
             </div>
@@ -148,16 +149,16 @@ export default function PlanPage() {
 
       {/* Missed Day Recovery Alert */}
       {recoveryPromptDay && (
-        <div className="p-4 rounded-2xl bg-amber-950/30 border border-amber-500/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4 animate-in fade-in slide-in-from-top-2 duration-300">
+        <div className="p-4 rounded-3xl bg-amber-50 border border-amber-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 animate-in fade-in duration-300">
           <div className="flex items-start gap-3">
-            <div className="p-2 rounded-xl bg-amber-500/20 text-amber-400 shrink-0">
+            <div className="p-2 rounded-xl bg-amber-100 text-amber-800 shrink-0">
               <AlertTriangle className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="text-xs font-bold text-amber-300">
+              <h4 className="text-xs font-bold text-amber-900">
                 Missed Day {recoveryPromptDay.dayNumber}: {recoveryPromptDay.topic}
               </h4>
-              <p className="text-xs text-slate-300 mt-0.5">
+              <p className="text-xs text-amber-800/90 mt-0.5">
                 Don&apos;t panic or shift the calendar. Use AI Study Coach to compress this topic into 2 recovery hours or distribute across Month 3 buffer days.
               </p>
             </div>
@@ -165,7 +166,7 @@ export default function PlanPage() {
 
           <Link
             href={`/ai?mode=recovery&day=${recoveryPromptDay.dayNumber}`}
-            className="flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold text-xs shadow-lg transition-all shrink-0"
+            className="flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs shadow-xs transition-all shrink-0"
           >
             <Bot className="w-4 h-4" />
             <span>Generate Recovery Plan</span>
@@ -174,16 +175,16 @@ export default function PlanPage() {
       )}
 
       {/* View Switcher & Filters */}
-      <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-4 shadow-lg">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+      <div className="bg-white border border-slate-200/90 rounded-3xl p-5 space-y-4 shadow-xs">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-4">
           {/* View Mode Buttons */}
-          <div className="flex items-center gap-1.5 p-1 bg-slate-950 rounded-xl border border-slate-800 self-start">
+          <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-2xl border border-slate-200 self-start">
             <button
               onClick={() => setViewMode("calendar")}
-              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all ${
                 viewMode === "calendar"
-                  ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/30"
-                  : "text-slate-400 hover:text-white"
+                  ? "bg-indigo-600 text-white shadow-xs"
+                  : "text-slate-600 hover:text-slate-900"
               }`}
             >
               <CalendarIcon className="w-3.5 h-3.5" />
@@ -192,10 +193,10 @@ export default function PlanPage() {
 
             <button
               onClick={() => setViewMode("timeline")}
-              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all ${
                 viewMode === "timeline"
-                  ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/30"
-                  : "text-slate-400 hover:text-white"
+                  ? "bg-indigo-600 text-white shadow-xs"
+                  : "text-slate-600 hover:text-slate-900"
               }`}
             >
               <List className="w-3.5 h-3.5" />
@@ -204,10 +205,10 @@ export default function PlanPage() {
 
             <button
               onClick={() => setViewMode("subject")}
-              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all ${
                 viewMode === "subject"
-                  ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/30"
-                  : "text-slate-400 hover:text-white"
+                  ? "bg-indigo-600 text-white shadow-xs"
+                  : "text-slate-600 hover:text-slate-900"
               }`}
             >
               <Layers className="w-3.5 h-3.5" />
@@ -215,22 +216,22 @@ export default function PlanPage() {
             </button>
           </div>
 
-          <span className="text-xs text-slate-400 font-mono">
+          <span className="text-xs text-slate-500 font-mono">
             Showing {filteredDays.length} of 90 Days
           </span>
         </div>
 
         {/* Filters Row */}
         <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-2 text-xs font-semibold text-slate-300">
-            <Filter className="w-3.5 h-3.5 text-indigo-400" /> Filters:
+          <div className="flex items-center gap-2 text-xs font-semibold text-slate-600">
+            <Filter className="w-3.5 h-3.5 text-indigo-600" /> Filters:
           </div>
 
           {/* Month Filter */}
           <select
             value={selectedMonth}
             onChange={(e) => setSelectedMonth(e.target.value)}
-            className="bg-slate-950 border border-slate-800 text-slate-200 text-xs rounded-xl px-3 py-1.5 focus:outline-none focus:border-indigo-500"
+            className="bg-slate-50 border border-slate-200 text-slate-700 text-xs rounded-xl px-3 py-1.5 focus:outline-hidden focus:border-indigo-500 font-medium"
           >
             <option value="all">All 3 Months</option>
             <option value="1">Month 1 (Oct 1–Oct 30)</option>
@@ -242,7 +243,7 @@ export default function PlanPage() {
           <select
             value={selectedSubject}
             onChange={(e) => setSelectedSubject(e.target.value)}
-            className="bg-slate-950 border border-slate-800 text-slate-200 text-xs rounded-xl px-3 py-1.5 focus:outline-none focus:border-indigo-500 max-w-[220px]"
+            className="bg-slate-50 border border-slate-200 text-slate-700 text-xs rounded-xl px-3 py-1.5 focus:outline-hidden focus:border-indigo-500 max-w-[220px] font-medium"
           >
             <option value="all">All Subjects</option>
             {subjects.map((s) => (
@@ -256,7 +257,7 @@ export default function PlanPage() {
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="bg-slate-950 border border-slate-800 text-slate-200 text-xs rounded-xl px-3 py-1.5 focus:outline-none focus:border-indigo-500"
+            className="bg-slate-50 border border-slate-200 text-slate-700 text-xs rounded-xl px-3 py-1.5 focus:outline-hidden focus:border-indigo-500 font-medium"
           >
             <option value="all">All Statuses</option>
             <option value="completed">Completed</option>
@@ -288,39 +289,39 @@ export default function PlanPage() {
             return (
               <div
                 key={day.dayNumber}
-                className={`bg-slate-900/90 border rounded-2xl p-5 shadow-lg transition-all space-y-4 ${
+                className={`bg-white border rounded-3xl p-5 sm:p-6 shadow-xs transition-all space-y-4 ${
                   isToday
-                    ? "border-indigo-500 ring-2 ring-indigo-500/30"
+                    ? "border-indigo-500 ring-2 ring-indigo-500/20"
                     : currentStatus === "completed"
-                    ? "border-emerald-800/40 bg-emerald-950/10"
+                    ? "border-emerald-300 bg-emerald-50/20"
                     : currentStatus === "missed"
-                    ? "border-amber-800/40 bg-amber-950/10"
-                    : "border-slate-800 hover:border-slate-700"
+                    ? "border-amber-300 bg-amber-50/20"
+                    : "border-slate-200 hover:border-slate-300"
                 }`}
               >
                 {/* Day Header Row */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
                   <div className="flex items-center gap-3">
-                    <span className="w-8 h-8 rounded-lg bg-indigo-600/20 text-indigo-400 font-bold font-mono text-xs flex items-center justify-center border border-indigo-500/30">
+                    <span className="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-700 font-bold font-mono text-xs flex items-center justify-center border border-indigo-200">
                       D{day.dayNumber}
                     </span>
                     <div>
                       <div className="flex items-center gap-2">
-                        <h3 className="text-sm font-bold text-white tracking-tight">
+                        <h3 className="text-sm font-bold text-slate-900 tracking-tight">
                           {day.topic}
                         </h3>
                         {day.isTestDay && (
-                          <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30">
+                          <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200">
                             TEST
                           </span>
                         )}
                         {isToday && (
-                          <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                          <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
                             TODAY
                           </span>
                         )}
                       </div>
-                      <span className="text-[11px] font-medium text-slate-400 block mt-0.5">
+                      <span className="text-[11px] font-medium text-slate-500 block mt-0.5">
                         {day.subject} • <span className="font-mono">{formatDate(day.date)}</span>
                       </span>
                     </div>
@@ -333,14 +334,14 @@ export default function PlanPage() {
                       onChange={(e) =>
                         handleUpdateDayStatus(day.dayNumber, e.target.value as DayStatus)
                       }
-                      className={`text-xs font-bold rounded-xl px-2.5 py-1.5 border focus:outline-none transition-all ${
+                      className={`text-xs font-bold rounded-xl px-2.5 py-1.5 border focus:outline-hidden transition-all ${
                         currentStatus === "completed"
-                          ? "bg-emerald-950/60 border-emerald-600/50 text-emerald-300"
+                          ? "bg-emerald-50 border-emerald-300 text-emerald-800"
                           : currentStatus === "missed"
-                          ? "bg-amber-950/60 border-amber-600/50 text-amber-300"
+                          ? "bg-amber-50 border-amber-300 text-amber-800"
                           : currentStatus === "in_progress"
-                          ? "bg-blue-950/60 border-blue-600/50 text-blue-300"
-                          : "bg-slate-950 border-slate-800 text-slate-300"
+                          ? "bg-blue-50 border-blue-300 text-blue-800"
+                          : "bg-slate-50 border-slate-200 text-slate-700"
                       }`}
                     >
                       <option value="pending">Pending</option>
@@ -351,14 +352,14 @@ export default function PlanPage() {
 
                     <button
                       onClick={() => setActiveDrawerDay(day)}
-                      className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition-colors"
+                      className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold border border-slate-200 transition-colors"
                     >
                       Details
                     </button>
 
                     <Link
                       href={`/?day=${day.dayNumber}`}
-                      className="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-sm transition-all"
+                      className="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-xs transition-all"
                     >
                       Open Full View ↗
                     </Link>
@@ -370,7 +371,7 @@ export default function PlanPage() {
                   {day.subtopics.map((sub, i) => (
                     <span
                       key={i}
-                      className="px-2.5 py-1 rounded-lg text-[11px] bg-slate-950/60 border border-slate-800 text-slate-300"
+                      className="px-2.5 py-1 rounded-xl text-[11px] bg-slate-50 border border-slate-200 text-slate-700 font-medium"
                     >
                       {sub}
                     </span>
@@ -379,13 +380,13 @@ export default function PlanPage() {
 
                 {/* Bottom Launchers */}
                 <div className="flex flex-wrap items-center justify-between gap-3 pt-2 text-xs">
-                  <div className="flex items-center gap-4 text-slate-400">
-                    <span className="flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5 text-indigo-400" />
+                  <div className="flex items-center gap-4 text-slate-500">
+                    <span className="flex items-center gap-1 font-medium">
+                      <Clock className="w-3.5 h-3.5 text-indigo-600" />
                       {day.plannedHours} hrs planned
                     </span>
-                    <span className="flex items-center gap-1">
-                      <Award className="w-3.5 h-3.5 text-emerald-400" />
+                    <span className="flex items-center gap-1 font-medium">
+                      <Award className="w-3.5 h-3.5 text-emerald-600" />
                       {day.pyqResource?.target || 15} PYQs
                     </span>
                   </div>
@@ -396,7 +397,7 @@ export default function PlanPage() {
                         href={day.learningResource.url}
                         target="_blank"
                         rel="noreferrer"
-                        className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-indigo-600/20 hover:bg-indigo-600 text-indigo-300 hover:text-white border border-indigo-500/30 font-semibold transition-all"
+                        className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 font-semibold transition-all shadow-2xs"
                       >
                         <span>Open Gate Smashers</span>
                         <ExternalLink className="w-3 h-3" />
@@ -407,7 +408,7 @@ export default function PlanPage() {
                         href={day.pyqResource.url}
                         target="_blank"
                         rel="noreferrer"
-                        className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-purple-600/20 hover:bg-purple-600 text-purple-300 hover:text-white border border-purple-500/30 font-semibold transition-all"
+                        className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 font-semibold transition-all shadow-2xs"
                       >
                         <span>Open GATEOverflow</span>
                         <ExternalLink className="w-3 h-3" />
@@ -418,7 +419,7 @@ export default function PlanPage() {
                         href={day.exactResources.mcqs.url}
                         target="_blank"
                         rel="noreferrer"
-                        className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-teal-600/20 hover:bg-teal-600 text-teal-300 hover:text-white border border-teal-500/30 font-semibold transition-all"
+                        className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-teal-50 hover:bg-teal-100 text-teal-700 border border-teal-200 font-semibold transition-all shadow-2xs"
                       >
                         <span>Solve Topic MCQs</span>
                         <ExternalLink className="w-3 h-3" />
@@ -452,19 +453,19 @@ export default function PlanPage() {
             return (
               <div
                 key={sub.id}
-                className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4"
+                className="bg-white border border-slate-200 rounded-3xl p-6 shadow-xs space-y-4"
               >
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
                   <div>
-                    <h3 className="text-base font-bold text-white tracking-tight">
+                    <h3 className="text-base font-bold text-slate-900 tracking-tight">
                       {sub.name}
                     </h3>
-                    <span className="text-xs text-slate-400">
+                    <span className="text-xs text-slate-500">
                       {subjectDays.length} Days allocated • {totalHours} Total Hours
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="text-xs font-mono font-bold text-indigo-400">
+                    <span className="text-xs font-mono font-bold text-indigo-700">
                       {doneDays}/{subjectDays.length} Days Done ({percent}%)
                     </span>
                     {sub.gateSmashersUrl && (
@@ -472,7 +473,7 @@ export default function PlanPage() {
                         href={sub.gateSmashersUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition-colors"
+                        className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold border border-slate-200 transition-colors"
                       >
                         <span>Roadmap ↗</span>
                       </a>
@@ -486,20 +487,20 @@ export default function PlanPage() {
                     <div
                       key={d.dayNumber}
                       onClick={() => setActiveDrawerDay(d)}
-                      className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 hover:border-indigo-500/50 cursor-pointer space-y-1.5 transition-all"
+                      className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 hover:border-indigo-300 hover:bg-white cursor-pointer space-y-1.5 transition-all shadow-2xs"
                     >
                       <div className="flex items-center justify-between text-xs">
-                        <span className="font-mono font-bold text-indigo-400">
+                        <span className="font-mono font-bold text-indigo-700">
                           Day {d.dayNumber}
                         </span>
-                        <span className="text-[10px] text-slate-400 font-mono">
+                        <span className="text-[10px] text-slate-500 font-mono">
                           {formatDate(d.date).slice(0, 6)}
                         </span>
                       </div>
-                      <p className="text-xs font-semibold text-slate-200 truncate">
+                      <p className="text-xs font-semibold text-slate-800 truncate">
                         {d.topic}
                       </p>
-                      <div className="text-[10px] text-slate-400 truncate">
+                      <div className="text-[10px] text-slate-500 truncate">
                         {d.subtopics.join(", ")}
                       </div>
                     </div>

@@ -17,7 +17,7 @@ import { FIXED_PLAN_START_DATE, FIXED_PLAN_END_DATE } from "@/lib/data";
 
 export default function SettingsPage() {
   const [groqKey, setGroqKey] = useState("");
-  const [selectedModel, setSelectedModel] = useState("llama-3.3-70b-versatile");
+  const [selectedModel, setSelectedModel] = useState("openai/gpt-oss-120b");
   const [dailyHours, setDailyHours] = useState("6");
   const [savedSuccess, setSavedSuccess] = useState(false);
 
@@ -111,56 +111,56 @@ Target Daily Study: ${dailyHours} Hours/Day
   };
 
   return (
-    <div className="space-y-8 max-w-4xl mx-auto pb-16">
+    <div className="space-y-8 max-w-4xl mx-auto pb-20 animate-fade-in-up">
       {/* Header Banner */}
-      <div className="bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl">
+      <div className="bg-gradient-to-r from-indigo-50 via-white to-slate-50 border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs">
         <div className="max-w-2xl space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-600/30 text-indigo-300 border border-indigo-500/40">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-100 text-indigo-800 border border-indigo-200">
             <Settings className="w-3.5 h-3.5" /> Cockpit Configuration
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
             Settings & Data Backups
           </h1>
-          <p className="text-xs text-slate-300 leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
             Configure your AI provider credentials, daily study schedule parameters, and export your preparation logs and Error Book.
           </p>
         </div>
       </div>
 
       {savedSuccess && (
-        <div className="p-4 rounded-xl bg-emerald-950/40 border border-emerald-800 text-emerald-300 text-xs font-semibold flex items-center gap-2 animate-in fade-in">
-          <CheckCircle2 className="w-4 h-4" /> Preferences saved successfully!
+        <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs font-semibold flex items-center gap-2">
+          <CheckCircle2 className="w-4 h-4 text-emerald-600" /> Preferences saved successfully!
         </div>
       )}
 
       {/* Section 1: Groq AI Provider Settings */}
-      <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-          <h3 className="text-sm font-bold text-white flex items-center gap-2">
-            <Bot className="w-4 h-4 text-indigo-400" /> Groq AI Engine Setup
+      <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-4">
+        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+          <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+            <Bot className="w-4 h-4 text-indigo-600" /> Groq AI Engine Setup
           </h3>
-          <span className="text-xs text-slate-400 font-mono">Ultra-Fast Llama Inference</span>
+          <span className="text-xs text-slate-500 font-mono">Ultra-Fast Inference</span>
         </div>
 
         <div className="space-y-3 text-xs">
           <div>
-            <label className="font-semibold text-slate-300 block mb-1">Groq API Key:</label>
+            <label className="font-semibold text-slate-700 block mb-1">Groq API Key:</label>
             <div className="flex items-center gap-2">
               <input
                 type="password"
                 placeholder="gsk_..."
                 value={groqKey}
                 onChange={(e) => setGroqKey(e.target.value)}
-                className="flex-1 bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white font-mono focus:outline-none focus:border-indigo-500"
+                className="flex-1 bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-slate-800 font-mono focus:outline-none focus:border-indigo-500"
               />
             </div>
-            <p className="text-[11px] text-slate-400 mt-1">
+            <p className="text-[11px] text-slate-500 mt-1">
               Your key is stored securely in your browser and used for server-side proxy calls. You can get a free key from{" "}
               <a
                 href="https://console.groq.com/keys"
                 target="_blank"
                 rel="noreferrer"
-                className="text-indigo-400 hover:underline"
+                className="text-indigo-600 font-medium hover:underline"
               >
                 console.groq.com/keys
               </a>
@@ -169,49 +169,51 @@ Target Daily Study: ${dailyHours} Hours/Day
           </div>
 
           <div>
-            <label className="font-semibold text-slate-300 block mb-1">AI Model:</label>
+            <label className="font-semibold text-slate-700 block mb-1">AI Model:</label>
             <select
               value={selectedModel}
               onChange={(e) => setSelectedModel(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-indigo-500"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-slate-800 focus:outline-none focus:border-indigo-500 font-medium"
             >
-              <option value="llama-3.3-70b-versatile">llama-3.3-70b-versatile (Recommended for GATE CS)</option>
-              <option value="llama-3.1-8b-instant">llama-3.1-8b-instant (Fastest Response)</option>
-              <option value="mixtral-8x7b-32768">mixtral-8x7b-32768 (MoE Architecture)</option>
+              <option value="openai/gpt-oss-120b">openai/gpt-oss-120b (Recommended for GATE CS reasoning)</option>
+              <option value="openai/gpt-oss-20b">openai/gpt-oss-20b (Fast Inference)</option>
+              <option value="qwen/qwen3.8-27b">qwen/qwen3.8-27b (High Performance)</option>
+              <option value="llama-3.3-70b-versatile">llama-3.3-70b-versatile</option>
+              <option value="llama-3.1-8b-instant">llama-3.1-8b-instant</option>
             </select>
           </div>
         </div>
       </div>
 
       {/* Section 2: Study Plan Rules & Profile */}
-      <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-          <h3 className="text-sm font-bold text-white flex items-center gap-2">
-            <Clock className="w-4 h-4 text-indigo-400" /> Study Profile & Schedule Parameters
+      <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-4">
+        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+          <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+            <Clock className="w-4 h-4 text-indigo-600" /> Study Profile & Schedule Parameters
           </h3>
-          <span className="text-xs text-slate-400 font-mono">Section 2.1 Fixed Timeline</span>
+          <span className="text-xs text-slate-500 font-mono">Section 2.1 Fixed Timeline</span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-          <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800 space-y-1">
-            <span className="text-slate-400 block font-semibold">Fixed Preparation Start:</span>
-            <span className="text-sm font-mono font-bold text-white">{FIXED_PLAN_START_DATE}</span>
+          <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+            <span className="text-slate-500 block font-semibold">Fixed Preparation Start:</span>
+            <span className="text-sm font-mono font-bold text-slate-900">{FIXED_PLAN_START_DATE}</span>
             <span className="text-[10px] text-slate-500 block">Day 1 of 90 Sequence</span>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800 space-y-1">
-            <span className="text-slate-400 block font-semibold">Fixed Preparation Finish:</span>
-            <span className="text-sm font-mono font-bold text-white">{FIXED_PLAN_END_DATE}</span>
+          <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+            <span className="text-slate-500 block font-semibold">Fixed Preparation Finish:</span>
+            <span className="text-sm font-mono font-bold text-slate-900">{FIXED_PLAN_END_DATE}</span>
             <span className="text-[10px] text-slate-500 block">Day 90 Master Completion</span>
           </div>
         </div>
 
         <div className="text-xs">
-          <label className="font-semibold text-slate-300 block mb-1">Target Daily Study Hours:</label>
+          <label className="font-semibold text-slate-700 block mb-1">Target Daily Study Hours:</label>
           <select
             value={dailyHours}
             onChange={(e) => setDailyHours(e.target.value)}
-            className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-indigo-500"
+            className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-slate-800 focus:outline-none focus:border-indigo-500 font-medium"
           >
             <option value="4">4 Hours / Day (Compressed Profile)</option>
             <option value="6">6 Hours / Day (Recommended Master Schedule)</option>
@@ -221,50 +223,50 @@ Target Daily Study: ${dailyHours} Hours/Day
 
         <button
           onClick={handleSaveSettings}
-          className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-md transition-all"
+          className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold shadow-xs transition-all"
         >
           Save Preferences
         </button>
       </div>
 
       {/* Section 3: Data Export & Reset */}
-      <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-          <h3 className="text-sm font-bold text-white flex items-center gap-2">
-            <Download className="w-4 h-4 text-emerald-400" /> Data Backup & Export
+      <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-4">
+        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+          <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+            <Download className="w-4 h-4 text-emerald-600" /> Data Backup & Export
           </h3>
-          <span className="text-xs text-slate-400 font-mono">Offline-First Ownership</span>
+          <span className="text-xs text-slate-500 font-mono">Offline-First Ownership</span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
           <button
             onClick={handleExportErrorBookCsv}
-            className="p-4 rounded-xl bg-slate-950/60 border border-slate-800 hover:border-slate-700 text-left flex items-start gap-3 transition-colors"
+            className="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-slate-300 text-left flex items-start gap-3 transition-colors group"
           >
-            <FileText className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />
+            <FileText className="w-5 h-5 text-rose-500 shrink-0 mt-0.5" />
             <div>
-              <span className="font-bold text-white block">Download Error Book CSV</span>
-              <span className="text-[11px] text-slate-400">All recorded mistakes and correct concepts</span>
+              <span className="font-bold text-slate-900 block group-hover:text-rose-600 transition-colors">Download Error Book CSV</span>
+              <span className="text-[11px] text-slate-500">All recorded mistakes and correct concepts</span>
             </div>
           </button>
 
           <button
             onClick={handleExportPreparationReport}
-            className="p-4 rounded-xl bg-slate-950/60 border border-slate-800 hover:border-slate-700 text-left flex items-start gap-3 transition-colors"
+            className="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-slate-300 text-left flex items-start gap-3 transition-colors group"
           >
-            <Download className="w-5 h-5 text-indigo-400 shrink-0 mt-0.5" />
+            <Download className="w-5 h-5 text-indigo-600 shrink-0 mt-0.5" />
             <div>
-              <span className="font-bold text-white block">Download Preparation Report</span>
-              <span className="text-[11px] text-slate-400">Comprehensive Markdown study summary</span>
+              <span className="font-bold text-slate-900 block group-hover:text-indigo-600 transition-colors">Download Preparation Report</span>
+              <span className="text-[11px] text-slate-500">Comprehensive Markdown study summary</span>
             </div>
           </button>
         </div>
 
-        <div className="pt-4 border-t border-slate-800 flex justify-between items-center text-xs">
-          <span className="text-slate-400">Need to reset your progress state from scratch?</span>
+        <div className="pt-4 border-t border-slate-100 flex justify-between items-center text-xs">
+          <span className="text-slate-500">Need to reset your progress state from scratch?</span>
           <button
             onClick={handleClearProgress}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-950/40 text-rose-400 hover:bg-rose-900/50 border border-rose-800/40 font-semibold transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 font-semibold transition-colors"
           >
             <Trash2 className="w-3.5 h-3.5" /> Reset Local Data
           </button>

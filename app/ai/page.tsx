@@ -216,23 +216,23 @@ Ready for your next question or directive. What would you like to plan or search
   return (
     <div className="space-y-4 max-w-5xl mx-auto h-[calc(100vh-7.5rem)] flex flex-col">
       {/* Top AI Coach Header */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3 shadow-lg shrink-0">
+      <div className="bg-white border border-slate-200 rounded-3xl p-4 sm:p-5 flex flex-wrap items-center justify-between gap-3 shadow-xs shrink-0">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-md shadow-indigo-600/30">
+          <div className="w-10 h-10 rounded-2xl bg-indigo-600 flex items-center justify-center text-white shadow-md shadow-indigo-600/30">
             <Bot className="w-5 h-5" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-sm font-extrabold text-white">
+              <h1 className="text-sm font-extrabold text-slate-900">
                 GATE AI Coach & Resource Navigator
               </h1>
-              <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-50 text-emerald-800 border border-emerald-200">
                 Groq Active
               </span>
             </div>
-            <p className="text-[11px] text-slate-400 mt-0.5">
-              Active Focus: <strong className="text-indigo-300">Day {dayNumber} of 90</strong> • {activeSubject} →{" "}
-              <span className="text-slate-200 font-semibold">{activeTopic}</span>
+            <p className="text-[11px] text-slate-500 mt-0.5">
+              Active Focus: <strong className="text-indigo-700">Day {dayNumber} of 90</strong> • {activeSubject} →{" "}
+              <span className="text-slate-800 font-semibold">{activeTopic}</span>
             </p>
           </div>
         </div>
@@ -240,16 +240,16 @@ Ready for your next question or directive. What would you like to plan or search
         <div className="flex items-center gap-2">
           <button
             onClick={handleClearChat}
-            className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors"
+            className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 transition-colors"
             title="Clear Chat History"
           >
             <Trash2 className="w-4 h-4" />
           </button>
           <button
             onClick={() => setShowKeyInput(!showKeyInput)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-300 border border-slate-700 transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-slate-700 border border-slate-200 transition-colors"
           >
-            <Key className="w-3.5 h-3.5 text-amber-400" />
+            <Key className="w-3.5 h-3.5 text-amber-600" />
             <span>{customKey ? "Groq Key Configured" : "Enter Groq Key"}</span>
           </button>
         </div>
@@ -257,14 +257,14 @@ Ready for your next question or directive. What would you like to plan or search
 
       {/* Groq Key Drawer */}
       {showKeyInput && (
-        <div className="p-4 rounded-xl bg-slate-900 border border-amber-800/50 shadow-xl space-y-2 shrink-0 animate-in fade-in duration-200">
-          <div className="flex items-center justify-between text-xs text-amber-300 font-semibold">
+        <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 shadow-sm space-y-2 shrink-0 animate-in fade-in duration-200">
+          <div className="flex items-center justify-between text-xs text-amber-900 font-semibold">
             <span>Groq API Key (Stored locally in your browser):</span>
             <a
               href="https://console.groq.com/keys"
               target="_blank"
               rel="noreferrer"
-              className="text-indigo-400 hover:underline"
+              className="text-indigo-600 hover:underline"
             >
               Get free Groq Key ↗
             </a>
@@ -275,11 +275,11 @@ Ready for your next question or directive. What would you like to plan or search
               placeholder="gsk_..."
               value={customKey}
               onChange={(e) => setCustomKey(e.target.value)}
-              className="flex-1 bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white font-mono focus:outline-none focus:border-indigo-500"
+              className="flex-1 bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs text-slate-900 font-mono focus:outline-hidden focus:border-indigo-500"
             />
             <button
               onClick={handleSaveApiKey}
-              className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold"
+              className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-xs"
             >
               Save Key
             </button>
@@ -298,10 +298,10 @@ Ready for your next question or directive. What would you like to plan or search
                 setActiveMode(d.id);
                 handleSendMessage(d.query);
               }}
-              className="px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap border bg-slate-900/90 text-slate-300 border-slate-800 hover:text-white hover:border-indigo-500/60 hover:bg-indigo-950/40 flex items-center gap-1.5 transition-all shadow-sm"
+              className="px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap border bg-white text-slate-700 border-slate-200 hover:text-indigo-700 hover:border-indigo-300 hover:bg-indigo-50/50 flex items-center gap-1.5 transition-all shadow-2xs"
               title={d.description}
             >
-              <Icon className="w-3.5 h-3.5 text-indigo-400" />
+              <Icon className="w-3.5 h-3.5 text-indigo-600" />
               <span>{d.label}</span>
             </button>
           );
@@ -309,17 +309,17 @@ Ready for your next question or directive. What would you like to plan or search
       </div>
 
       {/* Chat Messages Stream with FormattedAiResponse */}
-      <div className="flex-1 bg-slate-900/60 border border-slate-800 rounded-2xl p-4 sm:p-6 overflow-y-auto space-y-4 shadow-inner">
+      <div className="flex-1 bg-white border border-slate-200 rounded-3xl p-4 sm:p-6 overflow-y-auto space-y-4 shadow-xs">
         {messages.map((msg, i) => (
           <div
             key={i}
             className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
           >
             <div
-              className={`max-w-3xl rounded-2xl p-4 sm:p-5 text-xs leading-relaxed ${
+              className={`max-w-3xl rounded-3xl p-4 sm:p-5 text-xs leading-relaxed ${
                 msg.role === "user"
-                  ? "bg-indigo-600 text-white font-semibold shadow-md shadow-indigo-600/20"
-                  : "bg-slate-900/95 border border-slate-800 text-slate-200 shadow-xl"
+                  ? "bg-indigo-600 text-white font-semibold shadow-sm"
+                  : "bg-slate-50 border border-slate-200 text-slate-800 shadow-2xs"
               }`}
             >
               {msg.role === "user" ? (
@@ -333,8 +333,8 @@ Ready for your next question or directive. What would you like to plan or search
 
         {loading && (
           <div className="flex justify-start">
-            <div className="p-4 rounded-2xl bg-slate-900/95 border border-slate-800 text-slate-300 text-xs flex items-center gap-2.5 animate-pulse shadow-md">
-              <Bot className="w-4 h-4 text-indigo-400" />
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-slate-600 text-xs flex items-center gap-2.5 animate-pulse shadow-2xs">
+              <Bot className="w-4 h-4 text-indigo-600" />
               <span>AI Coach is computing the optimal study decision & verifying syllabus resources...</span>
             </div>
           </div>
@@ -343,8 +343,8 @@ Ready for your next question or directive. What would you like to plan or search
       </div>
 
       {/* Suggested Search Queries Quick-Chips */}
-      <div className="flex items-center gap-1.5 overflow-x-auto text-[11px] text-slate-400 shrink-0">
-        <span className="font-semibold text-slate-500 whitespace-nowrap">Try asking:</span>
+      <div className="flex items-center gap-1.5 overflow-x-auto text-[11px] text-slate-500 shrink-0">
+        <span className="font-semibold text-slate-600 whitespace-nowrap">Try asking:</span>
         {[
           "find cache memory",
           "find binary search trees",
@@ -356,7 +356,7 @@ Ready for your next question or directive. What would you like to plan or search
           <button
             key={idx}
             onClick={() => handleSendMessage(chip)}
-            className="px-2.5 py-1 rounded-lg bg-slate-950 hover:bg-slate-800 hover:text-white border border-slate-800/80 whitespace-nowrap transition-colors"
+            className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 text-slate-600 border border-slate-200 whitespace-nowrap transition-colors"
           >
             &quot;{chip}&quot;
           </button>
@@ -364,7 +364,7 @@ Ready for your next question or directive. What would you like to plan or search
       </div>
 
       {/* Input Form */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-3 flex items-center gap-2 shadow-xl shrink-0">
+      <div className="bg-white border border-slate-200 rounded-2xl p-3 flex items-center gap-2 shadow-xs shrink-0">
         <input
           type="text"
           placeholder="Ask AI Coach what to do, rebalance time, or type 'find [topic/concept/day]'..."
@@ -376,13 +376,13 @@ Ready for your next question or directive. What would you like to plan or search
               handleSendMessage();
             }
           }}
-          className="flex-1 bg-transparent border-none text-xs text-white placeholder-slate-500 focus:outline-none px-2"
+          className="flex-1 bg-transparent border-none text-xs text-slate-900 placeholder-slate-400 focus:outline-hidden px-2"
         />
 
         <button
           onClick={() => handleSendMessage()}
           disabled={!inputMessage.trim() || loading}
-          className="p-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white shadow-md shadow-indigo-600/20 transition-all hover:scale-105 shrink-0"
+          className="p-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white shadow-xs transition-all hover:scale-105 shrink-0"
         >
           <Send className="w-4 h-4" />
         </button>
