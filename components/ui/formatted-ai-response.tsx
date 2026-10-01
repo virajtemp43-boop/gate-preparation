@@ -39,8 +39,8 @@ export const FormattedAiResponse: React.FC<FormattedAiResponseProps> = ({
           elements.push(
             <ol key={`ol-${elements.length}`} className="my-2.5 space-y-1.5 pl-1">
               {listBuffer.map((item, idx) => (
-                <li key={idx} className="flex items-start gap-2.5 text-xs text-slate-200">
-                  <span className="flex items-center justify-center w-5 h-5 rounded-md bg-indigo-950/70 border border-indigo-500/40 text-[10px] font-mono font-bold text-indigo-300 shrink-0 mt-0.5">
+                <li key={idx} className="flex items-start gap-2.5 text-xs text-slate-900 font-medium">
+                  <span className="flex items-center justify-center w-5 h-5 rounded-md bg-emerald-100 border border-emerald-300 text-[10px] font-mono font-black text-emerald-950 shrink-0 mt-0.5 shadow-2xs">
                     {idx + 1}
                   </span>
                   <span className="flex-1 leading-relaxed">{renderInline(item)}</span>
@@ -52,8 +52,8 @@ export const FormattedAiResponse: React.FC<FormattedAiResponseProps> = ({
           elements.push(
             <ul key={`ul-${elements.length}`} className="my-2.5 space-y-1.5 pl-1">
               {listBuffer.map((item, idx) => (
-                <li key={idx} className="flex items-start gap-2 text-xs text-slate-200">
-                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 shrink-0 mt-2" />
+                <li key={idx} className="flex items-start gap-2 text-xs text-slate-900 font-medium">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 shrink-0 mt-2" />
                   <span className="flex-1 leading-relaxed">{renderInline(item)}</span>
                 </li>
               ))}
@@ -70,7 +70,7 @@ export const FormattedAiResponse: React.FC<FormattedAiResponseProps> = ({
         elements.push(
           <div
             key={`bq-${elements.length}`}
-            className="my-3 p-3 rounded-xl bg-slate-950/80 border-l-4 border-indigo-500 border-r border-t border-b border-slate-800 text-xs text-slate-300 italic space-y-1"
+            className="my-3 p-3 rounded-xl bg-emerald-50/80 border-l-4 border-emerald-500 border-r border-t border-b border-emerald-200 text-xs text-slate-800 italic space-y-1 shadow-2xs"
           >
             {blockquoteBuffer.map((line, idx) => (
               <p key={idx}>{renderInline(line)}</p>
@@ -104,7 +104,7 @@ export const FormattedAiResponse: React.FC<FormattedAiResponseProps> = ({
       // Horizontal separator
       if (trimmed === "---" || trimmed === "***" || trimmed === "___") {
         flushList();
-        elements.push(<hr key={`hr-${i}`} className="my-4 border-slate-800" />);
+        elements.push(<hr key={`hr-${i}`} className="my-3 border-emerald-900/10" />);
         continue;
       }
 
@@ -114,7 +114,7 @@ export const FormattedAiResponse: React.FC<FormattedAiResponseProps> = ({
         elements.push(
           <h3
             key={`h3-${i}`}
-            className="text-sm font-extrabold text-white mt-4 mb-2 flex items-center gap-2 border-b border-slate-800 pb-1.5 tracking-tight"
+            className="text-sm font-black text-slate-950 mt-4 mb-2 flex items-center gap-2 border-b border-emerald-900/10 pb-1.5 tracking-tight"
           >
             {renderInline(trimmed.slice(4))}
           </h3>
@@ -127,7 +127,7 @@ export const FormattedAiResponse: React.FC<FormattedAiResponseProps> = ({
         elements.push(
           <h4
             key={`h4-${i}`}
-            className="text-xs font-bold text-indigo-300 mt-3 mb-1.5 flex items-center gap-1.5 uppercase tracking-wider"
+            className="text-xs font-black text-emerald-800 mt-3 mb-1.5 flex items-center gap-1.5 uppercase tracking-wider"
           >
             {renderInline(trimmed.slice(5))}
           </h4>
@@ -140,7 +140,7 @@ export const FormattedAiResponse: React.FC<FormattedAiResponseProps> = ({
         elements.push(
           <h2
             key={`h2-${i}`}
-            className="text-base font-extrabold text-white mt-5 mb-2.5 flex items-center gap-2 border-b border-slate-800 pb-2"
+            className="text-base font-black text-slate-950 mt-5 mb-2.5 flex items-center gap-2 border-b border-emerald-900/10 pb-2"
           >
             {renderInline(trimmed.slice(3))}
           </h2>
@@ -151,7 +151,7 @@ export const FormattedAiResponse: React.FC<FormattedAiResponseProps> = ({
       if (trimmed.startsWith("# ")) {
         flushList();
         elements.push(
-          <h1 key={`h1-${i}`} className="text-lg font-black text-white mt-5 mb-3">
+          <h1 key={`h1-${i}`} className="text-lg font-black text-slate-950 mt-5 mb-3">
             {renderInline(trimmed.slice(2))}
           </h1>
         );
@@ -182,7 +182,7 @@ export const FormattedAiResponse: React.FC<FormattedAiResponseProps> = ({
       // Regular paragraph
       flushList();
       elements.push(
-        <p key={`p-${i}`} className="my-1.5 text-xs text-slate-200 leading-relaxed">
+        <p key={`p-${i}`} className="my-1.5 text-xs text-slate-900 font-medium leading-relaxed">
           {renderInline(line)}
         </p>
       );
@@ -217,6 +217,7 @@ function renderInline(text: string): React.ReactNode {
     if (!part) return null;
 
     // Display Math: $$ ... $$
+    // Display Math: $$ ... $$
     if (part.startsWith("$$") && part.endsWith("$$")) {
       const math = part.slice(2, -2).trim();
       try {
@@ -224,12 +225,12 @@ function renderInline(text: string): React.ReactNode {
         return (
           <span
             key={index}
-            className="block my-2 text-center overflow-x-auto py-1 text-indigo-300"
+            className="block my-2 text-center overflow-x-auto py-1 text-emerald-900 font-bold"
             dangerouslySetInnerHTML={{ __html: html }}
           />
         );
       } catch {
-        return <code key={index} className="text-amber-300">{part}</code>;
+        return <code key={index} className="text-amber-800 font-bold">{part}</code>;
       }
     }
 
@@ -241,12 +242,12 @@ function renderInline(text: string): React.ReactNode {
         return (
           <span
             key={index}
-            className="inline text-indigo-200 font-mono"
+            className="inline text-emerald-900 font-mono font-bold"
             dangerouslySetInnerHTML={{ __html: html }}
           />
         );
       } catch {
-        return <code key={index} className="text-amber-300">{part}</code>;
+        return <code key={index} className="text-amber-800 font-bold">{part}</code>;
       }
     }
 
@@ -270,7 +271,7 @@ function renderInline(text: string): React.ReactNode {
             href={linkUrl}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] shadow-sm shadow-emerald-600/30 my-0.5 mx-1 transition-all hover:scale-105"
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-[11px] shadow-sm shadow-emerald-600/25 my-0.5 mx-1 transition-all hover:scale-105"
           >
             <Play className="w-3 h-3 fill-current" />
             <span>{linkText}</span>
@@ -286,7 +287,7 @@ function renderInline(text: string): React.ReactNode {
             href={linkUrl}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-bold text-[11px] shadow-sm shadow-purple-600/30 my-0.5 mx-1 transition-all hover:scale-105"
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-[11px] shadow-sm shadow-amber-500/25 my-0.5 mx-1 transition-all hover:scale-105"
           >
             <FileQuestion className="w-3 h-3" />
             <span>{linkText}</span>
@@ -302,7 +303,7 @@ function renderInline(text: string): React.ReactNode {
             href={linkUrl}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-teal-600 hover:bg-teal-500 text-white font-bold text-[11px] shadow-sm shadow-teal-600/30 my-0.5 mx-1 transition-all hover:scale-105"
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-extrabold text-[11px] shadow-sm shadow-teal-600/25 my-0.5 mx-1 transition-all hover:scale-105"
           >
             <CheckCircle2 className="w-3 h-3" />
             <span>{linkText}</span>
@@ -318,7 +319,7 @@ function renderInline(text: string): React.ReactNode {
             href={linkUrl}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-indigo-600/40 hover:bg-indigo-600 text-indigo-300 hover:text-white border border-indigo-500/40 font-semibold text-[11px] my-0.5 mx-1 transition-all"
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-emerald-100 hover:bg-emerald-200 text-emerald-950 border border-emerald-300 font-extrabold text-[11px] my-0.5 mx-1 transition-all"
           >
             <span>{linkText}</span>
             <ExternalLink className="w-3 h-3" />
@@ -333,7 +334,7 @@ function renderInline(text: string): React.ReactNode {
           href={linkUrl}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-1 text-indigo-400 hover:text-indigo-300 underline font-semibold text-[11px] mx-1 transition-colors"
+          className="inline-flex items-center gap-1 text-emerald-700 hover:text-emerald-950 underline font-bold text-[11px] mx-1 transition-colors"
         >
           <span>{linkText}</span>
           <ExternalLink className="w-3 h-3" />
@@ -356,7 +357,7 @@ function renderInline(text: string): React.ReactNode {
         return (
           <span
             key={index}
-            className="inline-block px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase tracking-wider bg-indigo-600 text-white shadow-sm mx-1"
+            className="inline-block px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-black uppercase tracking-wider bg-emerald-700 text-white shadow-2xs mx-1"
           >
             {boldContent}
           </span>
@@ -364,7 +365,7 @@ function renderInline(text: string): React.ReactNode {
       }
 
       return (
-        <strong key={index} className="font-bold text-white tracking-wide">
+        <strong key={index} className="font-black text-slate-950 tracking-wide">
           {renderInline(boldContent)}
         </strong>
       );
@@ -374,7 +375,7 @@ function renderInline(text: string): React.ReactNode {
     if (part.startsWith("*") && part.endsWith("*") && !part.startsWith("**")) {
       const italicContent = part.slice(1, -1);
       return (
-        <em key={index} className="italic text-slate-300 font-medium">
+        <em key={index} className="italic text-slate-700 font-medium">
           {italicContent}
         </em>
       );
@@ -386,7 +387,7 @@ function renderInline(text: string): React.ReactNode {
       return (
         <code
           key={index}
-          className="px-1.5 py-0.5 rounded bg-slate-950 border border-slate-800 font-mono text-[11px] text-indigo-300 font-semibold mx-0.5"
+          className="px-1.5 py-0.5 rounded-md bg-emerald-50 border border-emerald-200 font-mono text-[11px] text-emerald-950 font-bold mx-0.5"
         >
           {codeContent}
         </code>

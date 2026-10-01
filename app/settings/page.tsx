@@ -3,15 +3,12 @@
 import React, { useState, useEffect } from "react";
 import {
   Settings,
-  Key,
   Download,
   Trash2,
   CheckCircle2,
-  Calendar,
   Clock,
   Bot,
   FileText,
-  Shield,
 } from "lucide-react";
 import { FIXED_PLAN_START_DATE, FIXED_PLAN_END_DATE } from "@/lib/data";
 
@@ -105,6 +102,7 @@ Target Daily Study: ${dailyHours} Hours/Day
       localStorage.removeItem("gate_study_days");
       localStorage.removeItem("gate_error_book");
       localStorage.removeItem("gate_revision_cards");
+      localStorage.removeItem("gate_day_notes");
       alert("Local study data reset successfully.");
       window.location.reload();
     }
@@ -112,55 +110,55 @@ Target Daily Study: ${dailyHours} Hours/Day
 
   return (
     <div className="space-y-8 max-w-4xl mx-auto pb-20 animate-fade-in-up">
-      {/* Header Banner */}
-      <div className="bg-gradient-to-r from-indigo-50 via-white to-slate-50 border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs">
+      {/* Header Banner - Liquid Glass */}
+      <div className="luxury-glass border border-white/90 rounded-3xl p-6 sm:p-8 shadow-lg">
         <div className="max-w-2xl space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-100 text-indigo-800 border border-indigo-200">
-            <Settings className="w-3.5 h-3.5" /> Cockpit Configuration
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-black luxury-glass-card text-emerald-950 border border-emerald-300 shadow-2xs">
+            <Settings className="w-3.5 h-3.5 text-emerald-700" /> Cockpit Configuration
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
             Settings & Data Backups
           </h1>
-          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">
             Configure your AI provider credentials, daily study schedule parameters, and export your preparation logs and Error Book.
           </p>
         </div>
       </div>
 
       {savedSuccess && (
-        <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs font-semibold flex items-center gap-2">
-          <CheckCircle2 className="w-4 h-4 text-emerald-600" /> Preferences saved successfully!
+        <div className="p-4 rounded-2xl luxury-glass-emerald border border-emerald-400 text-emerald-950 text-xs font-black flex items-center gap-2 shadow-sm animate-in fade-in duration-200">
+          <CheckCircle2 className="w-4 h-4 text-emerald-700" /> Preferences saved successfully!
         </div>
       )}
 
-      {/* Section 1: Groq AI Provider Settings */}
-      <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-          <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-            <Bot className="w-4 h-4 text-indigo-600" /> Groq AI Engine Setup
+      {/* Section 1: Groq AI Provider Settings - Liquid Glass */}
+      <div className="luxury-glass border border-white/90 rounded-3xl p-6 sm:p-7 shadow-md space-y-4">
+        <div className="flex items-center justify-between border-b border-emerald-200/50 pb-3">
+          <h3 className="text-sm font-black text-slate-950 flex items-center gap-2">
+            <Bot className="w-4 h-4 text-emerald-700" /> Groq AI Engine Setup
           </h3>
-          <span className="text-xs text-slate-500 font-mono">Ultra-Fast Inference</span>
+          <span className="text-xs text-slate-600 font-mono font-bold">Ultra-Fast Inference</span>
         </div>
 
         <div className="space-y-3 text-xs">
           <div>
-            <label className="font-semibold text-slate-700 block mb-1">Groq API Key:</label>
+            <label className="font-extrabold text-slate-900 block mb-1">Groq API Key:</label>
             <div className="flex items-center gap-2">
               <input
                 type="password"
                 placeholder="gsk_..."
                 value={groqKey}
                 onChange={(e) => setGroqKey(e.target.value)}
-                className="flex-1 bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-slate-800 font-mono focus:outline-none focus:border-indigo-500"
+                className="flex-1 bg-white/90 border border-slate-200 rounded-xl p-2.5 text-slate-950 font-mono font-bold focus:outline-none focus:border-emerald-500 shadow-2xs"
               />
             </div>
-            <p className="text-[11px] text-slate-500 mt-1">
+            <p className="text-[11px] text-slate-600 mt-1 font-medium">
               Your key is stored securely in your browser and used for server-side proxy calls. You can get a free key from{" "}
               <a
                 href="https://console.groq.com/keys"
                 target="_blank"
                 rel="noreferrer"
-                className="text-indigo-600 font-medium hover:underline"
+                className="text-emerald-800 font-extrabold hover:underline"
               >
                 console.groq.com/keys
               </a>
@@ -169,11 +167,11 @@ Target Daily Study: ${dailyHours} Hours/Day
           </div>
 
           <div>
-            <label className="font-semibold text-slate-700 block mb-1">AI Model:</label>
+            <label className="font-extrabold text-slate-900 block mb-1">AI Model:</label>
             <select
               value={selectedModel}
               onChange={(e) => setSelectedModel(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-slate-800 focus:outline-none focus:border-indigo-500 font-medium"
+              className="w-full bg-white/90 border border-slate-200 rounded-xl p-2.5 text-slate-950 focus:outline-none focus:border-emerald-500 font-bold shadow-2xs"
             >
               <option value="openai/gpt-oss-120b">openai/gpt-oss-120b (Recommended for GATE CS reasoning)</option>
               <option value="openai/gpt-oss-20b">openai/gpt-oss-20b (Fast Inference)</option>
@@ -185,35 +183,35 @@ Target Daily Study: ${dailyHours} Hours/Day
         </div>
       </div>
 
-      {/* Section 2: Study Plan Rules & Profile */}
-      <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-          <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-            <Clock className="w-4 h-4 text-indigo-600" /> Study Profile & Schedule Parameters
+      {/* Section 2: Study Plan Rules & Profile - Liquid Glass */}
+      <div className="luxury-glass border border-white/90 rounded-3xl p-6 sm:p-7 shadow-md space-y-4">
+        <div className="flex items-center justify-between border-b border-emerald-200/50 pb-3">
+          <h3 className="text-sm font-black text-slate-950 flex items-center gap-2">
+            <Clock className="w-4 h-4 text-emerald-700" /> Study Profile & Schedule Parameters
           </h3>
-          <span className="text-xs text-slate-500 font-mono">Section 2.1 Fixed Timeline</span>
+          <span className="text-xs text-slate-600 font-mono font-bold">Section 2.1 Fixed Timeline</span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-          <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
-            <span className="text-slate-500 block font-semibold">Fixed Preparation Start:</span>
-            <span className="text-sm font-mono font-bold text-slate-900">{FIXED_PLAN_START_DATE}</span>
-            <span className="text-[10px] text-slate-500 block">Day 1 of 90 Sequence</span>
+          <div className="p-4 rounded-2xl luxury-glass-card border border-emerald-200/80 space-y-1 shadow-2xs">
+            <span className="text-slate-600 block font-extrabold">Fixed Preparation Start:</span>
+            <span className="text-sm font-mono font-black text-slate-950">{FIXED_PLAN_START_DATE}</span>
+            <span className="text-[10px] text-slate-500 block font-bold">Day 1 of 90 Sequence</span>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
-            <span className="text-slate-500 block font-semibold">Fixed Preparation Finish:</span>
-            <span className="text-sm font-mono font-bold text-slate-900">{FIXED_PLAN_END_DATE}</span>
-            <span className="text-[10px] text-slate-500 block">Day 90 Master Completion</span>
+          <div className="p-4 rounded-2xl luxury-glass-card border border-emerald-200/80 space-y-1 shadow-2xs">
+            <span className="text-slate-600 block font-extrabold">Fixed Preparation Finish:</span>
+            <span className="text-sm font-mono font-black text-slate-950">{FIXED_PLAN_END_DATE}</span>
+            <span className="text-[10px] text-slate-500 block font-bold">Day 90 Master Completion</span>
           </div>
         </div>
 
         <div className="text-xs">
-          <label className="font-semibold text-slate-700 block mb-1">Target Daily Study Hours:</label>
+          <label className="font-extrabold text-slate-900 block mb-1">Target Daily Study Hours:</label>
           <select
             value={dailyHours}
             onChange={(e) => setDailyHours(e.target.value)}
-            className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-slate-800 focus:outline-none focus:border-indigo-500 font-medium"
+            className="w-full bg-white/90 border border-slate-200 rounded-xl p-2.5 text-slate-950 focus:outline-none focus:border-emerald-500 font-bold shadow-2xs"
           >
             <option value="4">4 Hours / Day (Compressed Profile)</option>
             <option value="6">6 Hours / Day (Recommended Master Schedule)</option>
@@ -223,52 +221,52 @@ Target Daily Study: ${dailyHours} Hours/Day
 
         <button
           onClick={handleSaveSettings}
-          className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold shadow-xs transition-all"
+          className="px-6 py-2.5 rounded-xl metallic-emerald-btn text-white text-xs font-black shadow-md cursor-pointer transition-all hover:scale-102"
         >
           Save Preferences
         </button>
       </div>
 
-      {/* Section 3: Data Export & Reset */}
-      <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-          <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-            <Download className="w-4 h-4 text-emerald-600" /> Data Backup & Export
+      {/* Section 3: Data Export & Reset - Liquid Glass */}
+      <div className="luxury-glass border border-white/90 rounded-3xl p-6 sm:p-7 shadow-md space-y-4">
+        <div className="flex items-center justify-between border-b border-emerald-200/50 pb-3">
+          <h3 className="text-sm font-black text-slate-950 flex items-center gap-2">
+            <Download className="w-4 h-4 text-emerald-700" /> Data Backup & Export
           </h3>
-          <span className="text-xs text-slate-500 font-mono">Offline-First Ownership</span>
+          <span className="text-xs text-slate-600 font-mono font-bold">Offline-First Ownership</span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
           <button
             onClick={handleExportErrorBookCsv}
-            className="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-slate-300 text-left flex items-start gap-3 transition-colors group"
+            className="p-4 rounded-2xl luxury-glass-card border border-white/90 hover:border-emerald-400 text-left flex items-start gap-3 transition-all group shadow-2xs cursor-pointer"
           >
-            <FileText className="w-5 h-5 text-rose-500 shrink-0 mt-0.5" />
+            <FileText className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
             <div>
-              <span className="font-bold text-slate-900 block group-hover:text-rose-600 transition-colors">Download Error Book CSV</span>
-              <span className="text-[11px] text-slate-500">All recorded mistakes and correct concepts</span>
+              <span className="font-black text-slate-950 block group-hover:text-emerald-950 transition-colors">Download Error Book CSV</span>
+              <span className="text-[11px] text-slate-600 font-medium">All recorded mistakes and correct concepts</span>
             </div>
           </button>
 
           <button
             onClick={handleExportPreparationReport}
-            className="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-slate-300 text-left flex items-start gap-3 transition-colors group"
+            className="p-4 rounded-2xl luxury-glass-card border border-white/90 hover:border-emerald-400 text-left flex items-start gap-3 transition-all group shadow-2xs cursor-pointer"
           >
-            <Download className="w-5 h-5 text-indigo-600 shrink-0 mt-0.5" />
+            <Download className="w-5 h-5 text-emerald-700 shrink-0 mt-0.5" />
             <div>
-              <span className="font-bold text-slate-900 block group-hover:text-indigo-600 transition-colors">Download Preparation Report</span>
-              <span className="text-[11px] text-slate-500">Comprehensive Markdown study summary</span>
+              <span className="font-black text-slate-950 block group-hover:text-emerald-950 transition-colors">Download Preparation Report</span>
+              <span className="text-[11px] text-slate-600 font-medium">Comprehensive Markdown study summary</span>
             </div>
           </button>
         </div>
 
-        <div className="pt-4 border-t border-slate-100 flex justify-between items-center text-xs">
-          <span className="text-slate-500">Need to reset your progress state from scratch?</span>
+        <div className="pt-4 border-t border-emerald-200/40 flex justify-between items-center text-xs">
+          <span className="text-slate-600 font-medium">Need to reset your progress state from scratch?</span>
           <button
             onClick={handleClearProgress}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 font-semibold transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl luxury-glass-card hover:bg-rose-100 text-rose-950 border border-rose-300 font-black transition-colors cursor-pointer shadow-2xs"
           >
-            <Trash2 className="w-3.5 h-3.5" /> Reset Local Data
+            <Trash2 className="w-3.5 h-3.5 text-rose-600" /> Reset Local Data
           </button>
         </div>
       </div>

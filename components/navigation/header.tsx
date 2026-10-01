@@ -55,7 +55,7 @@ export const Header: React.FC = () => {
 
   return (
     <>
-      <header className="h-16 bg-white/95 backdrop-blur-md border-b border-slate-200/90 px-4 sm:px-6 flex items-center justify-between z-30 sticky top-0 shadow-xs">
+      <header className="h-16 bg-white/95 border-b border-slate-200/90 px-4 sm:px-6 flex items-center justify-between z-30 sticky top-0 shadow-xs">
         {/* Left: Mobile trigger & Active Plan Status */}
         <div className="flex items-center gap-3">
           <button
@@ -114,7 +114,7 @@ export const Header: React.FC = () => {
 
       {/* Focus Timer Modal */}
       {timerModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4">
           <div className="bg-white border border-slate-200 rounded-3xl w-full max-w-sm p-6 shadow-2xl relative animate-in fade-in zoom-in-95 duration-200">
             <button
               onClick={() => setTimerModalOpen(false)}
@@ -192,7 +192,7 @@ export const Header: React.FC = () => {
 
       {/* Mobile Drawer Navigation */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-40 lg:hidden bg-black/50 backdrop-blur-xs" onClick={() => setMobileMenuOpen(false)}>
+        <div className="fixed inset-0 z-40 lg:hidden bg-black/70" onClick={() => setMobileMenuOpen(false)}>
           <div
             className="w-64 h-full bg-white border-r border-slate-200 p-4 space-y-2 overflow-y-auto shadow-2xl"
             onClick={(e) => e.stopPropagation()}

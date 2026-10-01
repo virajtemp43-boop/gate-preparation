@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { Lightbulb, Sparkles, X, ArrowRight, Calendar, Target, CheckCircle2 } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+import { Lightbulb, Sparkles, X, ArrowRight, CheckCircle2 } from "lucide-react";
+import GlassSurface from "@/components/ui/GlassSurface";
 
 interface ThoughtModalProps {
   isOpen: boolean;
@@ -21,6 +23,12 @@ export const ThoughtModal: React.FC<ThoughtModalProps> = ({
   dayNumber,
   thought,
 }) => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // Close on Escape key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -32,82 +40,99 @@ export const ThoughtModal: React.FC<ThoughtModalProps> = ({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
+  if (!isOpen || !mounted) return null;
 
-  return (
-    <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
-      {/* Background click to dismiss */}
-      <div className="fixed inset-0" onClick={onClose} />
+  const modalContent = (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+      {/* Ambient Dark Backdrop */}
+      <div
+        className="fixed inset-0 bg-[#01140e]/75 transition-opacity duration-300"
+        onClick={onClose}
+      />
 
-      <div className="relative w-full max-w-lg bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6 z-10 animate-fade-in-up">
+      {/* Static Dark Green & Shining Gold Ambient Radiance Behind Modal */}
+      <div className="absolute w-[500px] h-[500px] rounded-full bg-[#022c22]/30 blur-[100px] pointer-events-none -top-16 -left-16" />
+      <div className="absolute w-[500px] h-[500px] rounded-full bg-[#d4af37]/25 blur-[100px] pointer-events-none -bottom-16 -right-16" />
+
+      {/* React Bits GlassSurface Modal Card - Cinematic Full View */}
+      <GlassSurface
+        borderRadius={32}
+        className="relative w-full max-w-2xl p-7 sm:p-10 shadow-[0_25px_80px_rgba(2,44,34,0.4)] space-y-7 z-10 animate-fade-in-up border border-white/95"
+      >
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 transition-colors"
+          className="absolute top-6 right-6 p-2.5 rounded-2xl bg-white/80 hover:bg-white text-slate-500 hover:text-slate-900 transition-all border border-slate-200/80 shadow-xs cursor-pointer hover:scale-105 z-20"
           title="Close Popup"
         >
           <X className="w-4 h-4" />
         </button>
 
-        {/* Header with Glowing Icon */}
-        <div className="flex items-center gap-3.5">
-          <div className="p-3 rounded-2xl bg-amber-500 text-white shadow-lg shadow-amber-500/25">
-            <Lightbulb className="w-6 h-6 fill-current" />
+        {/* Header with Glowing Gold & Dark Green Icon */}
+        <div className="flex items-center gap-4">
+          <div className="p-4 rounded-3xl metallic-shining-gold-btn text-[#022018] shadow-xl ring-4 ring-[#022c22]/20 shrink-0">
+            <Lightbulb className="w-7 h-7 fill-current text-[#022018] animate-pulse" />
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-200 font-mono">
-                Day {dayNumber} Mindset
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-full metallic-dark-green-btn text-[#fef9c3] border-amber-400/80 shadow-xs font-mono">
+                Day {dayNumber} of 90 Mindset
               </span>
-              <span className="text-xs font-semibold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-100">
+              <span className="text-xs font-black text-[#451a03] bg-amber-200/90 px-2.5 py-0.5 rounded-lg border border-amber-400">
                 {thought.tag}
               </span>
             </div>
-            <h3 className="text-base font-bold text-slate-900 mt-1">
-              Today&apos;s Daily GATE Aspirant Thought
+            <h3 className="text-lg sm:text-xl font-black text-[#022018] mt-1.5 tracking-tight">
+              Daily GATE Aspirant Mindset & Directive
             </h3>
           </div>
         </div>
 
-        {/* Big Thought Card */}
-        <div className="bg-gradient-to-br from-amber-50/60 via-slate-50 to-indigo-50/50 border border-amber-200/70 rounded-2xl p-5 sm:p-6 shadow-inner space-y-3">
-          <p className="text-base sm:text-lg font-semibold text-slate-800 italic leading-relaxed">
-            &ldquo;{thought.thought}&rdquo;
+        {/* Big Thought Card - Liquid Glass with Gold Reflections */}
+        <div className="relative overflow-hidden luxury-glass-gold rounded-3xl p-6 sm:p-8 space-y-4 border border-amber-400/80 shadow-md">
+          <div className="absolute top-0 right-0 w-36 h-36 bg-gradient-to-bl from-amber-400/25 to-transparent rounded-full pointer-events-none" />
+          <div className="text-3xl text-amber-600/40 font-serif leading-none select-none">“</div>
+          <p className="text-lg sm:text-2xl font-black text-[#022018] italic leading-relaxed relative z-10 -mt-3">
+            {thought.thought}
           </p>
-          <div className="flex items-center justify-between text-xs pt-2 border-t border-amber-200/40">
-            <span className="text-slate-500 font-medium">
+          <div className="flex items-center justify-between text-xs sm:text-sm pt-4 border-t border-amber-400/60 relative z-10">
+            <span className="text-amber-950 font-black">
               — {thought.author}
             </span>
-            <span className="text-indigo-600 font-mono font-semibold flex items-center gap-1 text-[11px]">
-              <Sparkles className="w-3.5 h-3.5 fill-indigo-600" /> Focus First
+            <span className="text-[#022c22] font-mono font-black flex items-center gap-1.5 text-xs bg-white/80 px-3 py-1 rounded-full border border-amber-300">
+              <Sparkles className="w-4 h-4 text-amber-600 fill-amber-500" /> Focus First
             </span>
           </div>
         </div>
 
         {/* Actionable Guideline for Today */}
-        <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 flex items-start gap-3 text-xs text-slate-600">
-          <div className="p-1.5 rounded-lg bg-emerald-100 text-emerald-800 shrink-0 mt-0.5">
-            <CheckCircle2 className="w-4 h-4" />
+        <div className="luxury-glass-dark-green rounded-2xl p-4 sm:p-5 flex items-start gap-3.5 text-xs sm:text-sm text-slate-900 border border-[#064e3b]/50 shadow-xs">
+          <div className="p-2.5 rounded-xl metallic-dark-green-btn text-[#fef9c3] shrink-0 mt-0.5 shadow-md shadow-[#022c22]/40">
+            <CheckCircle2 className="w-5 h-5" />
           </div>
-          <div className="space-y-0.5">
-            <span className="font-bold text-slate-800 block">Today&apos;s Non-Negotiable Standard</span>
-            <p>
+          <div className="space-y-1">
+            <span className="font-black text-[#022c22] block text-xs sm:text-sm tracking-wide">
+              Today&apos;s Non-Negotiable Standard
+            </span>
+            <p className="leading-relaxed text-slate-800 text-xs sm:text-[13px] font-medium">
               Complete the exact theory video, solve topic-level GATEOverflow questions, and log every mistake immediately in your Error Book.
             </p>
           </div>
         </div>
 
         {/* CTA Button */}
-        <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
+        <div className="pt-2">
           <button
             onClick={onClose}
-            className="w-full flex-1 py-3 px-5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-bold shadow-md shadow-indigo-600/20 flex items-center justify-center gap-2 transition-all hover:scale-102"
+            className="w-full py-4 px-6 rounded-2xl metallic-dark-green-btn text-[#fef9c3] text-sm sm:text-base font-black shadow-xl shadow-[#022c22]/40 flex items-center justify-center gap-2.5 transition-all hover:scale-[1.01] cursor-pointer"
           >
-            <span>Let&apos;s Conquer Day {dayNumber}</span>
-            <ArrowRight className="w-4 h-4" />
+            <span>Let&apos;s Conquer Day {dayNumber} Mission ▶</span>
+            <ArrowRight className="w-5 h-5 text-[#fef9c3]" />
           </button>
         </div>
-      </div>
+      </GlassSurface>
     </div>
   );
+
+  return createPortal(modalContent, document.body);
 };
